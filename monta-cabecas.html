@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monta Cabeças - Acervo Artístico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
+
+    <main id="game-container">
+        <div id="canvas">
+            <img id="paisagem-layer" class="canvas-layer" src="assets/paisagens/paisagem1.png" alt="Paisagem de fundo">
+            <img id="cabeca-layer" class="canvas-layer" src="assets/cabecas/cabeca1.png" alt="Cabeça">
+            <img id="olhos-layer" class="canvas-layer" src="assets/olhos/olhos1.png" alt="Olhos">
+            <img id="nariz-layer" class="canvas-layer" src="assets/narizes/nariz1.png" alt="Nariz">
+            <img id="boca-layer" class="canvas-layer" src="assets/bocas/boca1.png" alt="Boca">
+        </div>
+
+        <div id="controls">
+            <h2>Modo Livre</h2>
+            <p>Escolha cada parte da obra!</p>
+            
+            <div class="selector">
+                <button id="prev-cabeca">◀</button>
+                <span>Cabeça</span>
+                <button id="next-cabeca">▶</button>
+            </div>
+            <div class="selector">
+                <button id="prev-olhos">◀</button>
+                <span>Olhos</span>
+                <button id="next-olhos">▶</button>
+            </div>
+            <div class="selector">
+                <button id="prev-nariz">◀</button>
+                <span>Nariz</span>
+                <button id="next-nariz">▶</button>
+            </div>
+            <div class="selector">
+                <button id="prev-boca">◀</button>
+                <span>Boca</span>
+                <button id="next-boca">▶</button>
+            </div>
+            <div class="selector">
+                <button id="prev-paisagem">◀</button>
+                <span>Paisagem</span>
+                <button id="next-paisagem">▶</button>
+            </div>
+
+            <div class="random-mode">
+                <h2>Modo Aleatório</h2>
+                <button id="roll-dice">🎲 Girar o Dado! 🎲</button>
+            </div>
+
+            <a href="index.html" class="back-button">Voltar ao Início</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script src="monta-cabecas.js"></script>
+</body>
+</html>

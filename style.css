@@ -1,0 +1,251 @@
+/* Configurações Gerais */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #005A9E; /* Azul UFSM */
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Conteúdo Principal */
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+}
+
+.game-gallery {
+    display: grid;
+    /* 4 colunas com tamanho igual */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px; /* Espaçamento entre os quadrados */
+    max-width: 1000px;
+}
+
+.game-card {
+    position: relative; /* Essencial para o posicionamento da descrição */
+    width: 200px;
+    height: 200px;
+    background-color: #FF6600; /* Laranja UFSM */
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none; /* Remove o sublinhado do link */
+    overflow: hidden; /* Garante que nada saia dos cantos arredondados */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.game-card:hover {
+    transform: scale(1.05) translateY(-5px); /* Efeito de elevação */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.game-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    transition: opacity 0.4s ease;
+}
+
+/* A MÁGICA ACONTECE AQUI */
+.game-card::after {
+    content: attr(data-description); /* Pega o texto do atributo 'data-description' */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* Fundo escuro semi-transparente */
+    background-color: rgba(0, 0, 0, 0.75);
+
+    /* Centraliza o texto da descrição */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho */
+
+    /* Efeito de transição */
+    opacity: 0; /* Começa invisível */
+    transition: opacity 0.4s ease;
+}
+
+/* Quando o mouse está sobre o .game-card */
+.game-card:hover .game-title {
+    opacity: 0; /* Esconde o título */
+}
+
+.game-card:hover::after {
+    opacity: 1; /* Mostra a descrição */
+}
+
+
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+/* === ESTILOS PARA A PÁGINA MONTA CABEÇAS === */
+
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha no topo */
+    gap: 50px;
+    padding: 40px;
+    flex-wrap: wrap; /* Permite que os itens quebrem linha em telas menores */
+}
+
+/* A tela de montagem */
+#canvas {
+    width: 500px;
+    height: 500px;
+    border: 8px solid #005A9E; /* Azul UFSM */
+    border-radius: 10px;
+    position: relative; /* Crucial para sobrepor as imagens */
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.canvas-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Garante que as imagens se ajustem sem distorcer */
+    object-fit: contain; 
+}
+
+/* Painel de controles */
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+#controls h2 {
+    color: #005A9E;
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#controls p {
+    text-align: center;
+    margin-top: 5px;
+    color: #555;
+}
+
+.selector {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; 
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.selector span {
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+}
+
+.selector button {
+    background-color: #FF6600; 
+    color: white;
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.random-mode {
+    margin-top: 20px;
+    border-top: 2px dashed #ccc;
+    padding-top: 20px;
+}
+
+#roll-dice {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #D62828; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#roll-dice:hover {
+    transform: scale(1.05);
+}
+
+.back-button {
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+    background-color: #555;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+/* === AJUSTES DE PROPORÇÃO E POSICIONAMENTO PARA O MONTA CABEÇAS === */
+
+#cabeca-layer, #paisagem-layer {
+    width: 100%;
+    height: 100%;
+}
+
+#olhos-layer {
+    width: 50%;
+    height: auto; 
+    top: 35%;
+    left: 25%;
+}
+
+#nariz-layer {
+    width: 25%;
+    height: auto;
+    top: 50%;
+    left: 37.5%;
+}
+
+#boca-layer {
+    width: 40%;
+    height: auto;
+    top: 65%;
+    left: 30%;
+}
