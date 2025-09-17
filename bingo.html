@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo de Perguntas - Acervo Artístico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Bingo de Perguntas sobre Arte!</h2>
+            <p>Sorteie uma pergunta, encontre a resposta na cartela e marque! Complete uma linha ou coluna para vencer.</p>
+        </div>
+
+        <div id="bingo-container">
+            <div id="question-area">
+                <h3>Pergunta Sorteada</h3>
+                <div id="question-display">
+                    <p>Clique em "Sortear Pergunta" para começar!</p>
+                </div>
+                <div id="answer-display" class="hidden">
+                    </div>
+                <div class="button-group">
+                    <button id="draw-question-btn">Sortear Pergunta</button>
+                    <button id="reveal-answer-btn" class="hidden">Ver Resposta</button>
+                </div>
+            </div>
+
+            <div id="bingo-card">
+                </div>
+        </div>
+
+        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script src="bingo.js"></script>
+</body>
+</html>

@@ -71,9 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ATENÇÃO: MUDANÇA IMPORTANTE AQUI ---
-    // Agora o nome da chave no HTML e JS deve ser o mesmo
-    // 'olhos' já está no plural, então não precisamos criar um loop diferente
     setupSelectors('cabeca');
     setupSelectors('olhos');
     setupSelectors('nariz');
