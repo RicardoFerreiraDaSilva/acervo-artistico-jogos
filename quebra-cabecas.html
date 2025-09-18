@@ -16,31 +16,29 @@
 
     .board {
       display: grid;
-      grid-template-columns: repeat(3, 100px);
-      grid-template-rows: repeat(3, 100px);
       gap: 2px;
       border: 3px solid #333;
       background: #333;
     }
 
     .slot {
-      width: 100px;
-      height: 100px;
       background: #ddd;
       position: relative;
     }
 
     .piece {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       background-image: url("imagens/7erros.jpg");
-      background-size: 300px 300px;
+      background-size: calc(var(--cols) * 100px) calc(var(--rows) * 100px);
       cursor: grab;
     }
 
     .piece.dragging {
       opacity: 0.5;
     }
+
+    #status { margin-top: 15px; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -49,17 +47,26 @@
   <p id="status"></p>
 
   <script>
-    const size = 3; // 3x3
+    const rows = 3; // número de linhas
+    const cols = 4; // número de colunas (pode ser diferente!)
+    const tileSize = 100; // px
     const board = document.getElementById("board");
     const status = document.getElementById("status");
     let slots = [];
 
+    board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
+    board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
+    board.style.setProperty("--rows", rows);
+    board.style.setProperty("--cols", cols);
+
     function createBoard() {
-      for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
           const slot = document.createElement("div");
           slot.classList.add("slot");
-          slot.dataset.correct = row * size + col; // posição correta
+          slot.style.width = tileSize + "px";
+          slot.style.height = tileSize + "px";
+          slot.dataset.correct = row * cols + col;
           board.appendChild(slot);
           slots.push(slot);
         }
@@ -68,12 +75,12 @@
 
     function createPieces() {
       let pieces = [];
-      for (let row = 0; row < size; row++) {
-        for (let col = 0; col < size; col++) {
-          const index = row * size + col;
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const index = row * cols + col;
           const piece = document.createElement("div");
           piece.classList.add("piece");
-          piece.style.backgroundPosition = `-${col * 100}px -${row * 100}px`;
+          piece.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
           piece.draggable = true;
           piece.dataset.index = index;
           pieces.push(piece);
@@ -93,11 +100,10 @@
       createBoard();
       const pieces = createPieces();
       shuffle(pieces);
-      pieces.forEach(piece => {
-        // coloca peça em um slot aleatório
-        const slot = slots[Math.floor(Math.random() * slots.length)];
-        if (!slot.firstChild) slot.appendChild(piece);
-        else board.appendChild(piece); // fallback se já ocupado
+
+      // Distribui peças nos slots
+      slots.forEach((slot, i) => {
+        slot.appendChild(pieces[i]);
       });
 
       // eventos drag & drop
@@ -118,14 +124,26 @@
       });
 
       board.addEventListener("dragover", e => {
-        e.preventDefault(); // permite soltar
+        e.preventDefault();
       });
 
       board.addEventListener("drop", e => {
         e.preventDefault();
-        const slot = e.target.classList.contains("slot") ? e.target : e.target.parentElement;
-        if (slot.classList.contains("slot") && !slot.firstChild) {
-          slot.appendChild(dragged);
+        const targetSlot = e.target.classList.contains("slot")
+          ? e.target
+          : e.target.parentElement;
+
+        if (targetSlot.classList.contains("slot")) {
+          if (!targetSlot.firstChild) {
+            // se slot vazio → só encaixa
+            targetSlot.appendChild(dragged);
+          } else if (targetSlot.firstChild !== dragged) {
+            // se já tem peça → troca
+            const otherPiece = targetSlot.firstChild;
+            const fromSlot = dragged.parentElement;
+            targetSlot.appendChild(dragged);
+            fromSlot.appendChild(otherPiece);
+          }
           checkWin();
         }
       });
