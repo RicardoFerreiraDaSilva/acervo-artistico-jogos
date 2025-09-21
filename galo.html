@@ -5,6 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encontre o Galo - Acervo Artístico</title>
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 { margin-bottom: 15px; }
+
+        .game {
+            display: flex;
+            gap: 20px;
+        }
+
+        .panel {
+            position: relative;
+            border: 2px solid #ccc;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .panel img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* hotspots invisíveis */
+        .hotspot {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+        }
+
+        /* quando acertado */
+        .hotspot.found::after {
+            content: "";
+            position: absolute;
+            left: 50%; top: 50%;
+            width: 40px; height: 40px;
+            transform: translate(-50%, -50%);
+            border: 3px solid rgb(199, 53, 53);
+            border-radius: 50%;
+            animation: pop 0.3s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+  </style>
 </head>
 <body>
     <header>
@@ -18,9 +78,43 @@
             <p>Observe a obra de arte com atenção e clique no local onde você acha que o galo está escondido!</p>
         </div>
 
-        <div class="image-container">
-            <img src="imagens/galo.jpg" alt="Obra de arte para encontrar o galo">
+        <div class="game">
+            <!-- Imagem do galo -->
+            <div class="panel" id="panel">
+                <img src="imagens/galo.jpg" alt="Encontre o galo">
+                <!-- Hotspots dos erros -->
+                <!-- Basta ajustar left/top em % (coordenadas relativas à imagem) -->
+                <div class="hotspot" data-id="1" style="left: 44.06%;top: 27.97%; width: 0.00%,;height: 0.10%;"></div>
+                <div class="hotspot" data-id="2" style="left: 60%; top: 35%; width: 40px; height: 40px;"></div>
+                <div class="hotspot" data-id="3" style="left: 75%; top: 50%; width: 40px; height: 40px;"></div>
+                <div class="hotspot" data-id="4" style="left: 25%; top: 65%; width: 40px; height: 40px;"></div>
+                <div class="hotspot" data-id="5" style="left: 50%; top: 75%; width: 40px; height: 40px;"></div>
+                <div class="hotspot" data-id="6" style="left: 40%; top: 40%; width: 40px; height: 40px;"></div>
+                <div class="hotspot" data-id="7" style="left: 70%; top: 15%; width: 40px; height: 40px;"></div>
+            </div>
         </div>
+        
+        <div class="status">
+            Erros encontrados: <span id="found">0</span>/7
+        </div>
+
+        <script>
+            const hotspots = document.querySelectorAll('.hotspot');
+            let foundCount = 0;
+
+            hotspots.forEach(h => {
+            h.addEventListener('click', () => {
+                if (!h.classList.contains('found')) {
+                h.classList.add('found');
+                foundCount++;
+                document.getElementById('found').textContent = foundCount;
+                if (foundCount === hotspots.length) {
+                    setTimeout(() => alert("Parabéns! Você encontrou todos os erros!"), 200);
+                }
+                }
+            });
+            });
+        </script>
 
         <a href="index.html" class="back-button">Voltar ao Início</a>
 

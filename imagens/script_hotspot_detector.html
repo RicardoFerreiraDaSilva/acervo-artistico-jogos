@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor de Hotspots (% relativo)</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; }
+    #container {
+      position: relative;
+      display: inline-block;
+      border: 2px solid #333;
+      margin-top: 10px;
+    }
+    #image {
+      display: block;
+      max-width: 100%;
+    }
+    .hotspot {
+      position: absolute;
+      border: 2px dashed red;
+      pointer-events: none; /* não interfere no clique */
+    }
+    #output {
+      margin-top: 15px;
+      white-space: pre;
+      background: #f5f5f5;
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <h1>Editor de Hotspots</h1>
+  <p>Clique e arraste sobre a imagem para marcar os erros.</p>
+  <div id="container">
+    <img id="image" src="galo.jpg" alt="imagem">
+  </div>
+  <h3>Hotspots Gerados (%):</h3>
+  <div id="output">Nenhum ainda...</div>
+
+  <script>
+    const container = document.getElementById("container");
+    const output = document.getElementById("output");
+    const img = document.getElementById("image");
+    let startX, startY, rect, drawing = false;
+    const hotspots = [];
+
+    container.addEventListener("mousedown", e => {
+      if (e.target.tagName !== "IMG") return;
+      startX = e.offsetX;
+      startY = e.offsetY;
+      rect = document.createElement("div");
+      rect.className = "hotspot";
+      rect.style.left = startX + "px";
+      rect.style.top = startY + "px";
+      container.appendChild(rect);
+      drawing = true;
+    });
+
+    container.addEventListener("mousemove", e => {
+      if (!drawing) return;
+      const w = e.offsetX - startX;
+      const h = e.offsetY - startY;
+      rect.style.width = Math.abs(w) + "px";
+      rect.style.height = Math.abs(h) + "px";
+      rect.style.left = (w < 0 ? e.offsetX : startX) + "px";
+      rect.style.top = (h < 0 ? e.offsetY : startY) + "px";
+    });
+
+    container.addEventListener("mouseup", e => {
+      if (!drawing) return;
+      drawing = false;
+      const imgWidth = img.clientWidth;
+      const imgHeight = img.clientHeight;
+
+      const hotspot = {
+        left: (parseInt(rect.style.left) / imgWidth * 100).toFixed(2) + "%",
+        top: (parseInt(rect.style.top) / imgHeight * 100).toFixed(2) + "%",
+        width: (parseInt(rect.style.width) / imgWidth * 100).toFixed(2) + "%",
+        height: (parseInt(rect.style.height) / imgHeight * 100).toFixed(2) + "%"
+      };
+
+      hotspots.push(hotspot);
+      updateOutput();
+    });
+
+    function updateOutput() {
+      output.textContent = JSON.stringify(hotspots, null, 2);
+    }
+  </script>
+</body>
+</html>
