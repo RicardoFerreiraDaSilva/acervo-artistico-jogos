@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça-Palavras de Arte - Acervo Artístico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Caça-Palavras sobre Arte</h2>
+            <p>Encontre as palavras escondidas na grade. Elas podem estar na horizontal, vertical ou diagonal. Clique e arraste para selecionar!</p>
+        </div>
+
+        <div id="word-search-container">
+            <div id="grid-container"></div>
+
+            <div id="word-list-container">
+                <h3>Palavras para Encontrar:</h3>
+                <ul id="word-list">
+                    </ul>
+            </div>
+        </div>
+
+        <div id="win-message" class="hidden">
+            <h2>Parabéns! Você encontrou todas as palavras!</h2>
+        </div>
+
+        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script src="caca-palavras.js"></script>
+</body>
+</html>

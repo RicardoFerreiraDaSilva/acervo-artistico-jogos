@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dixit de Palavras - Acervo Artístico</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Adivinhe a Palavra Secreta!</h2>
+            <p>Use as pistas para adivinhar a palavra relacionada à arte. Você tem 5 tentativas. Boa sorte!</p>
+        </div>
+
+        <div id="dixit-game-container">
+            <div id="clue-area">
+                <h3>Pistas Reveladas:</h3>
+                <ul id="clue-list">
+                    </ul>
+            </div>
+
+            <div id="game-status">
+                <p>Tentativas restantes: <span id="attempts-left">5</span></p>
+                <p>Pontuação Máxima Possível: <span id="score">100</span></p>
+            </div>
+
+            <div id="input-area">
+                <input type="text" id="guess-input" placeholder="Qual é a palavra?" autocomplete="off">
+                <button id="guess-button">Adivinhar</button>
+            </div>
+
+            <div id="feedback-message"></div>
+            
+            <div id="end-game-message" class="hidden">
+                <h2 id="end-game-title"></h2>
+                <p id="end-game-text"></p>
+                <button id="play-again-button">Jogar Novamente</button>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script src="dixit.js"></script>
+</body>
+</html>

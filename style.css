@@ -419,3 +419,221 @@ footer {
     color: white;
     font-size: 1.2em;
 }
+/* === ESTILOS PARA A PÁGINA DO CAÇA-PALAVRAS === */
+
+#word-search-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+}
+
+/* Grade de letras */
+#grid-container {
+    display: grid;
+    /* Cria 12 colunas de tamanho igual */
+    grid-template-columns: repeat(12, 1fr); 
+    gap: 4px;
+    background-color: #005A9E; /* Azul UFSM */
+    border: 5px solid #005A9E;
+    border-radius: 8px;
+    padding: 5px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.grid-cell {
+    background-color: #fff;
+    aspect-ratio: 1 / 1; /* Células perfeitamente quadradas */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* Ajuste o tamanho da letra conforme necessário */
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    user-select: none; /* Impede que o texto seja selecionado de forma padrão */
+    transition: background-color 0.2s;
+}
+
+.grid-cell:hover {
+    background-color: #ffe0b2; /* Laranja claro no hover */
+}
+
+/* Estilo para a seleção temporária (enquanto arrasta) */
+.grid-cell.selecting {
+    background-color: #FF6600; /* Laranja UFSM */
+    color: white;
+}
+
+/* Estilo para palavras encontradas */
+.grid-cell.found {
+    background-color: #D62828; /* Vermelho UFSM */
+    color: white;
+}
+
+/* Lista de palavras */
+#word-list-container {
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 8px;
+    border-left: 5px solid #FF6600; /* Laranja UFSM */
+    width: 100%;
+    max-width: 300px;
+    align-self: flex-start; /* Alinha no topo */
+}
+
+#word-list-container h3 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#word-list {
+    list-style: none;
+    padding: 0;
+    font-size: 1.2em;
+}
+
+#word-list li {
+    margin-bottom: 10px;
+    color: #555;
+    transition: color 0.3s;
+}
+
+/* Estilo para palavras riscadas na lista */
+#word-list li.found {
+    text-decoration: line-through;
+    color: #aaa;
+    text-decoration-thickness: 2px;
+}
+
+/* Mensagem de vitória */
+#win-message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e8f5e9; /* Verde claro */
+    color: #1b5e20; /* Verde escuro */
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+}
+/* === ESTILOS PARA A PÁGINA DIXIT DE PALAVRAS === */
+
+#dixit-game-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Área de Pistas */
+#clue-area {
+    margin-bottom: 20px;
+}
+
+#clue-area h3 {
+    margin-top: 0;
+    color: #005A9E; /* Azul UFSM */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+#clue-list {
+    list-style-type: '🎨'; /* Emoji de paleta como marcador */
+    padding-left: 25px;
+    font-size: 1.1em;
+}
+
+#clue-list li {
+    padding-left: 10px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+/* Status do Jogo */
+#game-status {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#game-status p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #444;
+}
+
+#game-status span {
+    color: #FF6600; /* Laranja UFSM */
+}
+
+/* Área de Entrada */
+#input-area {
+    display: flex;
+    gap: 10px;
+}
+
+#guess-input {
+    flex-grow: 1; /* Ocupa o espaço disponível */
+    padding: 12px;
+    font-size: 1.1em;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+#guess-input:focus {
+    outline: none;
+    border-color: #005A9E; /* Azul UFSM */
+}
+
+#guess-button {
+    padding: 0 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+    background-color: #FF6600; /* Laranja UFSM */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Mensagens */
+#feedback-message {
+    min-height: 25px;
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#end-game-message {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    text-align: center;
+    border-top: 3px solid #D62828; /* Vermelho UFSM */
+}
+
+#play-again-button {
+    margin-top: 10px;
+    padding: 12px 25px;
+    font-size: 1em;
+    background-color: #005A9E;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
