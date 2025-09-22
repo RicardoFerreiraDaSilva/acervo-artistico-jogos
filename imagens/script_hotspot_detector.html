@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Editor de Hotspots (% relativo)</title>
+  <title>Editor de Hotspots (% + px)</title>
   <style>
     body { font-family: Arial, sans-serif; text-align: center; }
     #container {
@@ -18,7 +18,7 @@
     .hotspot {
       position: absolute;
       border: 2px dashed red;
-      pointer-events: none; /* não interfere no clique */
+      pointer-events: none;
     }
     #output {
       margin-top: 15px;
@@ -36,7 +36,7 @@
   <div id="container">
     <img id="image" src="galo.jpg" alt="imagem">
   </div>
-  <h3>Hotspots Gerados (%):</h3>
+  <h3>Hotspots Gerados:</h3>
   <div id="output">Nenhum ainda...</div>
 
   <script>
@@ -74,19 +74,19 @@
       const imgWidth = img.clientWidth;
       const imgHeight = img.clientHeight;
 
-      const hotspot = {
-        left: (parseInt(rect.style.left) / imgWidth * 100).toFixed(2) + "%",
-        top: (parseInt(rect.style.top) / imgHeight * 100).toFixed(2) + "%",
-        width: (parseInt(rect.style.width) / imgWidth * 100).toFixed(2) + "%",
-        height: (parseInt(rect.style.height) / imgHeight * 100).toFixed(2) + "%"
-      };
+      const leftPercent = (parseInt(rect.style.left) / imgWidth * 100).toFixed(2) + "%";
+      const topPercent = (parseInt(rect.style.top) / imgHeight * 100).toFixed(2) + "%";
+      const widthPx = parseInt(rect.style.width);
+      const heightPx = parseInt(rect.style.height);
 
-      hotspots.push(hotspot);
+      const hotspotStr = `{ "left: ${leftPercent}; top: ${topPercent}; width: 40px; height: 40px;" }`;
+
+      hotspots.push(hotspotStr);
       updateOutput();
     });
 
     function updateOutput() {
-      output.textContent = JSON.stringify(hotspots, null, 2);
+      output.textContent = "[\n  " + hotspots.join(",\n  ") + "\n]";
     }
   </script>
 </body>

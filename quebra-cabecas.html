@@ -16,7 +16,7 @@
 
     .board {
       display: grid;
-      gap: 2px;
+      gap: 1px;
       border: 3px solid #333;
       background: #333;
     }
@@ -42,13 +42,13 @@
   </style>
 </head>
 <body>
-  <h1>Quebra-Cabeça Drag & Drop</h1>
+  <h1>Quebra-Cabeça</h1>
   <div class="board" id="board"></div>
   <p id="status"></p>
 
   <script>
-    const rows = 3; // número de linhas
-    const cols = 4; // número de colunas (pode ser diferente!)
+    const rows = 4; // número de linhas
+    const cols = 6; // número de colunas (pode ser diferente!)
     const tileSize = 100; // px
     const board = document.getElementById("board");
     const status = document.getElementById("status");
