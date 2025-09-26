@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Artístico - Jogo da Memória (Final)</title>
+    
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+        header {
+            background-color: #005A9E;
+            color: white;
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .game-page-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .game-instructions {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+        .game-instructions h2 {
+            color: #005A9E;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .game-instructions p {
+            font-size: 1.2em;
+            color: #555;
+            line-height: 1.6;
+        }
+        .memory-game {
+            width: 640px;
+            height: 640px;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: 15px;
+            perspective: 1000px;
+        }
+        .memory-card {
+            position: relative;
+            transform: scale(1);
+            transform-style: preserve-3d;
+            transition: transform .5s;
+        }
+        .memory-card.flip {
+            transform: rotateY(180deg);
+        }
+        .memory-card:active {
+            transform: scale(0.97);
+            transition: transform .2s;
+        }
+        .front-face, .back-face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            border-radius: 8px;
+            backface-visibility: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        }
+        .front-face {
+            transform: rotateY(180deg);
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jogo da Memória</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Desafie sua mente!</h2>
+            <p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
+        </div>
+
+        <div class="memory-game" id="memory-game-board">
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const board = document.getElementById('memory-game-board');
+            const cardImages = [
+                'yeddo1.png', 'yeddo2.png', 'yeddo3.png', 'yeddo4.png',
+                'yeddo5.png', 'yeddo6.png', 'yeddo7.png', 'yeddo8.png',
+                'yeddo9.png', 'yeddo10.png', 'yeddo11.png', 'yeddo12.png'
+            ];
+            const cardList = [...cardImages, ...cardImages];
+            let hasFlippedCard = false;
+            let lockBoard = false;
+            let firstCard, secondCard;
+            let matchesFound = 0;
+
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            function createBoard() {
+                shuffle(cardList);
+                cardList.forEach(cardImage => {
+                    const cardElement = document.createElement('div');
+                    cardElement.classList.add('memory-card');
+                    cardElement.dataset.name = cardImage.split('.')[0];
+                    
+                    // Este é o caminho final e corrigido
+                    cardElement.innerHTML = `
+                        <img class="front-face" src="imagens/jogo_memoria/${cardImage}" alt="${cardImage}">
+                        <img class="back-face" src="imagens/jogo_memoria/inverso.png" alt="Verso da Carta">
+                    `;
+                    
+                    cardElement.addEventListener('click', flipCard);
+                    board.appendChild(cardElement);
+                });
+            }
+
+            function flipCard() {
+                if (lockBoard) return;
+                if (this === firstCard) return;
+                this.classList.add('flip');
+
+                if (!hasFlippedCard) {
+                    hasFlippedCard = true;
+                    firstCard = this;
+                    return;
+                }
+                secondCard = this;
+                checkForMatch();
+            }
+
+            function checkForMatch() {
+                const isMatch = firstCard.dataset.name === secondCard.dataset.name;
+                if (isMatch) {
+                    disableCards();
+                    matchesFound++;
+                    if (matchesFound === cardImages.length) {
+                        setTimeout(() => alert('Parabéns, você encontrou todos os pares!'), 500);
+                    }
+                } else {
+                    unflipCards();
+                }
+            }
+
+            function disableCards() {
+                firstCard.removeEventListener('click', flipCard);
+                secondCard.removeEventListener('click', flipCard);
+                resetBoard();
+            }
+
+            function unflipCards() {
+                lockBoard = true;
+                setTimeout(() => {
+                    firstCard.classList.remove('flip');
+                    secondCard.classList.remove('flip');
+                    resetBoard();
+                }, 1000);
+            }
+
+            function resetBoard() {
+                [hasFlippedCard, lockBoard] = [false, false];
+                [firstCard, secondCard] = [null, null];
+            }
+            createBoard();
+        });
+    </script>
+</body>
+</html>

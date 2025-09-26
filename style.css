@@ -637,3 +637,192 @@ footer {
     border-radius: 5px;
     cursor: pointer;
 }
+/* Configurações Gerais */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f0f0f0;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #005A9E; /* Azul UFSM */
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Conteúdo Principal */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0;
+}
+
+/* --- ESTILOS ESPECÍFICOS PARA AS PÁGINAS DE JOGOS --- */
+
+.game-page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.game-instructions {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 25px;
+}
+
+.game-instructions h2 {
+    color: #005A9E;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.game-instructions p {
+    font-size: 1.2em;
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- ESTILOS ADICIONAIS PARA O JOGO DA MEMÓRIA --- */
+
+/* Ajusta o tamanho e a proporção da galeria de cartas para 6x4 */
+.memory-game {
+    width: 900px;  
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+    perspective: 1000px;
+    /* Centraliza o tabuleiro horizontalmente */
+    margin: 0 auto;
+}
+
+/* Deixa as cartas maiores e horizontais */
+.memory-card {
+    position: relative;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+    aspect-ratio: 4 / 3;  
+    width: 100%;
+    height: auto;
+}
+
+/* Estilos para a mensagem de vitória e o contador */
+.hidden {
+    display: none;
+}
+
+.game-info {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #005A9E;
+    margin-bottom: 20px;
+}
+
+#win-message {
+    text-align: center;
+    padding: 30px;
+    background-color: #e8f5e9;
+    border: 2px solid #1b5e20;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#win-message h2 {
+    color: #1b5e20;
+    font-size: 2.5em;
+}
+
+#win-message p {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 10px;
+}
+
+#play-again-btn, .back-button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: white;
+    background-color: #FF6600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+#play-again-btn:hover, .back-button:hover {
+    transform: translateY(-2px);
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.memory-card:active {
+    transform: scale(0.97);
+    transition: transform .2s;
+}
+
+.front-face, .back-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.front-face {
+    transform: rotateY(180deg);
+}
+
+/* Estilo para as imagens das cartas */
+.front-face img, .back-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Fundo da carta virada para baixo */
+.back-face img {
+    /* Imagem padrão para o verso das cartas */
+    content: url('https://placehold.co/150x200/cccccc/000000?text=UFSM');
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+}
