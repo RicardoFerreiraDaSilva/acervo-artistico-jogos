@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Artístico - Jogo da Memória</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Jogo da Memória</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Desafie sua mente!</h2>
+            <p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
+        </div>
+
+        <div class="game-info">
+            <p>Tentativas: <span id="tries-counter">0</span></p>
+        </div>
+
+        <div class="memory-game" id="memory-game-board">
+            </div>
+
+        <div id="win-message" class="hidden">
+            <h2>Parabéns!</h2>
+            <p id="win-text"></p>
+            <button id="play-again-btn">Jogar Novamente</button>
+            <a href="index.html" class="back-button">Voltar para a Galeria</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+
+    <script src="memoria.js"></script>
+</body>
+</html>
