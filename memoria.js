@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lockBoard = false;
     let firstCard, secondCard;
     let matchesFound = 0;
-    let tries = 0; // NOVO: Variável para o contador de tentativas
+    let tries = 0;
     
     function shuffle(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function createBoard() {
         shuffle(cardList);
+        board.innerHTML = ''; // Limpa o tabuleiro antes de recriar
         cardList.forEach(cardImage => {
             const cardElement = document.createElement('div');
             cardElement.classList.add('memory-card');
@@ -58,8 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         secondCard = this;
-        tries++; // NOVO: Incrementa o contador de tentativas
-        triesCounter.textContent = tries; // NOVO: Atualiza o texto na tela
+        tries++;
+        triesCounter.textContent = tries;
         
         checkForMatch();
     }
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             disableCards();
             matchesFound++;
             if (matchesFound === cardImages.length) {
-                showWinMessage(); // NOVO: Mostra a mensagem de vitória na tela
+                showWinMessage();
             }
         } else {
             unflipCards();
@@ -81,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function disableCards() {
         firstCard.removeEventListener('click', flipCard);
         secondCard.removeEventListener('click', flipCard);
-        resetCards(); // Renomeado para maior clareza
+        resetCards();
     }
 
     function unflipCards() {
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             firstCard.classList.remove('flip');
             secondCard.classList.remove('flip');
-            resetCards(); // Renomeado para maior clareza
+            resetCards();
         }, 1000);
     }
 
@@ -98,19 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
         [firstCard, secondCard] = [null, null];
     }
 
-    // NOVO: Função para mostrar a mensagem de vitória
     function showWinMessage() {
-        board.style.display = 'none'; // Esconde o tabuleiro
+        board.style.display = 'none';
         winMessage.classList.remove('hidden');
         winText.textContent = `Você completou o jogo em ${tries} tentativas!`;
     }
 
-    // NOVO: Lógica do botão "Jogar Novamente"
     playAgainBtn.addEventListener('click', () => {
         location.reload(); // Recarrega a página para reiniciar o jogo
     });
     
-    // Inicia o jogo
     createBoard();
-
 });

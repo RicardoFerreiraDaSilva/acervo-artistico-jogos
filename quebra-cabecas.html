@@ -1,165 +1,291 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>Quebra-Cabeça Drag & Drop</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    h1 { margin-bottom: 15px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogos - Quebra-Cabeça</title>
+    <style>
+        /* === ESTILOS GLOBAIS === */
+        :root {
+            --cor-ufsm-azul: #004d80;
+            --cor-ufsm-vermelho: #cc0000;
+            --cor-cinza-claro: #f4f4f4;
+            --cor-cinza-medio: #666;
+            --cor-cinza-escuro: #333;
+            --cor-branco: #fff;
+            --cor-sombra-media: rgba(0, 0, 0, 0.2);
+        }
 
-    .board {
-      display: grid;
-      gap: 1px;
-      border: 3px solid #333;
-      background: #333;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--cor-cinza-claro);
+            color: var(--cor-cinza-escuro);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    .slot {
-      background: #ddd;
-      position: relative;
-    }
+        header {
+            background-color: var(--cor-ufsm-azul);
+            color: var(--cor-branco);
+            text-align: center;
+            padding: 20px 0;
+            width: 100%;
+        }
 
-    .piece {
-      width: 100%;
-      height: 100%;
-      background-image: url("imagens/7erros.jpg");
-      background-size: calc(var(--cols) * 100px) calc(var(--rows) * 100px);
-      cursor: grab;
-    }
+        main {
+            flex: 1;
+        }
 
-    .piece.dragging {
-      opacity: 0.5;
-    }
+        footer {
+            background-color: var(--cor-cinza-escuro);
+            color: var(--cor-branco);
+            text-align: center;
+            padding: 15px 0;
+            width: 100%;
+            margin-top: auto;
+        }
 
-    #status { margin-top: 15px; font-weight: bold; }
-  </style>
+        /* === ESTILOS ESPECÍFICOS PARA O JOGO === */
+        .game-page-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .game-instructions {
+            text-align: center;
+            max-width: 800px;
+            margin-bottom: 25px;
+        }
+
+        .game-instructions h2 {
+            color: var(--cor-ufsm-azul);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .game-instructions p {
+            font-size: 1.2em;
+            color: var(--cor-cinza-medio);
+            line-height: 1.6;
+        }
+        
+        /* Estilos do quebra-cabeça */
+        .board {
+            display: grid;
+            gap: 1px;
+            border: 3px solid var(--cor-ufsm-azul);
+            background: var(--cor-ufsm-azul);
+            box-shadow: 0 4px 8px var(--cor-sombra-media);
+        }
+
+        .slot {
+            background: var(--cor-cinza-claro);
+            position: relative;
+        }
+
+        .piece {
+            width: 100%;
+            height: 100%;
+            background-image: url("imagens/7erros.jpg");
+            background-size: calc(var(--cols) * var(--tile-size)) calc(var(--rows) * var(--tile-size));
+            cursor: grab;
+        }
+
+        .piece.dragging {
+            opacity: 0.5;
+        }
+
+        .status { 
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--cor-ufsm-azul);
+            text-align: center;
+        }
+
+        /* Estilo do botão de voltar */
+        .back-button {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: var(--cor-branco);
+            background-color: var(--cor-cinza-medio);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s;
+            display: inline-block;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-  <h1>Quebra-Cabeça</h1>
-  <div class="board" id="board"></div>
-  <p id="status"></p>
 
-  <script>
-    const rows = 4; // número de linhas
-    const cols = 6; // número de colunas (pode ser diferente!)
-    const tileSize = 100; // px
-    const board = document.getElementById("board");
-    const status = document.getElementById("status");
-    let slots = [];
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
 
-    board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
-    board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
-    board.style.setProperty("--rows", rows);
-    board.style.setProperty("--cols", cols);
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Quebra-Cabeça</h2>
+            <p>Arraste e solte as peças para montar a imagem completa.</p>
+        </div>
 
-    function createBoard() {
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const slot = document.createElement("div");
-          slot.classList.add("slot");
-          slot.style.width = tileSize + "px";
-          slot.style.height = tileSize + "px";
-          slot.dataset.correct = row * cols + col;
-          board.appendChild(slot);
-          slots.push(slot);
-        }
-      }
-    }
+        <div class="board" id="board"></div>
+        <p class="status" id="status"></p>
 
-    function createPieces() {
-      let pieces = [];
-      for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-          const index = row * cols + col;
-          const piece = document.createElement("div");
-          piece.classList.add("piece");
-          piece.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
-          piece.draggable = true;
-          piece.dataset.index = index;
-          pieces.push(piece);
-        }
-      }
-      return pieces;
-    }
+        <a href="index.html" class="back-button">Voltar para a página inicial</a>
+    </main>
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
 
-    function init() {
-      createBoard();
-      const pieces = createPieces();
-      shuffle(pieces);
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = 4;
+            const cols = 6;
+            const tileSize = 100;
+            const board = document.getElementById("board");
+            const status = document.getElementById("status");
+            let slots = [];
 
-      // Distribui peças nos slots
-      slots.forEach((slot, i) => {
-        slot.appendChild(pieces[i]);
-      });
+            board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
+            board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
+            board.style.setProperty("--rows", rows);
+            board.style.setProperty("--cols", cols);
+            board.style.setProperty("--tile-size", `${tileSize}px`);
 
-      // eventos drag & drop
-      let dragged = null;
+            function createBoard() {
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const slot = document.createElement("div");
+                        slot.classList.add("slot");
+                        slot.dataset.correct = row * cols + col;
+                        board.appendChild(slot);
+                        slots.push(slot);
+                    }
+                }
+            }
 
-      board.addEventListener("dragstart", e => {
-        if (e.target.classList.contains("piece")) {
-          dragged = e.target;
-          e.target.classList.add("dragging");
-        }
-      });
+            function createPieces() {
+                let pieces = [];
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const index = row * cols + col;
+                        const piece = document.createElement("div");
+                        piece.classList.add("piece");
+                        piece.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
+                        piece.draggable = true;
+                        piece.dataset.index = index;
+                        pieces.push(piece);
+                    }
+                }
+                return pieces;
+            }
 
-      board.addEventListener("dragend", e => {
-        if (dragged) {
-          dragged.classList.remove("dragging");
-          dragged = null;
-        }
-      });
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
 
-      board.addEventListener("dragover", e => {
-        e.preventDefault();
-      });
+            function init() {
+                createBoard();
+                const pieces = createPieces();
+                shuffle(pieces);
 
-      board.addEventListener("drop", e => {
-        e.preventDefault();
-        const targetSlot = e.target.classList.contains("slot")
-          ? e.target
-          : e.target.parentElement;
+                slots.forEach((slot, i) => {
+                    slot.appendChild(pieces[i]);
+                });
 
-        if (targetSlot.classList.contains("slot")) {
-          if (!targetSlot.firstChild) {
-            // se slot vazio → só encaixa
-            targetSlot.appendChild(dragged);
-          } else if (targetSlot.firstChild !== dragged) {
-            // se já tem peça → troca
-            const otherPiece = targetSlot.firstChild;
-            const fromSlot = dragged.parentElement;
-            targetSlot.appendChild(dragged);
-            fromSlot.appendChild(otherPiece);
-          }
-          checkWin();
-        }
-      });
-    }
+                let dragged = null;
 
-    function checkWin() {
-      const correct = slots.every(slot => {
-        if (!slot.firstChild) return false;
-        return slot.dataset.correct === slot.firstChild.dataset.index;
-      });
-      if (correct) {
-        status.textContent = "🎉 Parabéns! Você completou o quebra-cabeça!";
-      }
-    }
+                board.addEventListener("dragstart", e => {
+                    if (e.target.classList.contains("piece")) {
+                        dragged = e.target;
+                        setTimeout(() => e.target.classList.add("dragging"), 0);
+                    }
+                });
 
-    init();
-  </script>
+                board.addEventListener("dragend", e => {
+                    if (dragged) {
+                        e.target.classList.remove("dragging");
+                        dragged = null;
+                    }
+                });
+
+                board.addEventListener("dragover", e => {
+                    e.preventDefault();
+                    const targetSlot = e.target.classList.contains("slot") ? e.target : e.target.parentElement;
+                    if (targetSlot && targetSlot.classList.contains("slot")) {
+                        targetSlot.style.boxShadow = "inset 0 0 5px 3px rgba(0, 77, 128, 0.5)";
+                    }
+                });
+
+                board.addEventListener("dragleave", e => {
+                    const targetSlot = e.target.classList.contains("slot") ? e.target : e.target.parentElement;
+                    if (targetSlot && targetSlot.classList.contains("slot")) {
+                        targetSlot.style.boxShadow = "none";
+                    }
+                });
+
+                board.addEventListener("drop", e => {
+                    e.preventDefault();
+                    const targetSlot = e.target.classList.contains("slot")
+                        ? e.target
+                        : e.target.parentElement;
+                    
+                    if (targetSlot.classList.contains("slot")) {
+                        targetSlot.style.boxShadow = "none";
+                        const targetPiece = targetSlot.firstElementChild;
+                        const fromSlot = dragged.parentElement;
+
+                        if (dragged && dragged !== targetPiece) {
+                            if (!targetPiece) {
+                                targetSlot.appendChild(dragged);
+                            } else {
+                                targetSlot.appendChild(dragged);
+                                fromSlot.appendChild(targetPiece);
+                            }
+                            checkWin();
+                        }
+                    }
+                });
+            }
+
+            function checkWin() {
+                let correctCount = 0;
+                slots.forEach(slot => {
+                    const piece = slot.firstChild;
+                    if (piece && slot.dataset.correct === piece.dataset.index) {
+                        correctCount++;
+                    }
+                });
+                
+                if (correctCount === slots.length) {
+                    status.textContent = "🎉 Parabéns! Você completou o quebra-cabeça!";
+                } else {
+                    status.textContent = `Peças no lugar certo: ${correctCount}/${slots.length}`;
+                }
+            }
+
+            init();
+        });
+    </script>
 </body>
 </html>
