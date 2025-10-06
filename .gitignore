@@ -1,2 +1,24 @@
+# arquivos específicos a serem ignorados
 MA03 -.jpg
 TPF01 - 050259 - Lydia Prestes Pereira.jpg
+
+# Padrões para o Django e Python
+# Ignora arquivos de banco de dados
+*.sqlite3
+
+# Ignora arquivos de cache e binários
+__pycache__/
+*.pyc
+*.log
+
+# Ignora a pasta de arquivos estáticos coletados
+/staticfiles/
+
+# Ignora a pasta de arquivos de mídia (uploads de usuários)
+/media/
+
+# Ignora variáveis de ambiente locais
+.env
+
+# Ignora o ambiente virtual Python
+venv/
