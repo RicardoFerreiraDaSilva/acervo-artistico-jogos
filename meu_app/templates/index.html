@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo Artístico - Jogos</title>
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #003366; /* Azul escuro */
+            color: white;
+        }
+
+        .game-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px;
+        }
+
+        .game-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 220px;
+            height: 140px;
+            background-color: #ff6f00; /* Laranja */
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .game-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .game-card:hover::after {
+            content: attr(data-description);
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            width: 240px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            background-color: #000; /* Preto sólido */
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Acervo Artístico</h1>
+    </header>
+
+    <main>
+        <div class="game-gallery">
+            <a href="{% url 'memoria' %}" class="game-card" data-description="Desafie sua mente! Encontre os pares de cartas com imagens de obras do nosso acervo artístico.">
+                <span class="game-title">Jogo da Memória</span>
+            </a>
+            <a href="{% url 'galo' %}" class="game-card" data-description="Preste atenção aos detalhes. Uma figura de galo está escondida em uma obra de arte. Você consegue encontrá-la?">
+                <span class="game-title">Encontre o Galo</span>
+            </a>
+            <a href="{% url 'monta_cabecas' %}" class="game-card" data-description="Relaxe e aprecie a arte montando quebra-cabeças digitais de diversas obras do acervo.">
+                <span class="game-title">Monta Cabeças</span>
+            </a>
+            <a href="{% url 'sete_erros' %}" class="game-card" data-description="Compare duas imagens de uma obra de arte e encontre os 7 erros escondidos entre elas.">
+                <span class="game-title">Jogo dos 7 Erros</span>
+            </a>
+            <a href="{% url 'bingo' %}" class="game-card" data-description="Teste seus conhecimentos! Um bingo interativo com perguntas e respostas sobre artistas e obras da UFSM.">
+                <span class="game-title">Bingo de Perguntas</span>
+            </a>
+            <a href="{% url 'dixit' %}" class="game-card" data-description="Use sua criatividade! Descreva uma das cartas e faça com que os outros adivinhem qual é a sua.">
+                <span class="game-title">Versão do Dix It</span>
+            </a>
+            <a href="{% url 'quebra_cabecas' %}" class="game-card" data-description="O clássico quebra-cabeças, agora com as mais belas obras de arte do nosso acervo para você montar.">
+                <span class="game-title">Quebra-Cabeças</span>
+            </a>
+            <a href="{% url 'caca_palavras' %}" class="game-card" data-description="Encontre nomes de artistas, técnicas e movimentos artísticos escondidos em nosso caça-palavras temático.">
+                <span class="game-title">Caça-Palavras</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    </footer>
+</body>
+</html>

@@ -1,10 +1,14 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Dixit de Palavras - Acervo Artístico</title>
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Link correto para CSS via static -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 </head>
 <body>
     <header>
@@ -20,8 +24,7 @@
         <div id="dixit-game-container">
             <div id="clue-area">
                 <h3>Pistas Reveladas:</h3>
-                <ul id="clue-list">
-                    </ul>
+                <ul id="clue-list"></ul>
             </div>
 
             <div id="game-status">
@@ -30,7 +33,7 @@
             </div>
 
             <div id="input-area">
-                <input type="text" id="guess-input" placeholder="Qual é a palavra?" autocomplete="off">
+                <input type="text" id="guess-input" placeholder="Qual é a palavra?" autocomplete="off" />
                 <button id="guess-button">Adivinhar</button>
             </div>
 
@@ -43,13 +46,14 @@
             </div>
         </div>
 
-        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+        <a href="{% url 'index' %}" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
     </main>
 
     <footer>
         <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
     </footer>
 
-    <script src="dixit.js"></script>
+    <!-- Link correto para JS via static -->
+    <script src="{% static 'js/dixit.js' %}"></script>
 </body>
 </html>

@@ -1,12 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Acervo Artístico - Jogo da Memória</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}" />
 </head>
-<body>
+<body data-base-url="{% static 'meu_app/imagens/jogo_memoria/' %}">
+
     <header>
         <h1>Jogo da Memória</h1>
     </header>
@@ -27,7 +29,7 @@
             <h2>Parabéns!</h2>
             <p id="win-text"></p>
             <button id="play-again-btn">Jogar Novamente</button>
-            <a href="index.html" class="back-button">Voltar para a Galeria</a>
+            <a href="{% url 'index' %}" class="back-button">Voltar para a Galeria</a>
         </div>
     </main>
 
@@ -35,6 +37,6 @@
         <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
     </footer>
 
-    <script src="memoria.js"></script>
+    <script src="{% static 'meu_app/js/memoria.js' %}"></script>
 </body>
 </html>
