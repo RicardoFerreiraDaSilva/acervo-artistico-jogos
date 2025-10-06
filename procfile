@@ -1,1 +1,1 @@
-web: gunicorn acervo_projeto.wsgi --log-file -
+gunicorn acervo_projeto.wsgi --log-file -
