@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-# Executa o gunicorn usando o Python do ambiente do Render
-python -m gunicorn acervo_projeto.wsgi --log-file -
+# Inicia o servidor Gunicorn
+gunicorn acervo_projeto.wsgi --log-file - --bind 0.0.0.0 --timeout 600
