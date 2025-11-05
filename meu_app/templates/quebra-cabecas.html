@@ -1,291 +1,279 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogos - Quebra-Cabeça</title>
-    <style>
-        /* === ESTILOS GLOBAIS === */
-        :root {
-            --cor-ufsm-azul: #004d80;
-            --cor-ufsm-vermelho: #cc0000;
-            --cor-cinza-claro: #f4f4f4;
-            --cor-cinza-medio: #666;
-            --cor-cinza-escuro: #333;
-            --cor-branco: #fff;
-            --cor-sombra-media: rgba(0, 0, 0, 0.2);
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: var(--cor-cinza-claro);
-            color: var(--cor-cinza-escuro);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: var(--cor-ufsm-azul);
-            color: var(--cor-branco);
-            text-align: center;
-            padding: 20px 0;
-            width: 100%;
-        }
-
-        main {
-            flex: 1;
-        }
-
-        footer {
-            background-color: var(--cor-cinza-escuro);
-            color: var(--cor-branco);
-            text-align: center;
-            padding: 15px 0;
-            width: 100%;
-            margin-top: auto;
-        }
-
-        /* === ESTILOS ESPECÍFICOS PARA O JOGO === */
-        .game-page-main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .game-instructions {
-            text-align: center;
-            max-width: 800px;
-            margin-bottom: 25px;
-        }
-
-        .game-instructions h2 {
-            color: var(--cor-ufsm-azul);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .game-instructions p {
-            font-size: 1.2em;
-            color: var(--cor-cinza-medio);
-            line-height: 1.6;
-        }
-        
-        /* Estilos do quebra-cabeça */
-        .board {
-            display: grid;
-            gap: 1px;
-            border: 3px solid var(--cor-ufsm-azul);
-            background: var(--cor-ufsm-azul);
-            box-shadow: 0 4px 8px var(--cor-sombra-media);
-        }
-
-        .slot {
-            background: var(--cor-cinza-claro);
-            position: relative;
-        }
-
-        .piece {
-            width: 100%;
-            height: 100%;
-            background-image: url("imagens/7erros.jpg");
-            background-size: calc(var(--cols) * var(--tile-size)) calc(var(--rows) * var(--tile-size));
-            cursor: grab;
-        }
-
-        .piece.dragging {
-            opacity: 0.5;
-        }
-
-        .status { 
-            margin-top: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: var(--cor-ufsm-azul);
-            text-align: center;
-        }
-
-        /* Estilo do botão de voltar */
-        .back-button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--cor-branco);
-            background-color: var(--cor-cinza-medio);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-
-        .back-button:hover {
-            transform: translateY(-2px);
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Quebra-Cabeça</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    h1 { margin-bottom: 20px; }
+    /* Mural */
+    #tela-mural { width: 100%; display:flex; flex-direction:column; align-items:center;}
+    .mural { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:15px;}
+    .mural img {
+      width:400px; height:250px; object-fit:cover; border:3px solid transparent;
+      border-radius:10px; cursor:pointer; transition: transform .2s, border .2s;
+    }
+    .mural img:hover { transform: scale(1.01); }
+    .mural img.selected { border-color:#007bff; transform: scale(1.08); }
+    .controls { display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
+    select, button { padding:6px 12px; font-size:14px; border-radius:5px; border:1px solid #aaa; }
+    button { background:#333; color:#fff; cursor:pointer; }
+    button:hover { background:#555; }
+    /* Jogo */
+    #tela-jogo { display:none; width:100%; flex-direction:column; align-items:center; }
+    .menu-jogo { display:flex; gap:10px; margin-bottom:15px; }
+    .board { display:grid; gap:1px; border:3px solid #333; background:#333; }
+    .slot { background:#ddd; position:relative; }
+    .piece {
+      width:100%; height:100%; cursor:grab; background-repeat:no-repeat;
+      /* background-size assigned inline em px */
+    }
+    .piece.dragging { opacity:.5; }
+    #status { margin-top:15px; font-weight:bold; }
+  </style>
 </head>
 <body>
+  <h1>🧩 Quebra-Cabeça 🧩</h1>
 
-    <header>
-        <h1>Acervo Artístico</h1>
-    </header>
+  <!-- TELA MURAL -->
+  <div id="tela-mural">
+    <div class="mural" id="mural">
+      <img src="imagens/7erros.jpg" alt="Imagem 1" data-src="imagens/7erros.jpg">
+      <img src="imagens/quebra_cabeça/2.jpg" alt="Imagem 2" data-src="imagens/quebra_cabeça/2.jpg">
+      <img src="imagens/quebra_cabeça/3.jpg" alt="Imagem 3" data-src="imagens/quebra_cabeça/3.jpg">
+      <img src="imagens/quebra_cabeça/4.jpg" alt="Imagem 4" data-src="imagens/quebra_cabeça/4.jpg">
+      <img src="imagens/quebra_cabeça/5.jpg" alt="Imagem 5" data-src="imagens/quebra_cabeça/5.jpg">
+      <img src="imagens/quebra_cabeça/6.jpg" alt="Imagem 6" data-src="imagens/quebra_cabeça/6.jpg">
+    </div>
 
-    <main class="game-page-main">
-        <div class="game-instructions">
-            <h2>Quebra-Cabeça</h2>
-            <p>Arraste e solte as peças para montar a imagem completa.</p>
-        </div>
+    <div class="controls">
+      <label for="difficulty">Dificuldade:</label>
+      <select id="difficulty">
+        <option value="facil">Fácil</option>
+        <option value="medio" selected>Normal</option>
+        <option value="dificil">Difícil</option>
+      </select>
+      <button id="jogar">Jogar</button>
+    </div>
+  </div>
 
-        <div class="board" id="board"></div>
-        <p class="status" id="status"></p>
+  <!-- TELA JOGO -->
+  <div id="tela-jogo">
+    <div class="menu-jogo">
+      <button id="voltar">← Voltar</button>
+      <button id="inicio">Início</button>
+    </div>
+    <div class="board" id="board"></div>
+    <p id="status"></p>
+  </div>
 
-        <a href="index.html" class="back-button">Voltar para a página inicial</a>
-    </main>
+  <script>
+    const mural = document.getElementById('mural');
+    const telaMural = document.getElementById('tela-mural');
+    const telaJogo = document.getElementById('tela-jogo');
+    const jogarBtn = document.getElementById('jogar');
+    const voltarBtn = document.getElementById('voltar');
+    const inicioBtn = document.getElementById('inicio');
+    const difficultySelect = document.getElementById('difficulty');
+    const board = document.getElementById('board');
+    const status = document.getElementById('status');
 
-    <footer>
-        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
-    </footer>
+    let slots = [];
+    let currentImage = null;
+    let rows = 4, cols = 6;
+    const tileSize = 100;
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const rows = 4;
-            const cols = 6;
-            const tileSize = 100;
-            const board = document.getElementById("board");
-            const status = document.getElementById("status");
-            let slots = [];
+    // ----- Seleção do mural -----
+    mural.addEventListener('click', (e) => {
+      if (e.target.tagName === 'IMG') {
+        document.querySelectorAll('.mural img').forEach(img => img.classList.remove('selected'));
+        e.target.classList.add('selected');
+        currentImage = e.target.dataset.src;
+      }
+    });
 
-            board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
-            board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
-            board.style.setProperty("--rows", rows);
-            board.style.setProperty("--cols", cols);
-            board.style.setProperty("--tile-size", `${tileSize}px`);
+    // ----- Navegação -----
+    jogarBtn.addEventListener('click', () => {
+      if (!currentImage) { alert('Selecione uma imagem antes de jogar!'); return; }
+      const img = new Image();
+      img.onload = function() {
+        telaMural.style.display = 'none';
+        telaJogo.style.display = 'flex';
+        init(currentImage, img.width, img.height);
+      };
+      img.src = currentImage;
+    });
 
-            function createBoard() {
-                for (let row = 0; row < rows; row++) {
-                    for (let col = 0; col < cols; col++) {
-                        const slot = document.createElement("div");
-                        slot.classList.add("slot");
-                        slot.dataset.correct = row * cols + col;
-                        board.appendChild(slot);
-                        slots.push(slot);
-                    }
-                }
-            }
+    voltarBtn.addEventListener('click', () => {
+      telaJogo.style.display = 'none';
+      telaMural.style.display = 'flex';
+      board.innerHTML = '';
+      status.textContent = '';
+      // slots será recriado no próximo init
+      slots = [];
+    });
 
-            function createPieces() {
-                let pieces = [];
-                for (let row = 0; row < rows; row++) {
-                    for (let col = 0; col < cols; col++) {
-                        const index = row * cols + col;
-                        const piece = document.createElement("div");
-                        piece.classList.add("piece");
-                        piece.style.backgroundPosition = `-${col * tileSize}px -${row * tileSize}px`;
-                        piece.draggable = true;
-                        piece.dataset.index = index;
-                        pieces.push(piece);
-                    }
-                }
-                return pieces;
-            }
+    inicioBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
 
-            function shuffle(array) {
-                for (let i = array.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [array[i], array[j]] = [array[j], array[i]];
-                }
-            }
+    // ----- Inicializa seleção padrão -----
+    window.onload = () => {
+      const firstImg = mural.querySelector('img');
+      firstImg.classList.add('selected');
+      currentImage = firstImg.dataset.src;
+      // registrar drag/drop apenas 1 vez
+      setupDragDrop();
+    };
 
-            function init() {
-                createBoard();
-                const pieces = createPieces();
-                shuffle(pieces);
+    // ----- Criação do tabuleiro e peças -----
+    function init(imageSrc, imgWidth, imgHeight) {
+      board.innerHTML = '';
+      slots = [];
+      status.textContent = '';
 
-                slots.forEach((slot, i) => {
-                    slot.appendChild(pieces[i]);
-                });
+      const difficulty = difficultySelect.value;
+      const isHorizontal = imgWidth > imgHeight;
+      const isVertical = imgHeight > imgWidth;
 
-                let dragged = null;
+      if (difficulty === 'facil') {
+        rows = isHorizontal ? 3 : isVertical ? 5 : 4;
+        cols = isHorizontal ? 5 : isVertical ? 3 : 4;
+      } else if (difficulty === 'medio') {
+        rows = isHorizontal ? 4 : isVertical ? 6 : 5;
+        cols = isHorizontal ? 6 : isVertical ? 4 : 5;
+      } else {
+        rows = isHorizontal ? 5 : isVertical ? 7 : 6;
+        cols = isHorizontal ? 7 : isVertical ? 5 : 6;
+      }
 
-                board.addEventListener("dragstart", e => {
-                    if (e.target.classList.contains("piece")) {
-                        dragged = e.target;
-                        setTimeout(() => e.target.classList.add("dragging"), 0);
-                    }
-                });
+      board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
+      board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
 
-                board.addEventListener("dragend", e => {
-                    if (dragged) {
-                        e.target.classList.remove("dragging");
-                        dragged = null;
-                    }
-                });
+      createBoard();
+      const pieces = createPieces(imageSrc);
+      shuffle(pieces);
+      slots.forEach((slot, i) => slot.appendChild(pieces[i]));
 
-                board.addEventListener("dragover", e => {
-                    e.preventDefault();
-                    const targetSlot = e.target.classList.contains("slot") ? e.target : e.target.parentElement;
-                    if (targetSlot && targetSlot.classList.contains("slot")) {
-                        targetSlot.style.boxShadow = "inset 0 0 5px 3px rgba(0, 77, 128, 0.5)";
-                    }
-                });
+      // Garantir reflow antes de qualquer verificação opcional; mas não re-registra listeners
+      // Forçar um reflow mínimo (leitura de offsetHeight)
+      void board.offsetHeight;
+    }
 
-                board.addEventListener("dragleave", e => {
-                    const targetSlot = e.target.classList.contains("slot") ? e.target : e.target.parentElement;
-                    if (targetSlot && targetSlot.classList.contains("slot")) {
-                        targetSlot.style.boxShadow = "none";
-                    }
-                });
+    function createBoard() {
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const slot = document.createElement('div');
+          slot.classList.add('slot');
+          slot.style.width = tileSize + 'px';
+          slot.style.height = tileSize + 'px';
+          slot.dataset.correct = r * cols + c;
+          board.appendChild(slot);
+          slots.push(slot);
+        }
+      }
+    }
 
-                board.addEventListener("drop", e => {
-                    e.preventDefault();
-                    const targetSlot = e.target.classList.contains("slot")
-                        ? e.target
-                        : e.target.parentElement;
-                    
-                    if (targetSlot.classList.contains("slot")) {
-                        targetSlot.style.boxShadow = "none";
-                        const targetPiece = targetSlot.firstElementChild;
-                        const fromSlot = dragged.parentElement;
+    function createPieces(imageSrc) {
+      const pieces = [];
+      // calculo do tamanho total de background em px para cada peça
+      const bgW = cols * tileSize;
+      const bgH = rows * tileSize;
 
-                        if (dragged && dragged !== targetPiece) {
-                            if (!targetPiece) {
-                                targetSlot.appendChild(dragged);
-                            } else {
-                                targetSlot.appendChild(dragged);
-                                fromSlot.appendChild(targetPiece);
-                            }
-                            checkWin();
-                        }
-                    }
-                });
-            }
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          const piece = document.createElement('div');
+          piece.classList.add('piece');
+          piece.style.backgroundImage = `url("${imageSrc}")`;
+          // backgroundPosition em px
+          piece.style.backgroundPosition = `-${c * tileSize}px -${r * tileSize}px`;
+          // definir background-size explicitamente em px (evita depender de var CSS)
+          piece.style.backgroundSize = `${bgW}px ${bgH}px`;
+          piece.draggable = true;
+          piece.dataset.index = idx;
+          pieces.push(piece);
+        }
+      }
+      return pieces;
+    }
 
-            function checkWin() {
-                let correctCount = 0;
-                slots.forEach(slot => {
-                    const piece = slot.firstChild;
-                    if (piece && slot.dataset.correct === piece.dataset.index) {
-                        correctCount++;
-                    }
-                });
-                
-                if (correctCount === slots.length) {
-                    status.textContent = "🎉 Parabéns! Você completou o quebra-cabeça!";
-                } else {
-                    status.textContent = `Peças no lugar certo: ${correctCount}/${slots.length}`;
-                }
-            }
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
 
-            init();
-        });
-    </script>
+    // ----- Drag & Drop: registrado apenas 1 vez -----
+    let dragSetupDone = false;
+    let dragged = null; // variável única compartilhada entre handlers
+
+    function setupDragDrop() {
+      if (dragSetupDone) return;
+      dragSetupDone = true;
+
+      // dragstart
+      board.addEventListener('dragstart', (e) => {
+        const t = e.target;
+        if (t && t.classList && t.classList.contains('piece')) {
+          dragged = t;
+          t.classList.add('dragging');
+          // opcional: console.log('dragstart', dragged.dataset.index);
+        }
+      });
+
+      // dragend
+      board.addEventListener('dragend', (e) => {
+        if (dragged) {
+          dragged.classList.remove('dragging');
+          // opcional: console.log('dragend', dragged.dataset.index);
+          dragged = null;
+        }
+      });
+
+      // dragover - permitir drop
+      board.addEventListener('dragover', (e) => { e.preventDefault(); });
+
+      // drop (delegado)
+      board.addEventListener('drop', (e) => {
+        e.preventDefault();
+        // usa closest para achar o slot mesmo que o alvo seja a peça
+        const targetSlot = e.target.closest('.slot');
+        if (!targetSlot) return;
+        if (!dragged) return; // se null, não há peça sendo arrastada
+
+        if (!targetSlot.firstChild) {
+          targetSlot.appendChild(dragged);
+        } else if (targetSlot.firstChild !== dragged) {
+          const other = targetSlot.firstChild;
+          const fromSlot = dragged.parentElement;
+          targetSlot.appendChild(dragged);
+          fromSlot.appendChild(other);
+        }
+        checkWin();
+      });
+
+      // opcional: log para depuração
+      // console.log('drag/drop listeners registered once.');
+    }
+
+    // ----- Verificação de vitória -----
+    function checkWin() {
+      const ok = slots.every(slot => {
+        if (!slot.firstChild) return false;
+        return slot.dataset.correct === slot.firstChild.dataset.index;
+      });
+      if (ok) status.textContent = '🎉 Parabéns! Você completou o quebra-cabeça!';
+    }
+  </script>
 </body>
 </html>
