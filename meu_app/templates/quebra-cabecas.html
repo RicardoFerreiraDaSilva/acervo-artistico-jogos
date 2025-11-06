@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -47,14 +48,31 @@
 
   <!-- TELA MURAL -->
   <div id="tela-mural">
-    <div class="mural" id="mural">
-      <img src="imagens/7erros.jpg" alt="Imagem 1" data-src="imagens/7erros.jpg">
-      <img src="imagens/quebra_cabeça/2.jpg" alt="Imagem 2" data-src="imagens/quebra_cabeça/2.jpg">
-      <img src="imagens/quebra_cabeça/3.jpg" alt="Imagem 3" data-src="imagens/quebra_cabeça/3.jpg">
-      <img src="imagens/quebra_cabeça/4.jpg" alt="Imagem 4" data-src="imagens/quebra_cabeça/4.jpg">
-      <img src="imagens/quebra_cabeça/5.jpg" alt="Imagem 5" data-src="imagens/quebra_cabeça/5.jpg">
-      <img src="imagens/quebra_cabeça/6.jpg" alt="Imagem 6" data-src="imagens/quebra_cabeça/6.jpg">
-    </div>
+<div class="mural" id="mural">
+    <img src="{% static 'meu_app/imagens/7erros.jpg' %}" 
+         alt="Imagem 1" 
+         data-src="{% static 'meu_app/imagens/7erros.jpg' %}">
+
+    <img src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}" 
+         alt="Imagem 2" 
+         data-src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}">
+    
+    <img src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}" 
+         alt="Imagem 3" 
+         data-src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}">
+         
+    <img src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}" 
+         alt="Imagem 4" 
+         data-src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}">
+         
+    <img src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}" 
+         alt="Imagem 5" 
+         data-src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}">
+         
+    <img src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}" 
+         alt="Imagem 6" 
+         data-src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}">
+</div>
 
     <div class="controls">
       <label for="difficulty">Dificuldade:</label>

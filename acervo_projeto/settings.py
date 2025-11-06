@@ -10,6 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY')
+# Chave de desenvolvimento (usar apenas LOCALMENTE)
+SECRET_KEY = 'django-insecure-@8b85*q+*2_t!k_u1-a$g#x^01j#e-j(9e&k4c^n1z%t!t*z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
