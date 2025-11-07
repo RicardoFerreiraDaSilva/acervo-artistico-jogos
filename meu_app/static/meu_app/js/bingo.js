@@ -1,43 +1,120 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. PERGUNTAS E RESPOSTAS ---
-    const allQuestions = [
-        { question: 'Qual artista renascentista italiano pintou a famosa "Mona Lisa"?', answer: 'Leonardo da Vinci' },
-        { question: 'Que pintor holandês é famoso por "A Noite Estrelada" e por ter cortado parte da própria orelha?', answer: 'Van Gogh' },
-        { question: 'Qual movimento artístico, liderado por Pablo Picasso, representa objetos de vários ângulos ao mesmo tempo?', answer: 'Cubismo' },
-        { question: 'Qual artista brasileira é famosa pelo quadro "Abaporu", um marco do Movimento Antropofágico?', answer: 'Tarsila do Amaral' },
-        { question: 'Que pintora mexicana é conhecida por seus intensos autorretratos e por sua vida marcada por dores físicas?', answer: 'Frida Kahlo' },
-        { question: 'Que artista é famoso pela escultura de "Davi" e por pintar o teto da Capela Sistina?', answer: 'Michelangelo' },
-        { question: 'Qual estilo artístico explora o mundo dos sonhos e do inconsciente, com obras famosas de Salvador Dalí?', answer: 'Surrealismo' },
-        { question: 'Quais são as três cores primárias, que não podem ser criadas pela mistura de outras cores?', answer: 'Vermelho, Azul e Amarelo' },
-        { question: 'Como é chamada a forma de arte visual feita em locais públicos, como muros e paredes?', answer: 'Grafite / Arte de Rua' },
-        { question: 'Qual o apelido do importante escultor do Barroco mineiro no Brasil, famoso por suas obras em pedra-sabão?', answer: 'Aleijadinho' }
-    ];
+// bingo.js
 
-    let shuffledQuestions = allQuestions.sort(() => 0.5 - Math.random());
+document.addEventListener('DOMContentLoaded', () => {
+    // =========================================================
+    // 1. DADOS INJETADOS PELO DJANGO NO TEMPLATE HTML
+    // =========================================================
+    
+    // As variáveis abaixo DEVERÃO ser injetadas no seu template HTML (jogo.html)
+    // a partir do contexto do Django, usando JSON.parse(variavel_django_json).
+    // Exemplo de injeção no template:
+    // <script> 
+    //     const shuffledQuestions = JSON.parse("{{ perguntas_sorteio_json | safe }}");
+    //     const cardAnswers = JSON.parse("{{ respostas_cartela_json | safe }}");
+    //     const tamanhoCartela = {{ tamanho_cartela }};
+    // </script>
+
+    // IMPORTANTE: Para fins de demonstração neste script, usaremos dados fictícios
+    // caso as variáveis não sejam injetadas, mas no seu ambiente Django, 
+    // elas devem vir do backend.
+
+    let shuffledQuestions = [];
+    let cardAnswers = [];
+    let tamanhoCartela = 3; // Default 3x3
+
+    // Tenta obter os dados injetados
+    try {
+        // Assume que o Django injetou tags script com IDs específicos ou variáveis globais
+        // Você pode ajustar isso para o método que preferir no seu template.
+        const qsData = JSON.parse(document.getElementById('shuffled-questions-data')?.textContent || '[]');
+        const caData = JSON.parse(document.getElementById('card-answers-data')?.textContent || '[]');
+        const tcData = parseInt(document.getElementById('tamanho-cartela-data')?.textContent || '3');
+
+        if (qsData.length > 0) shuffledQuestions = qsData.sort(() => 0.5 - Math.random());
+        if (caData.length > 0) cardAnswers = caData;
+        tamanhoCartela = tcData;
+    } catch (e) {
+        console.warn("Erro ao carregar dados do Django. Usando dados de protótipo.");
+        // PROTÓTIPO DE DADOS (apenas para teste sem Django)
+        shuffledQuestions = [
+            { question: 'P: Leonardo da Vinci?', answer: 'Leonardo da Vinci' },
+            { question: 'P: Van Gogh?', answer: 'Van Gogh' },
+            // ... adicione mais para N > 3
+        ];
+        cardAnswers = ['Leonardo da Vinci', 'Van Gogh', 'Cubismo', 'Tarsila do Amaral', 'Frida Kahlo', 'Michelangelo', 'Surrealismo', 'Aleijadinho'];
+        tamanhoCartela = 3;
+    }
+
+    // =========================================================
+    // 2. VARIÁVEIS DE ESTADO E INICIALIZAÇÃO
+    // =========================================================
+
     let currentQuestionIndex = -1;
     let currentAnswer = '';
-    let gameWon = false; // NOVO: Variável para controlar se o jogo já foi ganho.
+    let gameWon = false; 
 
-    const cardAnswers = shuffledQuestions.slice(0, 8).map(q => q.answer);
+    // Adiciona o ESPAÇO LIVRE e mistura as respostas da cartela
     cardAnswers.push('ESPAÇO LIVRE');
     const shuffledCardAnswers = cardAnswers.sort(() => 0.5 - Math.random());
 
-    // NOVO: Array com todas as combinações de vitória (baseado nos índices das células de 0 a 8)
-    const winningCombos = [
-        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Linhas
-        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colunas
-        [0, 4, 8], [2, 4, 6]             // Diagonais
-    ];
-
-    // --- 2. ELEMENTOS DA PÁGINA ---
+    // Elementos do DOM
     const bingoCard = document.getElementById('bingo-card');
     const questionDisplay = document.getElementById('question-display');
     const answerDisplay = document.getElementById('answer-display');
     const drawButton = document.getElementById('draw-question-btn');
     const revealButton = document.getElementById('reveal-answer-btn');
 
-    // --- 3. CRIAR A CARTELA ---
+    // Combinações de vitória dinâmicas baseadas no tamanho da cartela
+    const winningCombos = generateWinningCombos(tamanhoCartela); 
+
+    // =========================================================
+    // 3. FUNÇÕES DINÂMICAS DE CARTELA E VITÓRIA
+    // =========================================================
+
+    /**
+     * Gera os índices das combinações vencedoras (linhas, colunas, diagonais) 
+     * para uma cartela de tamanho N x N.
+     * @param {number} N - O lado da cartela (ex: 3 para 3x3).
+     * @returns {number[][]} Array de arrays contendo índices das células vencedoras.
+     */
+    function generateWinningCombos(N) {
+        const combos = [];
+
+        // 1. Linhas e Colunas
+        for (let i = 0; i < N; i++) {
+            const row = [];
+            const col = [];
+            for (let j = 0; j < N; j++) {
+                row.push(i * N + j); // Linha i (0, 1, 2), (3, 4, 5), ...
+                col.push(j * N + i); // Coluna i (0, 3, 6), (1, 4, 7), ...
+            }
+            combos.push(row);
+            combos.push(col);
+        }
+
+        // 2. Diagonais
+        const diag1 = [];
+        const diag2 = [];
+        for (let i = 0; i < N; i++) {
+            diag1.push(i * N + i);          // Diagonal principal: 0, 4, 8, 12...
+            diag2.push(i * N + (N - 1 - i)); // Diagonal secundária: N-1, 2N-2, 3N-3...
+        }
+        combos.push(diag1);
+        combos.push(diag2);
+
+        return combos;
+    }
+
+    /**
+     * Cria e renderiza a cartela de bingo no DOM.
+     */
     function createCard() {
+        // Define o layout do grid CSS para NxN
+        bingoCard.style.gridTemplateColumns = `repeat(${tamanhoCartela}, 1fr)`;
+        
+        // Limpa a cartela existente
+        bingoCard.innerHTML = ''; 
+
         for (const answerText of shuffledCardAnswers) {
             const cell = document.createElement('div');
             cell.classList.add('bingo-cell');
@@ -48,14 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             cell.addEventListener('click', () => {
-                if (gameWon || answerText === 'ESPAÇO LIVRE') return; // Se o jogo acabou, não faz nada
+                if (gameWon || answerText === 'ESPAÇO LIVRE') return;
 
                 cell.classList.toggle('marked');
 
-                // NOVO: Chama a função de verificação após cada clique
                 if (checkForWin()) {
                     gameWon = true;
-                    // Usamos um pequeno delay para que o jogador veja a última célula ser marcada
+                    // Pequeno delay para a última célula ser marcada visualmente
                     setTimeout(() => {
                         questionDisplay.innerHTML = `<h2 style="color: #D62828;">BINGO! VOCÊ VENCEU!</h2>`;
                         answerDisplay.classList.add('hidden');
@@ -68,26 +144,40 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // NOVO: Função que verifica se há um vencedor
+    /**
+     * Verifica se há alguma linha, coluna ou diagonal completa.
+     * @returns {boolean} True se houver vitória, false caso contrário.
+     */
     function checkForWin() {
-        const allCells = document.querySelectorAll('.bingo-cell');
+        if (gameWon) return true;
         
-        // Itera sobre cada combinação vencedora
+        const allCells = document.querySelectorAll('#bingo-card .bingo-cell');
+        
         for (const combo of winningCombos) {
-            // "every" checa se TODOS os elementos da combinação satisfazem a condição
+            // Checa se TODOS os índices na combinação estão marcados
             const didWin = combo.every(index => {
-                return allCells[index].classList.contains('marked');
+                // Garante que o índice existe e está marcado
+                return allCells[index] && allCells[index].classList.contains('marked');
             });
 
             if (didWin) {
-                return true; // Se encontrou uma combinação completa, retorna verdadeiro
+                // Opcional: Destacar a combinação vencedora
+                combo.forEach(index => {
+                    allCells[index].classList.add('winning-combo');
+                });
+                return true;
             }
         }
-        return false; // Se checou todas e não encontrou, retorna falso
+        return false;
     }
 
-    // --- 4. LÓGICA DO JOGO ---
+    // =========================================================
+    // 4. LÓGICA DE SORTEIO DE PERGUNTAS
+    // =========================================================
+    
     drawButton.addEventListener('click', () => {
+        if (gameWon) return; 
+
         currentQuestionIndex++;
         if (currentQuestionIndex >= shuffledQuestions.length) {
             questionDisplay.innerHTML = '<p>Fim de jogo! Todas as perguntas foram sorteadas.</p>';
@@ -109,6 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
         answerDisplay.classList.remove('hidden');
     });
 
-    // --- INICIALIZAÇÃO ---
+    // =========================================================
+    // 5. INICIALIZAÇÃO
+    // =========================================================
     createCard();
 });

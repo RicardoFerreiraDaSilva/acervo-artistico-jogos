@@ -1,20 +1,21 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bingo de Perguntas - Acervo Artístico</title>
-    <link rel="stylesheet" href="style.css">
+    <title>{{ categoria.nome }} - Bingo de Perguntas</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
     <header>
-        <h1>Acervo Artístico</h1>
+        <h1>{{ categoria.nome }}</h1> 
     </header>
 
     <main class="game-page-main">
         <div class="game-instructions">
-            <h2>Bingo de Perguntas sobre Arte!</h2>
-            <p>Sorteie uma pergunta, encontre a resposta na cartela e marque! Complete uma linha ou coluna para vencer.</p>
+            <h2>Bingo de Perguntas sobre {{ categoria.nome }} ({{ dificuldade.nome }})</h2> 
+            <p>Sorteie uma pergunta, encontre a resposta na cartela e marque! Complete uma linha, coluna ou diagonal para vencer o **Bingo {{ dificuldade.tamanho_cartela }}x{{ dificuldade.tamanho_cartela }}**.</p>
         </div>
 
         <div id="bingo-container">
@@ -24,7 +25,7 @@
                     <p>Clique em "Sortear Pergunta" para começar!</p>
                 </div>
                 <div id="answer-display" class="hidden">
-                    </div>
+                </div>
                 <div class="button-group">
                     <button id="draw-question-btn">Sortear Pergunta</button>
                     <button id="reveal-answer-btn" class="hidden">Ver Resposta</button>
@@ -32,10 +33,10 @@
             </div>
 
             <div id="bingo-card">
-                </div>
+            </div>
         </div>
 
-        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+        <a href="{% url 'selecao_bingo' %}" class="back-button" style="margin-top: 30px;">Voltar à Seleção de Temas</a>
 
     </main>
 
@@ -43,6 +44,16 @@
         <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
     </footer>
 
-    <script src="bingo.js"></script>
+    <script id="shuffled-questions-data" type="application/json">
+        {{ perguntas_sorteio_json | safe }}
+    </script>
+    <script id="card-answers-data" type="application/json">
+        {{ respostas_cartela_json | safe }}
+    </script>
+    <script id="tamanho-cartela-data" type="text/plain">
+        {{ tamanho_cartela }}
+    </script>
+    
+    <script src="{% static 'js/bingo.js' %}"></script>
 </body>
 </html>

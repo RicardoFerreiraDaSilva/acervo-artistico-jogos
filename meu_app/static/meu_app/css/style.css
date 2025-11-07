@@ -731,3 +731,222 @@ footer {
 .back-face img {
     content: url('https://placehold.co/150x200/cccccc/000000?text=UFSM');
 }
+/* style.css */
+
+/* --- Importação das Fontes (Google Fonts) --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
+
+/* --- Variáveis de Cores do Acervo --- */
+:root {
+    --primary-color: #005285;   /* Azul Acervo */
+    --secondary-color: #EE7D00; /* Laranja Acervo */
+    --accent-color: #AE1917;    /* Vermelho Acervo */
+    --background-light: #f4f4f4;
+    --text-dark: #333;
+    --text-light: #fff;
+}
+
+/* --- Estilos Globais e Tipografia --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Stick No Bills', sans-serif;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 20px 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    color: var(--secondary-color); /* Título em Laranja no cabeçalho Azul */
+    margin: 0;
+}
+
+.game-page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+/* --- Área de Perguntas e Botões --- */
+#question-area {
+    background-color: var(--text-light);
+    border: 3px solid var(--primary-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px;
+}
+
+#question-display p {
+    font-size: 1.2em;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#answer-display {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffeccf; /* Cor clara para destacar a resposta */
+    border-radius: 5px;
+}
+
+.button-group button {
+    font-family: 'Roboto', sans-serif;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+#draw-question-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+}
+
+#draw-question-btn:hover:not(:disabled) {
+    background-color: #d86d00;
+}
+
+#reveal-answer-btn {
+    background-color: var(--accent-color);
+    color: var(--text-light);
+}
+
+#reveal-answer-btn:hover:not(:disabled) {
+    background-color: #901614;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* --- Cartela de Bingo (Dynamic Grid) --- */
+#bingo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 700px; 
+}
+
+#bingo-card {
+    display: grid;
+    /* grid-template-columns é definido dinamicamente pelo JS (Ex: repeat(3, 1fr)) */
+    border: 5px solid var(--primary-color);
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Garante que a cartela seja quadrada */
+    max-width: 500px;
+}
+
+.bingo-cell {
+    border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(0.7em, 1.5vw, 1.2em); /* Tamanho de fonte responsivo */
+    font-weight: 700;
+    padding: 5px;
+    cursor: pointer;
+    background-color: var(--text-light);
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+}
+
+.bingo-cell:hover:not(.marked):not(.free-space) {
+    background-color: #e0f0ff;
+}
+
+/* Célula Marcada (Ação Principal) */
+.bingo-cell.marked {
+    background-color: var(--secondary-color); /* Laranja */
+    color: var(--text-dark);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: scale(0.95);
+    border-color: var(--primary-color);
+}
+
+/* Espaço Livre (Central) */
+.bingo-cell.free-space {
+    background-color: var(--primary-color); /* Azul */
+    color: var(--text-light);
+    cursor: default;
+    font-style: italic;
+}
+
+/* Célula Vencedora (Ação Secundária/Destaque) */
+.bingo-cell.winning-combo {
+    background-color: var(--accent-color); /* Vermelho */
+    color: var(--text-light);
+    animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { box-shadow: 0 0 5px var(--accent-color); }
+    to { box-shadow: 0 0 20px var(--accent-color); }
+}
+
+/* --- Rodapé --- */
+footer {
+    margin-top: auto;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.8em;
+}
+
+/* --- Botão Voltar --- */
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 15px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #003a5b;
+}
+
+/* --- Estilos para Telas Pequenas --- */
+@media (max-width: 600px) {
+    header {
+        padding: 15px 20px;
+    }
+
+    .bingo-cell {
+        font-size: 0.75em;
+        padding: 2px;
+    }
+}
