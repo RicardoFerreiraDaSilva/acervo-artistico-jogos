@@ -1,0 +1,47 @@
+{% load static %}
+<div class="selection-container">
+    <h2>Escolha o seu Bingo!</h2>
+    
+    <form id="form-selecao">
+        
+        <div class="form-group">
+            <label for="categoria-select">Tema do Bingo:</label>
+            <select id="categoria-select" name="categoria_slug" required>
+                {% for cat in categorias %}
+                    <option value="{{ cat.slug }}">{{ cat.nome }}</option>
+                {% empty %}
+                    <option value="">Nenhuma Categoria Cadastrada</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="dificuldade-select">Dificuldade / Tamanho da Cartela:</label>
+            <select id="dificuldade-select" name="dificuldade_id" required>
+                {% for dif in dificuldades %}
+                    <option value="{{ dif.id }}">{{ dif.nome }} ({{ dif.tamanho_cartela }}x{{ dif.tamanho_cartela }})</option>
+                {% empty %}
+                    <option value="">Nenhuma Dificuldade Cadastrada</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="start-button">INICIAR JOGO</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('form-selecao').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const categoria = document.getElementById('categoria-select').value;
+        const dificuldade = document.getElementById('dificuldade-select').value;
+        
+        if (categoria && dificuldade) {
+            // CORREÇÃO CRUCIAL: Adicionar o prefixo '/bingo/' à URL
+            window.location.href = `/bingo/jogar/${dificuldade}/${categoria}/`; 
+        } else {
+            alert('Por favor, selecione um tema e uma dificuldade.');
+        }
+    });
+</script>
