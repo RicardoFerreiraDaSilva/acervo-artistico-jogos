@@ -1,47 +1,133 @@
 {% load static %}
-<div class="selection-container">
-    <h2>Escolha o seu Bingo!</h2>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurar Bingo - Acervo Artístico</title>
     
-    <form id="form-selecao">
-        
-        <div class="form-group">
-            <label for="categoria-select">Tema do Bingo:</label>
-            <select id="categoria-select" name="categoria_slug" required>
-                {% for cat in categorias %}
-                    <option value="{{ cat.slug }}">{{ cat.nome }}</option>
-                {% empty %}
-                    <option value="">Nenhuma Categoria Cadastrada</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="dificuldade-select">Dificuldade / Tamanho da Cartela:</label>
-            <select id="dificuldade-select" name="dificuldade_id" required>
-                {% for dif in dificuldades %}
-                    <option value="{{ dif.id }}">{{ dif.nome }} ({{ dif.tamanho_cartela }}x{{ dif.tamanho_cartela }})</option>
-                {% empty %}
-                    <option value="">Nenhuma Dificuldade Cadastrada</option>
-                {% endfor %}
-            </select>
-        </div>
-
-        <button type="submit" class="start-button">INICIAR JOGO</button>
-    </form>
-</div>
-
-<script>
-    document.getElementById('form-selecao').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const categoria = document.getElementById('categoria-select').value;
-        const dificuldade = document.getElementById('dificuldade-select').value;
-        
-        if (categoria && dificuldade) {
-            // CORREÇÃO CRUCIAL: Adicionar o prefixo '/bingo/' à URL
-            window.location.href = `/bingo/jogar/${dificuldade}/${categoria}/`; 
-        } else {
-            alert('Por favor, selecione um tema e uma dificuldade.');
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
+    
+    <style>
+        /* O CSS para a tela de seleção NÃO ESTÁ NO style.css principal, 
+           então ele é mantido aqui para garantir o layout específico. 
+           Se você mover este CSS para o style.css, pode remover esta tag <style>. */
+        .selection-container {
+            background-color: var(--text-light);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            margin-top: 50px;
         }
-    });
-</script>
+
+        .selection-container h2 {
+            color: var(--secondary-color);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Stick No Bills', sans-serif;
+            color: var(--primary-color);
+            font-size: 1.5em;
+            margin-bottom: 5px;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .start-button {
+            width: 100%;
+            font-family: 'Stick No Bills', sans-serif;
+            font-size: 1.5em;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: var(--text-light);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-button:hover {
+            background-color: #901614;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Configuração do Bingo</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="selection-container">
+            <h2>Escolha o seu Bingo!</h2>
+            
+            <form id="form-selecao">
+                
+                {% if mensagem_erro %}
+                    <p style="color: var(--accent-color); font-weight: bold;">{{ mensagem_erro }}</p>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="categoria-select">Tema do Bingo:</label>
+                    <select id="categoria-select" name="categoria_slug" required>
+                        {% for cat in categorias %}
+                            <option value="{{ cat.slug }}">{{ cat.nome }}</option>
+                        {% empty %}
+                            <option value="">Nenhuma Categoria Cadastrada</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="dificuldade-select">Dificuldade / Tamanho da Cartela:</label>
+                    <select id="dificuldade-select" name="dificuldade_id" required>
+                        {% for dif in dificuldades %}
+                            <option value="{{ dif.id }}">{{ dif.nome }} ({{ dif.tamanho_cartela }}x{{ dif.tamanho_cartela }})</option>
+                        {% empty %}
+                            <option value="">Nenhuma Dificuldade Cadastrada</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="start-button">INICIAR JOGO</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - UFSM</p>
+    </footer>
+
+    <script>
+        document.getElementById('form-selecao').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const categoria = document.getElementById('categoria-select').value;
+            const dificuldade = document.getElementById('dificuldade-select').value;
+            
+            if (categoria && dificuldade) {
+                // Monta a URL completa: /bingo/jogar/ID/SLUG/
+                window.location.href = `/bingo/jogar/${dificuldade}/${categoria}/`; 
+            } else {
+                alert('Por favor, selecione um tema e uma dificuldade.');
+            }
+        });
+    </script>
+</body>
+</html>

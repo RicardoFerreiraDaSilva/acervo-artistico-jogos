@@ -11,7 +11,7 @@ from .models import Categoria, Dificuldade, Pergunta
 # --- VIEWS ESTÁTICAS ORIGINAIS ---
 
 def index(request):
-    return render(request, 'meu_app/index.html') # Ajuste o caminho se necessário
+    return render(request, 'meu_app/index.html')
 
 def memoria(request):
     return render(request, 'meu_app/memoria.html')
@@ -34,28 +34,25 @@ def quebra_cabecas(request):
 def caca_palavras(request):
     return render(request, 'meu_app/caca-palavras.html')
 
-# (Removi a view 'bingo' antiga pois ela será substituída pelas dinâmicas abaixo)
-
 
 # --- NOVAS VIEWS DINÂMICAS DE BINGO ---
 
 def selecao_bingo(request):
     """View inicial: Lista categorias e dificuldades para o usuário escolher."""
+    
     categorias = Categoria.objects.all()
     dificuldades = Dificuldade.objects.all()
     
-    if not categorias.exists() or not dificuldades.exists():
-        # Lidar com a falta de dados
-        return render(request, 'meu_app/selecao.html', {
-            'mensagem_erro': "É preciso cadastrar Categorias e Dificuldades no Admin antes de jogar!",
-            'categorias': categorias,
-            'dificuldades': dificuldades
-        })
-        
-    return render(request, 'meu_app/selecao.html', { 
+    context = { 
         'categorias': categorias,
         'dificuldades': dificuldades
-    })
+    }
+    
+    # Adiciona mensagem de erro se faltarem dados no Admin
+    if not categorias.exists() or not dificuldades.exists():
+        context['mensagem_erro'] = "É preciso cadastrar Categorias e Dificuldades no Admin antes de jogar!"
+        
+    return render(request, 'meu_app/selecao_bingo.html', context)
 
 
 def jogar_bingo(request, dificuldade_id, categoria_slug):
@@ -64,27 +61,26 @@ def jogar_bingo(request, dificuldade_id, categoria_slug):
     dificuldade = get_object_or_404(Dificuldade, pk=dificuldade_id)
     categoria = get_object_or_404(Categoria, slug=categoria_slug)
     
+    # Obtém todas as perguntas da categoria
     todas_perguntas = list(Pergunta.objects.filter(categoria=categoria))
 
     tamanho = dificuldade.tamanho_cartela
     num_celulas = tamanho * tamanho
-    
-    # Número de respostas que devem aparecer na cartela (Ex: 8 para 3x3)
+    # Exige N*N - 1 respostas (para a célula livre)
     num_respostas_cartela = num_celulas - 1 
 
     if len(todas_perguntas) < num_respostas_cartela:
         raise Http404(f"A categoria '{categoria.nome}' não tem perguntas suficientes para {tamanho}x{tamanho}.")
 
-    # 1. Seleciona as respostas para a cartela (sem repetição)
+    # 1. Seleciona as perguntas cujas respostas VÃO PREENCHER A CARTELA (subconjunto)
     cartela_perguntas = random.sample(todas_perguntas, num_respostas_cartela)
     
-    # 2. Define as perguntas para o sorteio
-    perguntas_sorteio = [p for p in todas_perguntas if p not in cartela_perguntas]
+    # 2. DEFINE O CONJUNTO DE SORTEIO: Usa todas as perguntas da categoria para o sorteio.
+    perguntas_sorteio = todas_perguntas[:] # Cria uma cópia da lista completa
     random.shuffle(perguntas_sorteio)
 
     # 3. Formata os dados para o JavaScript (JSON)
     respostas_cartela_js = [p.resposta for p in cartela_perguntas]
-    
     perguntas_sorteio_js = [
         {'question': p.pergunta, 'answer': p.resposta} 
         for p in perguntas_sorteio

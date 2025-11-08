@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ categoria.nome }} - Bingo de Perguntas</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
 </head>
 <body>
     <header>
@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <a href="{% url 'selecao_bingo' %}" class="back-button" style="margin-top: 30px;">Voltar à Seleção de Temas</a>
+        <a href="{% url 'bingo_app:selecao_bingo' %}" class="back-button" style="margin-top: 30px;">Voltar à Seleção de Temas</a>
 
     </main>
 
@@ -54,6 +54,6 @@
         {{ tamanho_cartela }}
     </script>
     
-    <script src="{% static 'js/bingo.js' %}"></script>
+    <script src="{% static 'meu_app/js/bingo.js' %}"></script>
 </body>
 </html>
