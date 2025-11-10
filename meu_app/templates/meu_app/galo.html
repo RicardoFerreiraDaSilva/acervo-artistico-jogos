@@ -1,10 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encontre o Galo - Acervo Artístico</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
 
     <style>
         body {
@@ -81,7 +82,7 @@
         <div class="game">
             <!-- Imagem do galo -->
             <div class="panel" id="panel">
-                <img src="imagens/galo.jpg" alt="Encontre o galo">
+                <img src="{% static 'meu_app/imagens/encontreogalo/galo.jpg' %}" alt="Galo">
                 <!-- Hotspots dos erros -->
                 <!-- Basta ajustar left/top em % (coordenadas relativas à imagem) -->
                 <div class="hotspot" data-id="1" style="left: 43.33%; top: 26.02%; width: 40px; height: 40px;"></div>
@@ -122,7 +123,7 @@
             });
         </script>
 
-        <a href="index.html" class="back-button">Voltar ao Início</a>
+        <a href="{% url 'index' %}">Voltar ao Início</a>
 
     </main>
 
