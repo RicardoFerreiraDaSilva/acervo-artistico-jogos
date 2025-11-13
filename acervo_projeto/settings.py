@@ -115,3 +115,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# settings.py (Adicione na seção de Static Files ou crie uma nova seção)
+
+# ========================================
+# ARQUIVOS DE MÍDIA (Uploads do Usuário/Admin)
+# ========================================
+
+# URL pública que o navegador usará para acessar os arquivos de mídia (ex: /media/partes_cabecas/boca1.png)
+MEDIA_URL = '/media/'
+
+# Caminho absoluto para o diretório onde os arquivos serão armazenados localmente
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

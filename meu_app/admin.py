@@ -23,3 +23,24 @@ class DificuldadeAdmin(admin.ModelAdmin):
 # class PerguntaAdmin(admin.ModelAdmin):
 #     list_display = ('resposta', 'categoria')
 #     list_filter = ('categoria',)
+
+from .models import ObraParte, MontagemUsuario
+
+# Registra o modelo ObraParte
+@admin.register(ObraParte)
+class ObraParteAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'tipo_parte', 'artista', 'obra_original')
+    list_filter = ('tipo_parte', 'artista')
+    search_fields = ('nome', 'artista')
+
+# Registra o modelo MontagemUsuario
+@admin.register(MontagemUsuario)
+class MontagemUsuarioAdmin(admin.ModelAdmin):
+    list_display = ('nome_montagem', 'autor', 'data_publicacao', 'aprovada')
+    list_filter = ('aprovada', 'data_publicacao')
+    actions = ['marcar_como_aprovada']
+    
+    # Ação customizada para aprovar montagens rapidamente
+    @admin.action(description='Marcar montagens selecionadas como Aprovada')
+    def marcar_como_aprovada(self, request, queryset):
+        queryset.update(aprovada=True)

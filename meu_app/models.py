@@ -41,3 +41,65 @@ class Pergunta(models.Model):
 
     def __str__(self):
         return f"{self.resposta} ({self.categoria.nome})"
+    
+from django.db import models
+from django.utils import timezone
+
+class ObraParte(models.Model):
+    # Tipos de Partes — Mapeia diretamente para as chaves JS (minusculo)
+    TIPOS_PARTE = [
+        ('CABECA', 'Cabeça/Cabelo'),
+        ('OLHOS', 'Olhos'),
+        ('NARIZ', 'Nariz'),
+        ('BOCA', 'Boca'),
+        ('PAISAGEM','Paisagem') 
+    ]
+    
+    nome = models.CharField(max_length=100)
+    tipo_parte = models.CharField(max_length=10, choices=TIPOS_PARTE)
+    
+    # Informações da Obra Original
+    obra_original = models.CharField(max_length=200)
+    artista = models.CharField(max_length=100)
+    descricao = models.TextField(blank=True, null=True)
+    
+    # Imagem (requer a biblioteca Pillow instalada)
+    imagem = models.ImageField(upload_to='partes_cabecas/') 
+
+    class Meta:
+        verbose_name = "Parte da Obra"
+        verbose_name_plural = "Partes das Obras"
+
+    def __str__(self):
+        return f"{self.nome} ({self.tipo_parte})"
+
+class MontagemUsuario(models.Model):
+    nome_montagem = models.CharField(max_length=100)
+    autor = models.CharField(max_length=100)
+    
+    # Relações com ObraParte para cada segmento da montagem (Obrigatórias)
+    cabeca_ref = models.ForeignKey(ObraParte, on_delete=models.CASCADE, related_name='montagens_cabeca', verbose_name='Cabeça/Base')
+    olhos_ref = models.ForeignKey(ObraParte, on_delete=models.CASCADE, related_name='montagens_olhos', verbose_name='Olhos')
+    nariz_ref = models.ForeignKey(ObraParte, on_delete=models.CASCADE, related_name='montagens_nariz', verbose_name='Nariz')
+    boca_ref = models.ForeignKey(ObraParte, on_delete=models.CASCADE, related_name='montagens_boca', verbose_name='Boca')
+    
+    # CAMPO PAISAGEM MANTIDO
+    paisagem_ref = models.ForeignKey(
+        ObraParte, 
+        on_delete=models.CASCADE, 
+        related_name='montagens_paisagem', 
+        verbose_name='Paisagem',
+        null=True, 
+        blank=True 
+    )
+    
+  
+    data_publicacao = models.DateTimeField(default=timezone.now)
+    aprovada = models.BooleanField(default=False)
+    
+    class Meta:
+        verbose_name = "Montagem do Usuário"
+        verbose_name_plural = "Montagens dos Usuários"
+
+    def __str__(self):
+        return f"Montagem de {self.autor}: {self.nome_montagem}"
