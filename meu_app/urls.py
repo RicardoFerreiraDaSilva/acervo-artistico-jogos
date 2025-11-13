@@ -15,5 +15,8 @@ urlpatterns = [
     # Esta rota processa a seleção e carrega o jogo dinamicamente.
     path('jogar/<int:dificuldade_id>/<slug:categoria_slug>/', views.jogar_bingo, name='jogar_bingo'),
     path('monta-cabecas/', views.monta_cabecas, name='monta_cabecas'),
-    path('', views.home, name='home'),
+    # Rota da Seleção: /caca-palavras/
+    path('caca-palavras/', views.selecao_caca_palavras, name='selecao_caca_palavras'), 
+    # Rota do Jogo (recebe o slug após a seleção)
+    path('caca-palavras/jogar/<slug:tema_slug>/', views.jogar_caca_palavras, name='jogar_caca_palavras'),
 ]

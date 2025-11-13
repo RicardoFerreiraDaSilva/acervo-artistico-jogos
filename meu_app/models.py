@@ -103,3 +103,36 @@ class MontagemUsuario(models.Model):
 
     def __str__(self):
         return f"Montagem de {self.autor}: {self.nome_montagem}"
+    
+class TemaCacaPalavras(models.Model):
+    """Define o tema principal (usado na tela de seleção)."""
+    nome = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    descricao = models.TextField(help_text="Breve descrição do tema para a tela de seleção.")
+
+    def __str__(self):
+        return self.nome
+    
+class PalavraCacaPalavras(models.Model):
+    """Define as palavras a serem procuradas e suas descrições."""
+    tema = models.ForeignKey(TemaCacaPalavras, on_delete=models.CASCADE, related_name='palavras')
+    palavra = models.CharField(max_length=50, help_text="A palavra EXATA a ser procurada na grade (em MAIÚSCULAS).")
+    descricao = models.TextField(help_text="Descrição ou dica sobre a palavra (exibida ao lado da lista).")
+
+    def __str__(self):
+        return f"{self.palavra} ({self.tema.nome})"
+
+# --- NOVO MODELO PARA A GRADE GERADA (Opcional, mas Útil) ---
+class GradeCacaPalavras(models.Model):
+    """
+    Armazena a grade gerada e as palavras, caso você queira salvar grades prontas 
+    ou fazer a geração no Admin. Se a grade for sempre 12x12 e você a preenche 
+    manualmente no código (como no protótipo), você pode pular este modelo.
+    """
+    tema = models.OneToOneField(TemaCacaPalavras, on_delete=models.CASCADE, related_name='grade')
+    tamanho = models.IntegerField(default=12)
+    # JSONField para armazenar a matriz 2D da grade (ex: [["C","P",...], [...]])
+    layout_json = models.JSONField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Grade {self.tamanho}x{self.tamanho} - {self.tema.nome}"

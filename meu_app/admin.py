@@ -44,3 +44,20 @@ class MontagemUsuarioAdmin(admin.ModelAdmin):
     @admin.action(description='Marcar montagens selecionadas como Aprovada')
     def marcar_como_aprovada(self, request, queryset):
         queryset.update(aprovada=True)
+
+from .models import TemaCacaPalavras, PalavraCacaPalavras, GradeCacaPalavras
+# Registro dos modelos de Caça-Palavras
+@admin.register(TemaCacaPalavras)
+class TemaCacaPalavrasAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'slug', 'descricao')
+    prepopulated_fields = {'slug': ('nome',)} # Ajuda a preencher o slug
+
+@admin.register(PalavraCacaPalavras)
+class PalavraCacaPalavrasAdmin(admin.ModelAdmin):
+    list_display = ('palavra', 'tema', 'descricao')
+    list_filter = ('tema',)
+
+@admin.register(GradeCacaPalavras)
+class GradeCacaPalavrasAdmin(admin.ModelAdmin):
+    list_display = ('tema', 'tamanho')
+    # Pode ser necessário adicionar um widget JSON para 'layout_json' se for muito complexo

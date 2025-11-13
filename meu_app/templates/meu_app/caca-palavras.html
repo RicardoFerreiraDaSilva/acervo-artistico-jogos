@@ -2,43 +2,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caça-Palavras de Arte - Acervo Artístico</title>
-    <link rel="stylesheet" href="{% static 'meu_app/caca-palavras/style.css' %}">
+<meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Caça-Palavras de Arte - Acervo Artístico</title>
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap" rel="stylesheet">
+    
+<link rel="stylesheet" href="{% static 'meu_app/css/style_caca_palavras.css' %}">
 </head>
 <body>
-    <header>
-        <h1>Acervo Artístico</h1>
-    </header>
+ <header>
+<h1>Acervo Artístico</h1>
+</header>
 
-    <main class="game-page-main">
-        <div class="game-instructions">
-            <h2>Caça-Palavras sobre Arte</h2>
-            <p>Encontre as palavras escondidas na grade. Elas podem estar na horizontal, vertical ou diagonal. Clique e arraste para selecionar!</p>
-        </div>
+<main class="game-page-main">
+<div class="game-instructions">
+<h2>Caça-Palavras sobre Arte</h2>
+ <p>Encontre as palavras escondidas na grade. Elas podem estar na horizontal, vertical ou diagonal. **Arraste o dedo ou o mouse para selecionar!**</p>
+ </div>
 
-        <div id="word-search-container">
-            <div id="grid-container"></div>
+ <div id="word-search-container">
+<div id="grid-container"></div>
 
-            <div id="word-list-container">
-                <h3>Palavras para Encontrar:</h3>
-                <ul id="word-list">
-                    </ul>
-            </div>
-        </div>
+<div id="word-list-container">
+<h3>Palavras para Encontrar:</h3>
+<ul id="word-list">
+                   </ul>
+                 <div id="word-description" style="margin-top: 20px; padding: 10px; border-left: 3px solid #FF6600; font-size: 0.9em;">
+                     Clique em uma palavra da lista para ver a dica.
+                 </div>
+ </div>
+</div>
 
-        <div id="win-message" class="hidden">
-            <h2>Parabéns! Você encontrou todas as palavras!</h2>
-        </div>
+<div id="win-message" class="hidden">
+ <h2>Parabéns! Você encontrou todas as palavras!</h2>
+</div>
 
-        <a href="index.html" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
-    </main>
+<a href="{% url 'index' %}" class="back-button" style="margin-top: 30px;">Voltar ao Início</a>
+</main>
 
-    <footer>
-        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
-    </footer>
+<footer>
+<p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+</footer>
 
-    <script src="{% static 'meu_app/caca-palavras/caca-palavras.js' %}"></script>
+    <script id="caca-palavras-data" type="application/json">
+    {{ caca_palavras_data_json|safe }} 
+</script>
+<script src="{% static 'meu_app/js/caca-palavras.js' %}"></script>
 </body>
 </html>

@@ -151,3 +151,59 @@ def monta_cabecas(request):
     }
     
     return render(request, 'meu_app/monta-cabecas.html', context)
+import json
+from django.shortcuts import render, get_object_or_404
+from .models import TemaCacaPalavras, PalavraCacaPalavras, GradeCacaPalavras
+# Certifique-se de que os imports das suas outras views e modelos estão no topo
+
+def selecao_caca_palavras(request):
+    """View para a seleção de temas de Caça-Palavras."""
+    temas = TemaCacaPalavras.objects.all()
+    context = {'temas': temas}
+    # TODO: Certifique-se de que o URL de seleção está correto no urls.py
+    return render(request, 'meu_app/selecao_caca_palavras.html', context)
+
+def jogar_caca_palavras(request, tema_slug):
+    """
+    View principal: Carrega dados do tema e grade, consolidando tudo em um único JSON.
+    """
+    tema = get_object_or_404(TemaCacaPalavras, slug=tema_slug)
+    
+    # 1. Obter Palavras e Descrições (Correto)
+    palavras_query = tema.palavras.all()
+    palavras_data = [{
+        'palavra': p.palavra,
+        'descricao': p.descricao
+    } for p in palavras_query]
+    
+    # 2. Obter Grade
+    try:
+        # CORREÇÃO: Acessa o objeto GradeCacaPalavras diretamente sem .get().
+        # O acesso a uma relação OneToOne reversa que não existe levanta GradeCacaPalavras.DoesNotExist.
+        grade = tema.grade 
+        
+        grid_layout = grade.layout_json
+        grid_size = grade.tamanho
+        
+    except GradeCacaPalavras.DoesNotExist:
+        # Caso a grade não exista, usa valores padrão
+        grid_layout = [] 
+        grid_size = 12
+    
+    # 3. CONSOLIDAÇÃO DOS DADOS EM UM ÚNICO OBJETO PYTHON
+    game_data = {
+        'tema_nome': tema.nome,
+        'grid_size': grid_size,
+        'palavras': palavras_data,
+        'layout': grid_layout,
+    }
+    
+    # 4. Serializa o objeto completo
+    caca_palavras_data_json = json.dumps(game_data)
+    
+    context = {
+        'tema': tema,
+        'caca_palavras_data_json': caca_palavras_data_json,
+    }
+    
+    return render(request, 'meu_app/caca-palavras.html', context)

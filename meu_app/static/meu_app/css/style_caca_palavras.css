@@ -1,0 +1,214 @@
+/* style_caca_palavras.css */
+
+/* --- Importação das Fontes (Google Fonts) --- */
+/* É essencial para usar Stick No Bills e Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
+
+/* --- Variáveis de Cores do Acervo (Reutilizadas) --- */
+:root {
+    --primary-color: #005285;  /* Azul Acervo */
+    --secondary-color: #EE7D00; /* Laranja Acervo */
+    --accent-color: #AE1917; /* Vermelho Acervo */
+    --background-light: #f4f4f4;
+    --text-dark: #333;
+    --text-light: #fff;
+    --selection-color: #5ab1ff; /* Azul claro para seleção */
+    --found-color: #28a745;    /* Verde para palavra encontrada */
+}
+
+/* --- Estilos Globais e Tipografia (Mantidos) --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Stick No Bills', sans-serif;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 20px 40px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.game-page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.game-instructions h2 {
+    color: var(--primary-color);
+}
+
+/* --- 1. Container Principal (Grade e Lista) --- */
+#word-search-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 20px;
+}
+
+/* --- 2. Grade de Caça-Palavras --- */
+#grid-container {
+    display: grid;
+    /* grid-template-columns é definido dinamicamente pelo JS (Ex: repeat(12, 1fr)) */
+    
+    /* Configurações visuais da grade */
+    gap: 2px;
+    background-color: var(--primary-color); /* Fundo azul visível no gap */
+    border: 5px solid var(--primary-color);
+    border-radius: 8px;
+    padding: 5px;
+    width: 100%;
+    max-width: 500px; /* Limite visual da grade */
+    aspect-ratio: 1 / 1; /* Garante que a grade é um quadrado */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    touch-action: none; /* Crucial para o funcionamento do Touch Move/Drag */
+}
+
+.grid-cell {
+    background-color: var(--text-light);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(1em, 2.5vw, 1.8em); /* Letra grande e responsiva */
+    font-weight: bold;
+    color: var(--text-dark);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.1s;
+}
+
+/* ESTADOS DA CÉLULA */
+.grid-cell.selecting {
+    background-color: var(--secondary-color); /* Laranja Acervo durante a seleção */
+    color: var(--text-light);
+}
+
+.grid-cell.found {
+    background-color: var(--found-color); /* Verde quando encontrada */
+    color: var(--text-light);
+    font-weight: 700;
+    /* Adiciona um pequeno efeito visual para palavras encontradas */
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3); 
+}
+
+/* --- 3. Lista de Palavras e Descrições --- */
+#word-list-container {
+    background-color: var(--text-light);
+    padding: 20px 30px;
+    border-radius: 8px;
+    border-left: 5px solid var(--secondary-color); /* Borda Laranja Acervo */
+    width: 100%;
+    max-width: 350px;
+    align-self: flex-start;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#word-list-container h3 {
+    margin-top: 0;
+    color: var(--text-dark);
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#word-list {
+    list-style: none;
+    padding: 0;
+    font-size: 1.1em;
+}
+
+#word-list li {
+    margin-bottom: 10px;
+    color: var(--primary-color); /* Azul Acervo */
+    font-weight: bold;
+    cursor: pointer; /* Indica que é clicável para ver a dica */
+    transition: color 0.3s;
+}
+
+#word-list li:hover {
+    color: var(--secondary-color);
+}
+
+#word-list li.found {
+    text-decoration: line-through;
+    color: #999; /* Cinza claro quando encontrada */
+    text-decoration-thickness: 3px;
+    cursor: default;
+}
+
+/* --- 4. Mensagem de Vitória (Reutilizada) --- */
+#win-message {
+    text-align: center;
+    margin-top: 30px;
+    padding: 30px;
+    background-color: #e6ffe6; /* Verde muito claro */
+    color: var(--found-color);
+    border: 2px solid var(--found-color);
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+}
+.hidden {
+    display: none !important;
+}
+
+/* --- 5. Botão Voltar (Reutilizado) --- */
+.back-button {
+    /* ... (Estilos do seu back-button no CSS de base) ... */
+    display: inline-block;
+ margin-top: 20px;
+ padding: 8px 15px;
+ background-color: var(--primary-color);
+ color: var(--text-light);
+ text-decoration: none;
+ border-radius: 5px;
+ transition: background-color 0.3s;
+    font-weight: bold;
+}
+.back-button:hover {
+ background-color: #003a5b;
+}
+
+/* --- 6. Responsividade --- */
+@media (max-width: 800px) {
+    #word-search-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    #grid-container {
+        width: 90vw; /* Ocupa 90% da largura da tela */
+        max-width: 400px;
+    }
+
+    #word-list-container {
+        width: 90vw;
+        max-width: 400px;
+        align-self: center;
+    }
+}
