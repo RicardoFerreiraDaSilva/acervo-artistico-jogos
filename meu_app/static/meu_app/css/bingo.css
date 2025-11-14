@@ -1,0 +1,236 @@
+/* ==================================== */
+/* 0. CARREGAMENTO DAS FONTES (Exemplo - Adicione no HTML) */
+/* É necessário adicionar as tags <link> para as fontes no seu arquivo HTML */
+/*
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
+*/
+/* ==================================== */
+
+/* Variáveis de Cores do Acervo */
+:root {
+    --acervo-azul: #005285;
+    --acervo-laranja: #EE7D00;
+    --acervo-vermelho: #AE1917;
+    --texto-base: #333333;
+}
+
+/* ==================================== */
+/* 1. ESTILOS GERAIS DA PÁGINA DE JOGO */
+/* ==================================== */
+body {
+    font-family: 'Roboto', sans-serif; /* Fonte para o corpo do texto */
+    background-color: #f4f4f9;
+    color: var(--texto-base);
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+/* Fontes dos Títulos */
+h1, h2, h3, h4 {
+    font-family: 'Stick No Bills', sans-serif;
+    font-weight: 700;
+}
+
+header h1 {
+    background-color: var(--acervo-azul);
+    color: white;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+.game-page-main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ==================================== */
+/* 2. BARRA DE STATUS E INSTRUÇÕES */
+/* ==================================== */
+#game-status-bar {
+    border: 2px solid var(--acervo-laranja);
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: var(--acervo-azul);
+    font-weight: bold;
+}
+
+.game-instructions h2 {
+    color: var(--acervo-azul);
+}
+
+/* ==================================== */
+/* 3. ÁREA DA PERGUNTA E BOTÕES */
+/* ==================================== */
+#question-area {
+    background-color: #e6eef4; /* Azul claro para a área */
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+#question-display p {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--acervo-azul);
+}
+
+#answer-display {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px dashed var(--acervo-vermelho);
+    border-radius: 4px;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    transition: background-color 0.3s;
+}
+
+#draw-question-btn {
+    background-color: var(--acervo-laranja);
+    color: white;
+}
+#draw-question-btn:hover:not(:disabled) {
+    background-color: #d16e00; /* Laranja um pouco mais escuro */
+}
+#draw-question-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#reveal-answer-btn {
+    background-color: var(--acervo-vermelho);
+    color: white;
+}
+#reveal-answer-btn:hover {
+    background-color: #8c1412; /* Vermelho um pouco mais escuro */
+}
+
+
+/* ==================================== */
+/* 4. CARTELA DO BINGO (#bingo-card) */
+/* (Solução para 5x5 - GRID Layout) */
+/* ==================================== */
+
+#bingo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#bingo-card {
+    display: grid;
+    /* grid-template-columns é definido pelo JS (Ex: repeat(5, 1fr)) */
+    width: 100%;
+    max-width: 600px;
+    aspect-ratio: 1 / 1;
+    border: 4px solid var(--acervo-azul);
+    border-radius: 10px;
+    gap: 3px; /* Espaçamento entre as células */
+    background-color: var(--acervo-azul);
+}
+
+.bingo-cell {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 3px;
+    transition: background-color 0.2s, transform 0.1s;
+    user-select: none;
+    box-sizing: border-box;
+}
+
+.bingo-cell:hover {
+    background-color: #e6f7ff; /* Azul muito claro ao passar o mouse */
+    transform: scale(1.02);
+}
+
+/* Estado da Célula: Marcada (Resposta Correta Encontrada) */
+.bingo-cell.marked {
+    background-color: var(--acervo-laranja); /* Laranja de acerto */
+    color: white;
+    font-weight: bold;
+    cursor: default;
+    pointer-events: none; 
+}
+
+/* Estado da Célula: Chute Errado */
+.bingo-cell.wrong-guess {
+    background-color: #ffefd5; /* Laranja muito claro para erro */
+    border: 2px solid var(--acervo-vermelho);
+    transform: scale(1.02);
+    cursor: default;
+}
+
+/* Estado da Célula: Resposta Certa Não Encontrada (Revelada) */
+.bingo-cell.missed-answer {
+    background-color: var(--acervo-vermelho);
+    color: white;
+    border: 3px solid #000;
+}
+
+/* ==================================== */
+/* 5. OVERLAY (MODAL) */
+/* ==================================== */
+#overlay {
+    background-color: rgba(0, 82, 133, 0.95); /* Azul do Acervo com transparência */
+}
+
+.modal-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 80%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.main-btn {
+    padding: 15px 30px;
+    font-size: 1.2em;
+    margin-top: 20px;
+    background-color: var(--acervo-laranja);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Stick No Bills', sans-serif;
+}
+.main-btn:hover {
+    background-color: #d16e00;
+}
+
+/* Botão de voltar */
+.back-button {
+    color: var(--acervo-azul);
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid var(--acervo-azul);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.back-button:hover {
+    background-color: var(--acervo-azul);
+    color: white;
+}

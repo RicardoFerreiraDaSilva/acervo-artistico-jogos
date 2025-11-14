@@ -2,11 +2,12 @@
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import Http404
+from django.http import HttpRequest
 import json
 import random
 
 # Importe os modelos do seu aplicativo
-from .models import Categoria, Dificuldade, Pergunta 
+from .models import Categoria, Dificuldade, Pergunta, ObraParte, MontagemUsuario
 
 # --- VIEWS ESTÁTICAS ORIGINAIS ---
 
@@ -96,3 +97,113 @@ def jogar_bingo(request, dificuldade_id, categoria_slug):
 
     # Renderiza o template de jogo (bingo.html)
     return render(request, 'meu_app/bingo.html', context)
+
+def home(request: HttpRequest):
+    """Renderiza a página inicial (index.html)."""
+    return render(request, 'index.html', {})
+
+# meu_app/views.py (APENAS A FUNÇÃO monta_cabecas FOI ALTERADA)
+
+def monta_cabecas(request):
+    """
+    Carrega todas as partes de obras de arte, agrupa-as por tipo
+    e as serializa para JSON para uso no JavaScript. Garante que todas 
+    as chaves esperadas pelo JS existam.
+    """
+    
+    # 1. Inicializa o dicionário com TODAS as chaves esperadas pelo JavaScript.
+    partes_agrupadas = {
+        'cabeca': [],
+        'olhos': [],
+        'nariz': [],
+        'boca': [],
+        'paisagem': []  # <--- CHAVE CRUCIAL ADICIONADA/GARANTIDA
+    }
+    
+    # Busca todas as partes disponíveis no banco
+    todas_partes = ObraParte.objects.all()
+    
+    for parte in todas_partes:
+        # Pega o tipo e garante que é minúsculo (cabeca, olhos, etc.)
+        tipo = parte.tipo_parte.lower() 
+        
+        # 2. Preenche APENAS se a chave for uma das esperadas
+        if tipo in partes_agrupadas: 
+            
+            # Cria um dicionário com os dados necessários para o JS
+            dados_parte = {
+                'id': parte.id,
+                'imagem_url': parte.imagem.url,
+                'obra': parte.obra_original,
+                'artista': parte.artista,
+                'descricao': parte.descricao,
+            }
+            
+            partes_agrupadas[tipo].append(dados_parte)
+        # else: Se houver um 'tipo_parte' não mapeado, ele é ignorado.
+        
+    # 3. Serializar o dicionário Python para uma string JSON
+    partes_montagem_json = json.dumps(partes_agrupadas)
+    
+    # 4. Passar a string JSON para o template
+    context = {
+        'partes_montagem_json': partes_montagem_json
+    }
+    
+    return render(request, 'meu_app/monta-cabecas.html', context)
+import json
+from django.shortcuts import render, get_object_or_404
+from .models import TemaCacaPalavras, PalavraCacaPalavras, GradeCacaPalavras
+# Certifique-se de que os imports das suas outras views e modelos estão no topo
+
+def selecao_caca_palavras(request):
+    """View para a seleção de temas de Caça-Palavras."""
+    temas = TemaCacaPalavras.objects.all()
+    context = {'temas': temas}
+    # TODO: Certifique-se de que o URL de seleção está correto no urls.py
+    return render(request, 'meu_app/selecao_caca_palavras.html', context)
+
+def jogar_caca_palavras(request, tema_slug):
+    """
+    View principal: Carrega dados do tema e grade, consolidando tudo em um único JSON.
+    """
+    tema = get_object_or_404(TemaCacaPalavras, slug=tema_slug)
+    
+    # 1. Obter Palavras e Descrições (Correto)
+    palavras_query = tema.palavras.all()
+    palavras_data = [{
+        'palavra': p.palavra,
+        'descricao': p.descricao
+    } for p in palavras_query]
+    
+    # 2. Obter Grade
+    try:
+        # CORREÇÃO: Acessa o objeto GradeCacaPalavras diretamente sem .get().
+        # O acesso a uma relação OneToOne reversa que não existe levanta GradeCacaPalavras.DoesNotExist.
+        grade = tema.grade 
+        
+        grid_layout = grade.layout_json
+        grid_size = grade.tamanho
+        
+    except GradeCacaPalavras.DoesNotExist:
+        # Caso a grade não exista, usa valores padrão
+        grid_layout = [] 
+        grid_size = 12
+    
+    # 3. CONSOLIDAÇÃO DOS DADOS EM UM ÚNICO OBJETO PYTHON
+    game_data = {
+        'tema_nome': tema.nome,
+        'grid_size': grid_size,
+        'palavras': palavras_data,
+        'layout': grid_layout,
+    }
+    
+    # 4. Serializa o objeto completo
+    caca_palavras_data_json = json.dumps(game_data)
+    
+    context = {
+        'tema': tema,
+        'caca_palavras_data_json': caca_palavras_data_json,
+    }
+    
+    return render(request, 'meu_app/caca-palavras.html', context)

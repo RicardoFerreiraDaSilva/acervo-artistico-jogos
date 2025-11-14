@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Caça-Palavras - Acervo Artístico</title>
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}"> 
+</head>
+<body>
+    <header>
+        <h1>Caça-Palavras</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Escolha um Tema</h2>
+            <p>Selecione o tema para carregar a grade de Caça-Palavras e suas descrições.</p>
+        </div>
+
+        <div class="game-gallery"> 
+            
+            {% for tema in temas %}
+            
+            <a href="{% url 'bingo_app:jogar_caca_palavras' tema_slug=tema.slug %}" 
+               class="game-card" 
+               data-description="{{ tema.descricao }}">
+                
+                <h3 class="game-title">{{ tema.nome }}</h3>
+                
+            </a>
+            
+            {% empty %}
+            <p style="text-align: center; width: 100%;">Nenhum tema de Caça-Palavras cadastrado no momento.</p>
+            {% endfor %}
+            
+        </div>
+        
+        <a href="{% url 'index' %}" class="back-button" style="margin-top: 40px;">Voltar ao Menu Principal</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - UFSM</p>
+    </footer>
+</body>
+</html>

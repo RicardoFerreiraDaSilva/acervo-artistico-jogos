@@ -1,0 +1,274 @@
+/* style_monta_cabecas.css */
+
+/* --- Importação das Fontes (Se necessário) --- */
+/* Se você não estiver usando um CSS principal que já importou as fontes, 
+   adicione o bloco @import aqui. */
+
+/* --- Variáveis de Cores (Reutilizando o padrão UFSM) --- */
+/* Estas variáveis devem ser as mesmas do seu CSS principal, 
+   ou você pode importá-las diretamente se possível. */
+:root {
+    --cor-ufsm-azul: #005A9E;
+    --cor-ufsm-laranja: #FF6600;
+    --cor-ufsm-vermelho: #D62828;
+    --cor-fundo-claro: #f0f0f0;
+    --cor-cinza-escuro: #333;
+    --cor-cinza-medio: #555;
+    --cor-branco: #fff;
+    --cor-sombra-leve: rgba(0,0,0,0.1);
+    --cor-sombra-escura: rgba(0,0,0,0.2);
+    --fonte-principal: Arial, Helvetica, sans-serif;
+}
+
+/* 1. ESTILOS GERAIS DA PÁGINA (Baseados no seu CSS principal) */
+body {
+    font-family: var(--fonte-principal);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--cor-fundo-claro);
+}
+
+header {
+    background-color: var(--cor-ufsm-azul);
+    color: var(--cor-branco);
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px var(--cor-sombra-leve);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+footer {
+    background-color: var(--cor-cinza-escuro);
+    color: var(--cor-branco);
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* 2. LAYOUT PRINCIPAL DO JOGO */
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    padding: 40px;
+    flex-wrap: wrap; /* Para responsividade */
+    flex: 1; /* Ocupa o espaço restante */
+}
+
+/* 3. CANVAS (Área de Montagem) */
+#canvas {
+    width: 500px;
+    height: 500px;
+    border: 8px solid var(--cor-ufsm-azul);
+    border-radius: 10px;
+    position: relative;
+    background-color: var(--cor-branco);
+    box-shadow: 0 10px 20px var(--cor-sombra-escura);
+}
+
+.canvas-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Posições das Camadas (Mantidas do seu código, essencial para o visual) */
+#olhos-layer {
+    width: 50%;
+    height: auto;
+    top: 35%;
+    left: 25%;
+}
+
+#nariz-layer {
+    width: 25%;
+    height: auto;
+    top: 50%;
+    left: 37.5%;
+}
+
+#boca-layer {
+    width: 40%;
+    height: auto;
+    top: 65%;
+    left: 30%;
+}
+
+
+/* 4. CONTROLES E METADADOS */
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 25px; /* Aumentei o gap para melhor separação */
+    width: 300px;
+    min-width: 280px;
+}
+
+#controls h2 {
+    color: var(--cor-ufsm-azul);
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#controls p {
+    text-align: center;
+    margin-top: 5px;
+    color: var(--cor-cinza-medio);
+}
+
+.selector {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    background-color: var(--cor-branco); /* Fundo branco */
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--cor-ufsm-azul); /* Borda Azul UFSM */
+    box-shadow: 0 2px 5px var(--cor-sombra-leve);
+}
+
+.selector span {
+    text-align: center;
+    font-weight: bold;
+    color: var(--cor-cinza-escuro);
+}
+
+.selector button {
+    background-color: var(--cor-ufsm-laranja);
+    color: var(--cor-branco);
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+    transition: background-color 0.2s;
+}
+
+.selector button:hover {
+    background-color: #d85c00; /* Laranja mais escuro no hover */
+}
+
+/* Área de Metadados (Novidade) */
+#info-display {
+    background-color: #f9f9f9;
+    border-left: 5px solid var(--cor-ufsm-laranja);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px var(--cor-sombra-leve);
+}
+
+#info-display h3 {
+    color: var(--cor-cinza-escuro);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+    margin-top: 0;
+}
+
+.part-info {
+    margin-bottom: 10px;
+    line-height: 1.3;
+    font-size: 0.9em;
+    color: var(--cor-cinza-medio);
+}
+
+.part-info strong {
+    color: var(--cor-ufsm-azul);
+    display: block;
+}
+
+/* Modo Aleatório (Dado) */
+.random-mode {
+    margin-top: 20px;
+    border-top: 2px solid #ccc; /* Linha divisória simples */
+    padding-top: 20px;
+}
+
+#roll-dice {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: var(--cor-ufsm-vermelho);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+#roll-dice:hover {
+    transform: scale(1.02);
+    background-color: #b02323; /* Vermelho mais escuro */
+}
+
+/* Botão de Publicação (Novidade) */
+#save-montage-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    background-color: var(--cor-ufsm-azul);
+    color: var(--cor-branco);
+    border: 2px solid var(--cor-ufsm-azul);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    margin-top: 10px;
+}
+
+#save-montage-btn:hover {
+    background-color: #004583;
+    transform: scale(1.02);
+}
+
+/* Botão Voltar */
+.back-button {
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+    background-color: var(--cor-cinza-medio);
+    color: var(--cor-branco);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    font-weight: bold;
+}
+
+.back-button:hover {
+    background-color: #444;
+}
+
+
+/* 5. RESPONSIVIDADE */
+@media (max-width: 850px) {
+    #game-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding: 20px;
+    }
+
+    #canvas {
+        width: 90vw; /* Ajusta a largura do canvas para telas menores */
+        height: 90vw;
+        max-width: 400px;
+        max-height: 400px;
+    }
+
+    #controls {
+        width: 90vw;
+        max-width: 400px;
+    }
+}
