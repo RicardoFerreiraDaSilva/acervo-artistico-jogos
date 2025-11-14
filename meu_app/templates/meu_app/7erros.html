@@ -1,239 +1,359 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogos - Jogo dos 10 Erros</title>
-    <style>
-        /* === ESTILOS GLOBAIS === */
-        :root {
-            --cor-ufsm-azul: #004d80;
-            --cor-ufsm-vermelho: #cc0000;
-            --cor-cinza-claro: #f4f4f4;
-            --cor-cinza-medio: #666;
-            --cor-cinza-escuro: #333;
-            --cor-branco: #fff;
-            --cor-sombra-media: rgba(0, 0, 0, 0.2);
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Jogos - Jogo dos 10 Erros (com Mural)</title>
+  <style>
+    :root{
+      --cor-ufsm-azul: #004d80;
+      --cor-ufsm-vermelho: #cc0000;
+      --cor-cinza-claro: #f4f4f4;
+      --cor-cinza-medio: #666;
+      --cor-cinza-escuro: #333;
+      --cor-branco: #fff;
+      --cor-sombra-media: rgba(0,0,0,0.2);
+    }
+    *{box-sizing:border-box}
+    body{
+      font-family: Arial, sans-serif;
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      background:var(--cor-cinza-claro);
+      color:var(--cor-cinza-escuro);
+    }
+    header{
+      background:var(--cor-ufsm-azul);
+      color:var(--cor-branco);
+      text-align:center;
+      padding:18px 10px;
+    }
+    main { flex:1; padding:20px; }
+    footer{
+      background:var(--cor-cinza-escuro);
+      color:var(--cor-branco);
+      text-align:center;
+      padding:12px 10px;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: var(--cor-cinza-claro);
-            color: var(--cor-cinza-escuro);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+    h1,h2{margin:0 0 12px 0}
+    p{margin:0 0 10px 0}
 
-        header {
-            background-color: var(--cor-ufsm-azul);
-            color: var(--cor-branco);
-            text-align: center;
-            padding: 20px 0;
-            width: 100%;
-        }
+    /* ===== MURAL ===== */
+    #tela-mural{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+    .mural-grid{
+      display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1200px;
+    }
+    .thumb {
+      width:200px; height:130px; overflow:hidden; border-radius:8px; cursor:pointer;
+      border:4px solid transparent; box-shadow:0 6px 14px var(--cor-sombra-media);
+      transition:transform .15s, border-color .15s, box-shadow .15s;
+      display:flex; align-items:center; justify-content:center;
+      background:#fff;
+    }
+    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .thumb:hover{ transform:translateY(-4px); box-shadow:0 10px 20px rgba(0,0,0,.25) }
+    .thumb.selected{ border-color:var(--cor-ufsm-azul); transform:scale(1.03); }
 
-        main {
-            flex: 1;
-        }
+    .mural-actions{ display:flex; gap:12px; align-items:center; }
+    .btn{
+      padding:10px 16px; border-radius:6px; border:0; cursor:pointer; font-weight:600;
+    }
+    .btn-primary{ background:var(--cor-ufsm-azul); color:var(--cor-branco); }
+    .btn-secondary{ background:#e0e0e0; color:#111; }
 
-        footer {
-            background-color: var(--cor-cinza-escuro);
-            color: var(--cor-branco);
-            text-align: center;
-            padding: 15px 0;
-            width: 100%;
-            margin-top: auto;
-        }
+    /* ===== TELA DO JOGO ===== */
+    #tela-jogo{ display:none; flex-direction:column; align-items:center; gap:12px; }
+    .game-row{ display:flex; flex-direction:column; gap:16px; width:100%; align-items:center; }
+    .game{
+      display:flex; flex-wrap:wrap; gap:20px; justify-content:center; width:100%;
+    }
+    .panel{
+      position:relative; width:100%; max-width:760px; border:2px solid var(--cor-cinza-escuro);
+      background:#fff; box-shadow:0 6px 12px var(--cor-sombra-media);
+    }
+    .panel img{ display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; }
 
-        /* === ESTILOS ESPECÍFICOS PARA O JOGO DOS 10 ERROS === */
-        .game-page-main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
-        }
+    /* hotspots relativos usando % => encaixam com a imagem */
+    .hotspot{
+      position:absolute;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      cursor:pointer;
+      z-index:12;
+      /* invisível por padrão */
+    }
+    .hotspot.found::after{
+      content:"";
+      position:absolute;
+      left:50%; top:50%;
+      width:48px; height:48px;
+      transform:translate(-50%,-50%);
+      border:4px solid var(--cor-ufsm-vermelho);
+      border-radius:50%;
+      animation:pop .32s ease-out;
+      box-shadow:0 4px 8px rgba(0,0,0,.14);
+    }
+    @keyframes pop{
+      from{ transform:translate(-50%,-50%) scale(.3); opacity:0 }
+      to{ transform:translate(-50%,-50%) scale(1); opacity:1 }
+    }
 
-        .game-instructions {
-            text-align: center;
-            max-width: 800px;
-            margin-bottom: 25px;
-        }
+    .controls-row{ display:flex; gap:8px; align-items:center; }
+    .status{ font-size:1.25rem; font-weight:700; color:var(--cor-ufsm-azul) }
 
-        .game-instructions h2 {
-            color: var(--cor-ufsm-azul);
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .game-instructions p {
-            font-size: 1.2em;
-            color: var(--cor-cinza-medio);
-            line-height: 1.6;
-        }
-
-        /* Container que agrupa as duas imagens lado a lado */
-        .game {
-            display: flex;
-            flex-wrap: wrap; 
-            justify-content: center;
-            gap: 20px;
-        }
-
-        /* Estilo para os painéis das imagens */
-        .panel {
-            position: relative;
-            width: 100%; /* Inicia com 100% para telas pequenas */
-            max-width: 750px; /* Limita o tamanho em telas grandes */
-            height: auto;
-            border: 2px solid var(--cor-cinza-escuro);
-            box-shadow: 0 4px 8px var(--cor-sombra-media);
-        }
-
-        .panel img {
-            display: block;
-            width: 100%;
-            height: auto;
-        }
-
-        /* Hotspots invisíveis */
-        .hotspot {
-            position: absolute;
-            border-radius: 50%;
-            cursor: pointer;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-        }
-        
-        /* Círculo de acerto */
-        .hotspot.found::after {
-            content: "";
-            position: absolute;
-            left: 50%; top: 50%;
-            width: 40px; height: 40px;
-            transform: translate(-50%, -50%);
-            border: 3px solid var(--cor-ufsm-vermelho);
-            border-radius: 50%;
-            animation: pop 0.3s ease-out;
-        }
-
-        @keyframes pop {
-            0% { transform: translate(-50%, -50%) scale(0.3); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-        }
-
-        /* Barra de status e botão de voltar */
-        .status {
-            margin-top: 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            color: var(--cor-ufsm-azul);
-            text-align: center;
-        }
-
-        .status span {
-            color: var(--cor-ufsm-vermelho);
-        }
-
-        .back-button {
-            margin-top: 20px;
-            padding: 12px 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            color: var(--cor-branco);
-            background-color: var(--cor-cinza-medio);
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: transform 0.2s;
-            display: inline-block;
-        }
-
-        .back-button:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Media queries para responsividade */
-        @media (min-width: 1200px) {
-            .game {
-                flex-wrap: nowrap;
-            }
-
-            .panel {
-                width: 750px;
-            }
-        }
-    </style>
+    /* responsividade */
+    @media(min-width:1200px){
+      .game{ flex-wrap:nowrap; }
+      .panel{ width:760px; }
+      .thumb{ width:220px; height:140px; }
+    }
+  </style>
 </head>
 <body>
+  <header><h1>Acervo Artístico</h1></header>
 
-    <header>
-        <h1>Acervo Artístico</h1>
-    </header>
+  <main>
+    <!-- TELA DO MURAL -->
+    <section id="tela-mural">
+      <div style="text-align:center; max-width:980px; margin:0 auto;">
+        <h2>Escolha um desafio</h2>
+        <p>Selecione uma miniatura e clique em "Jogar" para começar. Você deve encontrar as 10 diferenças.</p>
+      </div>
 
-    <main class="game-page-main">
-        <div class="game-instructions">
-            <h2>Jogo dos 10 Erros</h2>
-            <p>Encontre as 10 diferenças entre as duas imagens. Clique na imagem da direita para marcar os erros.</p>
+      <div class="mural-grid" id="muralGrid">
+        <!-- miniaturas geradas dinamicamente -->
+      </div>
+
+      <div class="mural-actions">
+        <button class="btn btn-primary" id="btnPlay">Jogar</button>
+        <button class="btn btn-secondary" id="btnHome">Início</button>
+      </div>
+    </section>
+
+    <!-- TELA DO JOGO -->
+    <section id="tela-jogo">
+      <div style="width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center;">
+        <div class="controls-row">
+          <button class="btn btn-secondary" id="btnBack">← Voltar</button>
+          <button class="btn btn-secondary" id="btnHomeGame">Início</button>
         </div>
+        <div class="status">Erros encontrados: <span id="foundCount">0</span>/10</div>
+      </div>
 
-        <div class="game">
-            <div class="panel">
-                <img src="imagens/7erros.jpg" alt="Original">
-            </div>
+      <div class="game-row">
+        <div class="game" id="gameArea">
+          <div class="panel" id="panel-left">
+            <img id="img-left" src="" alt="Imagem original">
+          </div>
 
-            <div class="panel" id="panel-right">
-                <img src="imagens/10_erros_pessoas.JPG" alt="Com diferenças">
-                <div class="hotspot" data-id="1" style="left: 48.91%; top: 12.11%; width: 55px; height: 55px;"></div>
-                <div class="hotspot" data-id="2" style="left: 68.16%; top: 27.48%; width: 60px; height: 60px;"></div>
-                <div class="hotspot" data-id="3" style="left: 93.80%; top: 33.20%; width: 30px; height: 30px;"></div>
-                <div class="hotspot" data-id="4" style="left: 92.16%; top: 50.20%; width: 40px; height: 40px;"></div>
-                <div class="hotspot" data-id="5" style="left: 29.66%; top: 15.24%; width: 40px; height: 40px;"></div>
-                <div class="hotspot" data-id="6" style="left: 9.62%; top: 77.01%; width: 40px; height: 40px;"></div>
-                <div class="hotspot" data-id="7" style="left: 12.99%; top: 39.05%; width: 40px; height: 40px;"></div>
-                <div class="hotspot" data-id="8" style="left: 44.17%; top: 30.61%; width: 30px; height: 30px;"></div>
-                <div class="hotspot" data-id="9" style="left: 14.11%; top: 92.11%; width: 40px; height: 40px;"></div>
-                <div class="hotspot" data-id="10" style="left: 20.76%; top: 89.52%; width: 40px; height: 40px;"></div>
-            </div>
+          <div class="panel" id="panel-right">
+            <img id="img-right" src="" alt="Imagem com diferenças">
+            <!-- hotspots gerados dinamicamente -->
+          </div>
         </div>
+      </div>
+    </section>
+  </main>
 
-        <div class="status">
-            Erros encontrados: <span id="found">0</span>/10
-        </div>
+  <footer><p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p></footer>
 
-        <a href="index.html" class="back-button">Voltar para a página inicial</a>
-    </main>
+  <script>
+    /* === Configuração dos puzzles (substitua/adicione conforme necessário) ===
+       Cada item possui:
+         id: identificador
+         title: título exibido (opcional)
+         thumb: miniatura mostrada no mural
+         left: imagem original (esq)
+         right: imagem com diferenças (dir)
+         hotspots: array de { id, leftPercent, topPercent, widthPx, heightPx }
+       left/top em percentuais (0-100) para escala with resizing.
+    */
+    const GAMES = [
+      {
+        id: 'pessoas',
+        title: 'Pessoas - 10 Erros',
+        thumb: 'imagens/7erros.jpg',
+        left: 'imagens/7erros.jpg',
+        right: 'imagens/10_erros_pessoas.JPG',
+        hotspots: [
+          { id: 1, left: 48.91, top: 12.11, w: 55, h: 55 },
+          { id: 2, left: 68.16, top: 27.48, w: 60, h: 60 },
+          { id: 3, left: 93.80, top: 33.20, w: 30, h: 30 },
+          { id: 4, left: 92.16, top: 50.20, w: 40, h: 40 },
+          { id: 5, left: 29.66, top: 15.24, w: 40, h: 40 },
+          { id: 6, left: 9.62, top: 77.01, w: 40, h: 40 },
+          { id: 7, left: 12.99, top: 39.05, w: 40, h: 40 },
+          { id: 8, left: 44.17, top: 30.61, w: 30, h: 30 },
+          { id: 9, left: 14.11, top: 92.11, w: 40, h: 40 },
+          { id: 10,left: 20.76, top: 89.52, w: 40, h: 40 }
+        ]
+      },
+      {
+        id: 'Trevisan',
+        title: 'Trevisan - 10 Erros',
+        thumb: 'imagens/Trevisan_original.jpg',
+        left: 'imagens/Trevisan_original.jpg',
+        right: 'imagens/Trevisan_modificada.jpg',
+        hotspots: [
+          { id:1, left:15, top:20, w:45, h:45 },
+          { id:2, left:30, top:40, w:45, h:45 },
+          { id:3, left:60, top:25, w:45, h:45 },
+          { id:4, left:80, top:55, w:45, h:45 },
+          { id:5, left:22, top:77, w:45, h:45 },
+          { id:6, left:42, top:60, w:45, h:45 },
+          { id:7, left:67, top:78, w:45, h:45 },
+          { id:8, left:52, top:34, w:45, h:45 },
+          { id:9, left:9, top:50, w:45, h:45 },
+          { id:10,left:90, top:18, w:45, h:45 }
+        ]
+      }
+    ];
 
-    <footer>
-        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
-    </footer>
+    // Elementos DOM
+    const muralGrid = document.getElementById('muralGrid');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnHome = document.getElementById('btnHome');
+    const telaMural = document.getElementById('tela-mural');
+    const telaJogo = document.getElementById('tela-jogo');
+    const btnBack = document.getElementById('btnBack');
+    const btnHomeGame = document.getElementById('btnHomeGame');
+    const imgLeft = document.getElementById('img-left');
+    const imgRight = document.getElementById('img-right');
+    const panelRight = document.getElementById('panel-right');
+    const foundCountEl = document.getElementById('foundCount');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const hotspots = document.querySelectorAll('#panel-right .hotspot');
-            const foundDisplay = document.getElementById('found');
-            let foundCount = 0;
+    let selectedGameId = null;
+    let foundCount = 0;
 
-            hotspots.forEach(h => {
-                h.addEventListener('click', () => {
-                    if (!h.classList.contains('found')) {
-                        h.classList.add('found');
-                        foundCount++;
-                        foundDisplay.textContent = foundCount;
-
-                        if (foundCount === hotspots.length) {
-                            setTimeout(() => alert("Parabéns! Você encontrou todos os erros!"), 200);
-                        }
-                    }
-                });
-            });
+    // Cria miniaturas no mural
+    function renderMural(){
+      muralGrid.innerHTML = '';
+      GAMES.forEach(game => {
+        const t = document.createElement('div');
+        t.className = 'thumb';
+        t.dataset.gameId = game.id;
+        t.title = game.title || '';
+        const img = document.createElement('img');
+        img.src = game.thumb;
+        img.alt = game.title || game.id;
+        t.appendChild(img);
+        t.addEventListener('click', () => {
+          document.querySelectorAll('.thumb').forEach(x => x.classList.remove('selected'));
+          t.classList.add('selected');
+          selectedGameId = game.id;
         });
-    </script>
+        muralGrid.appendChild(t);
+      });
+
+      // seleciona o primeiro por padrão
+      const first = muralGrid.querySelector('.thumb');
+      if(first){
+        first.classList.add('selected');
+        selectedGameId = first.dataset.gameId;
+      }
+    }
+
+    // Inicia o jogo com o puzzle selecionado
+    function startGame(){
+      const game = GAMES.find(g => g.id === selectedGameId);
+      if(!game) { alert('Selecione um desafio do mural.'); return; }
+
+      // muda telas
+      telaMural.style.display = 'none';
+      telaJogo.style.display = 'flex';
+
+      // configura imagens
+      imgLeft.src = game.left;
+      imgRight.src = game.right;
+
+      // limpa hotspots antigos
+      clearHotspots();
+      foundCount = 0;
+      updateFoundCount();
+
+      // cria hotspots dinamicamente
+      // colocamos os elementos quando a imagem direita já carregou (para garantir tamanhos)
+      if (imgRight.complete) {
+        createHotspots(game.hotspots);
+      } else {
+        imgRight.onload = () => createHotspots(game.hotspots);
+      }
+    }
+
+    // Cria fotos hotspots na div panelRight
+    function createHotspots(hotspots){
+      // garante que não haja leftovers
+      clearHotspots();
+
+      hotspots.forEach(h => {
+        const el = document.createElement('div');
+        el.className = 'hotspot';
+        el.dataset.id = h.id;
+        // posiciona usando percentuais + tamanho absoluto (w,h em px)
+        el.style.left = h.left + '%';
+        el.style.top = h.top + '%';
+        el.style.width = (h.w || 40) + 'px';
+        el.style.height = (h.h || 40) + 'px';
+        // botão acessível - ainda invisível, click detecta
+        el.title = 'Marcar erro #' + h.id;
+
+        el.addEventListener('click', (ev) => {
+          // evitar múltiplos cliques no mesmo hotspot
+          if (el.classList.contains('found')) return;
+          el.classList.add('found');
+          foundCount++;
+          updateFoundCount();
+
+          // se encontrou todos, dar parabéns
+          if(foundCount >= hotspots.length){
+            setTimeout(()=> alert('Parabéns! Você encontrou todos os erros!'), 150);
+          }
+        });
+
+        panelRight.appendChild(el);
+      });
+    }
+
+    function clearHotspots(){
+      // remove apenas os elementos .hotspot dentro do panelRight
+      panelRight.querySelectorAll('.hotspot').forEach(n => n.remove());
+    }
+
+    function updateFoundCount(){
+      foundCountEl.textContent = foundCount;
+    }
+
+    // Voltar para mural
+    function backToMural(){
+      // limpar jogo
+      clearHotspots();
+      imgLeft.src = '';
+      imgRight.src = '';
+      foundCount = 0;
+      updateFoundCount();
+
+      telaJogo.style.display = 'none';
+      telaMural.style.display = 'flex';
+    }
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMural();
+
+      // eventos botões
+      btnPlay.addEventListener('click', startGame);
+      btnHome.addEventListener('click', ()=> window.location.href = 'index.html');
+      btnBack.addEventListener('click', backToMural);
+      btnHomeGame.addEventListener('click', ()=> window.location.href = 'index.html');
+
+      // tecla Esc também volta ao mural se estiver no jogo
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && telaJogo.style.display === 'flex') backToMural();
+      });
+    });
+  </script>
 </body>
 </html>
