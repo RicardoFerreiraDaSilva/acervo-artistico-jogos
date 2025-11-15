@@ -85,6 +85,7 @@ header h1 {
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 1; /* Garante que o tabuleiro seja visualmente coeso */
+    height: 500px;
 }
 
 /* --- 3. Estilo da Carta (memory-card) --- */
@@ -98,6 +99,7 @@ header h1 {
     /* Permite o efeito 3D de virar */
     transform-style: preserve-3d;
     transition: transform 0.6s;
+    box-sizing: border-box;
 }
 
 /* Container interno que faz a rotação */

@@ -236,12 +236,20 @@ def selecao_memoria(request):
 # -------------------------------------------------------------
 # 2. VIEW DO JOGO (Lógica Central - CORRIGIDA)
 # -------------------------------------------------------------
+import random
+import json
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+# Assumindo que você importou seus modelos corretamente
+
 def jogar_memoria(request, tema_slug, dificuldade_id):
     """
     Carrega os dados do tema e da dificuldade, e prepara o array de cartas 
     (duplicado e embaralhado) para o JavaScript.
     """
     # 1. Recuperar Tema e Dificuldade
+    # Certifique-se de importar seus modelos TemaMemoria e DificuldadeMemoria
     tema = get_object_or_404(TemaMemoria, slug=tema_slug)
     dificuldade = get_object_or_404(DificuldadeMemoria, pk=dificuldade_id)
     
@@ -250,9 +258,10 @@ def jogar_memoria(request, tema_slug, dificuldade_id):
     pares_necessarios = total_slots // 2
 
     # 3. Selecionar Cartas (Pares)
+    # Certifique-se de importar o modelo CartaMemoria
     cartas_disponiveis = CartaMemoria.objects.filter(tema=tema).order_by('?')
     
-    # Validação de Segurança
+    # Validação de Segurança (Se não houver pares suficientes)
     if cartas_disponiveis.count() < pares_necessarios:
         print("Erro: O tema não tem pares suficientes para esta dificuldade!")
         # Assumindo que 'bingo_app:selecao_memoria' é o nome da rota de seleção
@@ -265,23 +274,20 @@ def jogar_memoria(request, tema_slug, dificuldade_id):
     
     for carta_par in cartas_selecionadas:
         
-        # === CORREÇÃO DE URL CRUCIAL: Adiciona guardrails contra None ===
-        # Se o campo ImageField estiver vazio/nulo, .url falha. Verificamos e usamos ''
+        # O guardrail agora verifica apenas a FRENTE, pois o VERSO é estático.
         frente_url = carta_par.imagem.url if carta_par.imagem else ''
-        verso_url = carta_par.verso_padrao.url if carta_par.verso_padrao else ''
-        # ===============================================================
         
-        # Se alguma URL estiver vazia, pulamos o par (idealmente não deveria acontecer)
-        if not frente_url or not verso_url:
-            print(f"Aviso: Par '{carta_par.par_id}' pulado devido à URL vazia.")
+        # Se a URL da FRENTE estiver vazia, pulamos o par
+        if not frente_url:
+            print(f"Aviso: Par '{carta_par.par_id}' pulado devido à URL da frente vazia.")
             continue
             
         # 4a. Informação Básica do Par
         par_data = {
             'par_id': carta_par.par_id,
             'frente_url': frente_url,
-            'verso_url': verso_url,
             'informacao_acerto': carta_par.informacao_acerto,
+            # MUDANÇA: 'verso_url' NÃO é mais enviado no JSON
         }
         
         # 4b. Duplicação: Cria 2 instâncias do mesmo par
@@ -297,7 +303,8 @@ def jogar_memoria(request, tema_slug, dificuldade_id):
         'dificuldade': dificuldade,
         'num_colunas': dificuldade.num_colunas,
         'num_linhas': dificuldade.num_linhas,
-        # A lista de cartas no formato JSON deve ser passada para o template
+        
+        # Serialização: Garantir que o JS receba a lista de dados
         'cartas_json': json.dumps(cartas_para_js),
     }
     

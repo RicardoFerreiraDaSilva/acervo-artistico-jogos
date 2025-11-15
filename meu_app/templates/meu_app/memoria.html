@@ -14,16 +14,16 @@
 </header>
 
 <main class="game-page-main">
- <div class="game-instructions">
- <h2>Tema: {{ tema.nome }}</h2>
- <p>Tamanho do Tabuleiro: {{ dificuldade.num_linhas }}x{{ dificuldade.num_colunas }}</p>
+<div class="game-instructions">
+<h2>Tema: {{ tema.nome }}</h2>
+<p>Tamanho do Tabuleiro: {{ dificuldade.num_linhas }}x{{ dificuldade.num_colunas }}</p>
 <p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
 </div>
 
 <div class="game-info">
 <p>Tentativas: <span id="tries-counter">0</span></p>
 </div>
- 
+
 <div class="memory-game" id="memory-game-board"></div>
 
 <div id="win-message" class="hidden">
@@ -38,12 +38,18 @@
 <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
 </footer>
 
- <script id="memory-game-data" type="application/json">
- {
- "cards_data": {{ cartas_json|safe }},
- "num_linhas": {{ num_linhas|safe }},  "num_colunas": {{ num_colunas|safe }}  }
+<script id="memory-game-data" type="application/json">
+{
+"cards_data": {{ cartas_json|safe }},
+"num_linhas": {{ num_linhas|safe }},
+"num_colunas": {{ num_colunas|safe }}
+}
 </script>
- 
+
+<script id="verso-url-data" type="text/plain">
+    {% static 'meu_app/imagens/jogo_memoria/inverso.png' %}
+</script>
+
 <script src="{% static 'meu_app/js/memoria.js' %}"></script>
 </body>
 </html>
