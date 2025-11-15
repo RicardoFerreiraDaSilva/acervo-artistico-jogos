@@ -207,3 +207,98 @@ def jogar_caca_palavras(request, tema_slug):
     }
     
     return render(request, 'meu_app/caca-palavras.html', context)
+import random
+import json # Garanta que json está importado
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import TemaMemoria, DificuldadeMemoria, CartaMemoria 
+
+# -------------------------------------------------------------
+# 1. VIEW DE SELEÇÃO DE TEMA E DIFICULDADE (Menu)
+# ... (manter esta view inalterada)
+# -------------------------------------------------------------
+def selecao_memoria(request):
+    """
+    Exibe a lista de Temas e Dificuldades para o Jogo da Memória.
+    """
+    temas = TemaMemoria.objects.all()
+    dificuldades = DificuldadeMemoria.objects.all()
+    
+    context = {
+        'temas': temas,
+        'dificuldades': dificuldades,
+        'jogo_selecionado': 'Memória'
+    }
+    return render(request, 'meu_app/selecao_memoria.html', context)
+
+
+# -------------------------------------------------------------
+# 2. VIEW DO JOGO (Lógica Central - CORRIGIDA)
+# -------------------------------------------------------------
+def jogar_memoria(request, tema_slug, dificuldade_id):
+    """
+    Carrega os dados do tema e da dificuldade, e prepara o array de cartas 
+    (duplicado e embaralhado) para o JavaScript.
+    """
+    # 1. Recuperar Tema e Dificuldade
+    tema = get_object_or_404(TemaMemoria, slug=tema_slug)
+    dificuldade = get_object_or_404(DificuldadeMemoria, pk=dificuldade_id)
+    
+    # 2. Calcular Parâmetros do Jogo
+    total_slots = dificuldade.total_slots()
+    pares_necessarios = total_slots // 2
+
+    # 3. Selecionar Cartas (Pares)
+    cartas_disponiveis = CartaMemoria.objects.filter(tema=tema).order_by('?')
+    
+    # Validação de Segurança
+    if cartas_disponiveis.count() < pares_necessarios:
+        print("Erro: O tema não tem pares suficientes para esta dificuldade!")
+        # Assumindo que 'bingo_app:selecao_memoria' é o nome da rota de seleção
+        return HttpResponseRedirect(reverse('bingo_app:selecao_memoria')) 
+
+    cartas_selecionadas = list(cartas_disponiveis[:pares_necessarios])
+
+    # 4. Duplicar e Preparar Dados para o JavaScript
+    cartas_para_js = []
+    
+    for carta_par in cartas_selecionadas:
+        
+        # === CORREÇÃO DE URL CRUCIAL: Adiciona guardrails contra None ===
+        # Se o campo ImageField estiver vazio/nulo, .url falha. Verificamos e usamos ''
+        frente_url = carta_par.imagem.url if carta_par.imagem else ''
+        verso_url = carta_par.verso_padrao.url if carta_par.verso_padrao else ''
+        # ===============================================================
+        
+        # Se alguma URL estiver vazia, pulamos o par (idealmente não deveria acontecer)
+        if not frente_url or not verso_url:
+            print(f"Aviso: Par '{carta_par.par_id}' pulado devido à URL vazia.")
+            continue
+            
+        # 4a. Informação Básica do Par
+        par_data = {
+            'par_id': carta_par.par_id,
+            'frente_url': frente_url,
+            'verso_url': verso_url,
+            'informacao_acerto': carta_par.informacao_acerto,
+        }
+        
+        # 4b. Duplicação: Cria 2 instâncias do mesmo par
+        cartas_para_js.append(par_data.copy())
+        cartas_para_js.append(par_data.copy())
+        
+    # 5. Embaralhar
+    random.shuffle(cartas_para_js)
+
+    # 6. Contexto e Renderização
+    context = {
+        'tema': tema,
+        'dificuldade': dificuldade,
+        'num_colunas': dificuldade.num_colunas,
+        'num_linhas': dificuldade.num_linhas,
+        # A lista de cartas no formato JSON deve ser passada para o template
+        'cartas_json': json.dumps(cartas_para_js),
+    }
+    
+    return render(request, 'meu_app/memoria.html', context)

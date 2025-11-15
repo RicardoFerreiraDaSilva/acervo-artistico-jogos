@@ -4,14 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurar Bingo - Acervo Artístico</title>
+    <title>Configurar Jogo da Memória - Acervo Artístico</title>
     
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
     
     <style>
-        /* O CSS para a tela de seleção NÃO ESTÁ NO style.css principal, 
-           então ele é mantido aqui para garantir o layout específico. 
-           Se você mover este CSS para o style.css, pode remover esta tag <style>. */
+        /* Reutilizando estilos de seleção do Bingo para consistência */
         .selection-container {
             background-color: var(--text-light);
             padding: 40px;
@@ -66,47 +64,63 @@
         .start-button:hover {
             background-color: #901614;
         }
+        
+        /* Regra de estilo para links de voltar */
+        .back-button {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Configuração do Bingo</h1>
+        <h1>Configuração do Jogo da Memória</h1>
     </header>
 
     <main class="game-page-main">
         <div class="selection-container">
-            <h2>Escolha o seu Bingo!</h2>
+            <h2>Escolha o Tema e o Tamanho do Tabuleiro</h2>
             
-            <form id="form-selecao">
+            <form id="form-memoria">
                 
-                {% if mensagem_erro %}
-                    <p style="color: var(--accent-color); font-weight: bold;">{{ mensagem_erro }}</p>
+                {% if temas|length == 0 or dificuldades|length == 0 %}
+                    <p style="color: var(--accent-color); font-weight: bold;">
+                        Erro: É preciso cadastrar Temas e Dificuldades no Admin antes de jogar!
+                    </p>
                 {% endif %}
 
                 <div class="form-group">
-                    <label for="categoria-select">Tema do Bingo:</label>
-                    <select id="categoria-select" name="categoria_slug" required>
-                        {% for cat in categorias %}
-                            <option value="{{ cat.slug }}">{{ cat.nome }}</option>
+                    <label for="tema-select">Tema do Jogo:</label>
+                    <select id="tema-select" name="tema_slug" required>
+                        {% for tema in temas %}
+                            <option value="{{ tema.slug }}">{{ tema.nome }}</option>
                         {% empty %}
-                            <option value="">Nenhuma Categoria Cadastrada</option>
+                            <option value="">Nenhum Tema Cadastrado</option>
                         {% endfor %}
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="dificuldade-select">Dificuldade / Tamanho da Cartela:</label>
+                    <label for="dificuldade-select">Dificuldade / Tamanho do Tabuleiro:</label>
                     <select id="dificuldade-select" name="dificuldade_id" required>
                         {% for dif in dificuldades %}
-                            <option value="{{ dif.id }}">{{ dif.nome }} ({{ dif.tamanho_cartela }}x{{ dif.tamanho_cartela }})</option>
+                            <option value="{{ dif.id }}">{{ dif.nome }} ({{ dif.num_linhas }}x{{ dif.num_colunas }} = {{ dif.total_slots }} Slots)</option>
                         {% empty %}
                             <option value="">Nenhuma Dificuldade Cadastrada</option>
                         {% endfor %}
                     </select>
                 </div>
 
-                <button type="submit" class="start-button">INICIAR JOGO</button>
+                <button type="submit" class="start-button">INICIAR JOGO DA MEMÓRIA</button>
             </form>
+            
+            <a href="{% url 'index' %}" class="back-button">Voltar ao Menu Principal</a>
         </div>
     </main>
 
@@ -115,16 +129,18 @@
     </footer>
 
     <script>
-        document.getElementById('form-selecao').addEventListener('submit', function(e) {
+        document.getElementById('form-memoria').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const categoria = document.getElementById('categoria-select').value;
-            const dificuldade = document.getElementById('dificuldade-select').value;
+            const temaSlug = document.getElementById('tema-select').value;
+            const dificuldadeId = document.getElementById('dificuldade-select').value;
             
-            if (categoria && dificuldade) {
-                // Monta a URL completa: /bingo/jogar/ID/SLUG/
-                // Linha Correta:
-                window.location.href = `/jogos/jogar/${dificuldade}/${categoria}/`;
+            if (temaSlug && dificuldadeId) {
+                // Monta a URL completa: /jogos/memoria/jogar/SLUG/ID/
+                // (Assumindo que sua rota do jogo da memória está em 'bingo_app:jogar_memoria')
+                window.location.href = `{% url 'bingo_app:jogar_memoria' tema_slug='SLUG_PLACEHOLDER' dificuldade_id=999 %}`
+                    .replace('SLUG_PLACEHOLDER', temaSlug)
+                    .replace('999', dificuldadeId);
             } else {
                 alert('Por favor, selecione um tema e uma dificuldade.');
             }

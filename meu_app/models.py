@@ -136,3 +136,74 @@ class GradeCacaPalavras(models.Model):
 
     def __str__(self):
         return f"Grade {self.tamanho}x{self.tamanho} - {self.tema.nome}"
+from django.db import models
+from django.utils import timezone
+
+# ========================================================
+# MODELOS PARA JOGO DA MEMÓRIA
+# ========================================================
+
+class DificuldadeMemoria(models.Model):
+    """Define as dimensões do tabuleiro (Ex: 3x4, 4x4) e o nome para a seleção."""
+    nome = models.CharField(max_length=50, unique=True, help_text="Ex: Fácil, Médio, Difícil.")
+    
+    # Quantidade de COLUNAS no tabuleiro (largura)
+    num_colunas = models.IntegerField(default=4, help_text="Número de colunas do tabuleiro.")
+    # Quantidade de LINHAS no tabuleiro (altura)
+    num_linhas = models.IntegerField(default=4, help_text="Número de linhas do tabuleiro.")
+    
+    class Meta:
+        verbose_name_plural = "Dificuldades da Memória"
+        ordering = ['num_linhas', 'num_colunas']
+
+    def total_slots(self):
+        """Calcula o número total de espaços no tabuleiro (slots)."""
+        return self.num_colunas * self.num_linhas
+    
+    def __str__(self):
+        return f"{self.nome} ({self.num_linhas}x{self.num_colunas})"
+
+
+class TemaMemoria(models.Model):
+    """Define os temas para o Jogo da Memória (Ex: Artistas, Obras)."""
+    nome = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    descricao = models.TextField(help_text="Descrição breve para a tela de seleção.", blank=True)
+
+    class Meta:
+        verbose_name_plural = "Temas da Memória"
+
+    def __str__(self):
+        return self.nome
+    
+
+class CartaMemoria(models.Model):
+    """Armazena as imagens que formarão os pares e a informação educativa."""
+    tema = models.ForeignKey(TemaMemoria, on_delete=models.CASCADE, related_name='cartas', 
+                             help_text="Selecione o tema ao qual esta carta pertence.")
+    
+    # Campo 1: Imagem Principal da Carta (Frente) - blank/null para evitar erros de upload
+    imagem = models.ImageField(upload_to='memoria/pares/', verbose_name='Frente da Carta', 
+                              blank=True, null=True) 
+    
+    # Campo 2: Identificador Único do Par (Crucial para o JS)
+    par_id = models.CharField(max_length=100, 
+                              help_text="Identificador Único para este par (Ex: MONALISA).")
+    
+    # Campo 3: Imagem de Contraparte Padrão (Verso) - blank/null para evitar erros 404
+    verso_padrao = models.ImageField(upload_to='memoria/versos/', verbose_name='Verso da Carta',
+                                    help_text="Imagem usada como verso para todas as cartas do tema.",
+                                    blank=True, null=True) 
+                                    
+    # Campo 4: Informação Educativa (Exibida após o acerto do par)
+    informacao_acerto = models.TextField(
+        help_text="Texto ou curiosidade a ser exibido em um modal quando o par for acertado."
+    )
+    
+    class Meta:
+        # Garante que não haja IDs de pares duplicados dentro do mesmo tema.
+        unique_together = ('tema', 'par_id') 
+        verbose_name_plural = "Cartas da Memória"
+    
+    def __str__(self):
+        return f"{self.par_id} ({self.tema.nome})"

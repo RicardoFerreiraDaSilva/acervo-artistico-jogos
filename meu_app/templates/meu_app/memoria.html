@@ -2,41 +2,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Acervo Artístico - Jogo da Memória</title>
-    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Jogo da Memória - {{ tema.nome }} - Acervo Artístico</title>
+<link rel="stylesheet" href="{% static 'meu_app/css/style_memoria.css' %}" />
 </head>
-<body data-base-url="{% static 'meu_app/imagens/jogo_memoria/' %}">
+<body>
 
-    <header>
-        <h1>Jogo da Memória</h1>
-    </header>
+<header>
+<h1>Jogo da Memória</h1>
+</header>
 
-    <main class="game-page-main">
-        <div class="game-instructions">
-            <h2>Desafie sua mente!</h2>
-            <p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
-        </div>
+<main class="game-page-main">
+ <div class="game-instructions">
+ <h2>Tema: {{ tema.nome }}</h2>
+ <p>Tamanho do Tabuleiro: {{ dificuldade.num_linhas }}x{{ dificuldade.num_colunas }}</p>
+<p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
+</div>
 
-        <div class="game-info">
-            <p>Tentativas: <span id="tries-counter">0</span></p>
-        </div>
+<div class="game-info">
+<p>Tentativas: <span id="tries-counter">0</span></p>
+</div>
+ 
+<div class="memory-game" id="memory-game-board"></div>
 
-        <div class="memory-game" id="memory-game-board"></div>
+<div id="win-message" class="hidden">
+<h2>Parabéns!</h2>
+<p id="win-text"></p>
+<button id="play-again-btn">Jogar Novamente</button>
+<a href="{% url 'index' %}" class="back-button">Voltar para a Galeria</a>
+</div>
+</main>
 
-        <div id="win-message" class="hidden">
-            <h2>Parabéns!</h2>
-            <p id="win-text"></p>
-            <button id="play-again-btn">Jogar Novamente</button>
-            <a href="{% url 'index' %}" class="back-button">Voltar para a Galeria</a>
-        </div>
-    </main>
+<footer>
+<p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+</footer>
 
-    <footer>
-        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
-    </footer>
-
-    <script src="{% static 'meu_app/js/memoria.js' %}"></script>
+ <script id="memory-game-data" type="application/json">
+ {
+ "cards_data": {{ cartas_json|safe }},
+ "num_linhas": {{ num_linhas|safe }},  "num_colunas": {{ num_colunas|safe }}  }
+</script>
+ 
+<script src="{% static 'meu_app/js/memoria.js' %}"></script>
 </body>
 </html>

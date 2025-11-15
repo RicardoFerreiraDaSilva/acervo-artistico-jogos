@@ -1,0 +1,207 @@
+/* style_memoria.css */
+
+/* --- Importação de Fontes (Para Stick No Bills e Roboto) --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
+
+/* --- Variáveis de Cores (Alinhadas ao Acervo) --- */
+:root {
+    --primary-color: #005285;       /* Azul Acervo */
+    --secondary-color: #EE7D00;      /* Laranja Acervo */
+    --accent-color: #AE1917;         /* Vermelho Acervo */
+    --background-light: #f4f4f4;
+    --text-dark: #333;
+    --text-light: #fff;
+    --sombra-card: rgba(0, 0, 0, 0.25);
+    --matched-color: #28a745;        /* Verde para acerto */
+}
+
+/* --- Estilos Globais --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3 {
+    font-family: 'Stick No Bills', sans-serif;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 20px 40px;
+    box-shadow: 0 4px 6px var(--sombra-card);
+}
+
+header h1 {
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+.game-page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.game-instructions {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* --- 1. Info do Jogo (Tentativas) --- */
+.game-info {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: var(--text-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--sombra-card);
+}
+
+/* --- 2. Tabuleiro do Jogo (Grid) --- */
+#memory-game-board {
+    display: grid;
+    /* ! IMPORTANTE: grid-template-columns/rows SÃO DEFINIDOS NO JavaScript ! */
+    gap: 10px;
+    padding: 15px;
+    background-color: var(--primary-color); /* Fundo Azul Acervo */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px var(--sombra-card);
+    
+    /* Configurações Máximas e Mínimas */
+    width: 90vw;
+    max-width: 800px;
+    aspect-ratio: 1; /* Garante que o tabuleiro seja visualmente coeso */
+}
+
+/* --- 3. Estilo da Carta (memory-card) --- */
+.memory-card {
+    /* É o container da carta que lida com o clique e o estado */
+    position: relative;
+    cursor: pointer;
+    background: transparent;
+    border-radius: 8px;
+    
+    /* Permite o efeito 3D de virar */
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+}
+
+/* Container interno que faz a rotação */
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    border-radius: 8px;
+}
+
+/* Classe aplicada pelo JS para virar */
+.card-inner.flip {
+    transform: rotateY(180deg);
+}
+
+/* Frente e Verso da Carta */
+.front-face, .back-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Esconde a face oposta durante a rotação */
+    border-radius: 8px;
+    box-shadow: 0 3px 6px var(--sombra-card);
+    overflow: hidden;
+}
+
+.front-face {
+    transform: rotateY(180deg); /* Começa virada para o verso */
+}
+
+.front-face img, .back-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Estilo para a Carta já Encontrada */
+.memory-card.matched {
+    cursor: default;
+    /* Dica visual de acerto, levemente opaca ou com borda */
+    opacity: 0.8;
+    border: 2px solid var(--matched-color);
+}
+
+/* --- 4. Mensagem de Vitória --- */
+#win-message {
+    text-align: center;
+    padding: 30px;
+    background-color: var(--text-light);
+    border: 3px solid var(--matched-color);
+    border-radius: 10px;
+    margin-top: 30px;
+    box-shadow: 0 4px 10px var(--sombra-card);
+}
+
+#win-message h2 {
+    color: var(--matched-color);
+}
+
+#play-again-btn {
+    padding: 10px 20px;
+    margin-top: 15px;
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+/* --- 5. Rodapé e Botões --- */
+footer {
+    background-color: var(--text-dark);
+    color: var(--text-light);
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    margin-top: auto;
+}
+
+.back-button {
+    /* Reutiliza o estilo do botão de voltar */
+    display: inline-block;
+    padding: 8px 15px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* --- 6. Responsividade (opcional, mas útil) --- */
+@media (max-width: 600px) {
+    #memory-game-board {
+        gap: 5px;
+        padding: 10px;
+    }
+    .game-info p {
+        font-size: 1em;
+    }
+}

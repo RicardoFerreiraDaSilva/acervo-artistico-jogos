@@ -228,6 +228,8 @@ header h1 {
     padding: 8px 15px;
     border-radius: 5px;
     transition: background-color 0.3s, color 0.3s;
+    display: inline-block; /* Garante que a margem funcione */
+    margin-top: 100px;     /* Aumente o valor (ex: 100px) */
 }
 
 .back-button:hover {

@@ -61,3 +61,33 @@ class PalavraCacaPalavrasAdmin(admin.ModelAdmin):
 class GradeCacaPalavrasAdmin(admin.ModelAdmin):
     list_display = ('tema', 'tamanho')
     # Pode ser necessário adicionar um widget JSON para 'layout_json' se for muito complexo
+
+from django.contrib import admin
+from .models import TemaMemoria, DificuldadeMemoria, CartaMemoria 
+
+# -----------------------------------------------
+# 1. Registro da Dificuldade (Tamanho do Tabuleiro)
+# -----------------------------------------------
+@admin.register(DificuldadeMemoria)
+class DificuldadeMemoriaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'num_linhas', 'num_colunas', 'total_slots')
+    # Método para exibir total_slots na lista
+    def total_slots(self, obj):
+        return obj.total_slots()
+
+# -----------------------------------------------
+# 2. Registro dos Temas
+# -----------------------------------------------
+@admin.register(TemaMemoria)
+class TemaMemoriaAdmin(admin.ModelAdmin):
+    list_display = ('nome', 'slug', 'descricao')
+    prepopulated_fields = {'slug': ('nome',)} # Preenche o slug automaticamente
+
+# -----------------------------------------------
+# 3. Registro das Cartas
+# -----------------------------------------------
+@admin.register(CartaMemoria)
+class CartaMemoriaAdmin(admin.ModelAdmin):
+    list_display = ('tema', 'par_id', 'informacao_acerto')
+    list_filter = ('tema',)
+    search_fields = ('par_id', 'informacao_acerto')
