@@ -34,7 +34,7 @@
   <h1>Editor de Hotspots</h1>
   <p>Clique e arraste sobre a imagem para marcar os erros.</p>
   <div id="container">
-    <img id="image" src="galo.jpg" alt="imagem">
+    <img id="image" src="Trevisan_modificada.jpg" alt="imagem">
   </div>
   <h3>Hotspots Gerados:</h3>
   <div id="output">Nenhum ainda...</div>
@@ -74,13 +74,12 @@
       const imgWidth = img.clientWidth;
       const imgHeight = img.clientHeight;
 
-      const leftPercent = (parseInt(rect.style.left) / imgWidth * 100).toFixed(2) + "%";
-      const topPercent = (parseInt(rect.style.top) / imgHeight * 100).toFixed(2) + "%";
+      const leftPercent = (parseInt(rect.style.left) / imgWidth * 100).toFixed(2);
+      const topPercent = (parseInt(rect.style.top) / imgHeight * 100).toFixed(2);
       const widthPx = parseInt(rect.style.width);
       const heightPx = parseInt(rect.style.height);
 
-      const hotspotStr = `{ "left: ${leftPercent}; top: ${topPercent}; width: 40px; height: 40px;" }`;
-
+      const hotspotStr = `{ "id: ?, left: ${leftPercent}, top: ${topPercent}, w: 40, h: 40" }`;
       hotspots.push(hotspotStr);
       updateOutput();
     });
