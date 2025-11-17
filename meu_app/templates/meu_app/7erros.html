@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -174,10 +175,10 @@
     const GAMES = [
       {
         id: 'pessoas',
-        title: 'Pessoas - 10 Erros',
-        thumb: 'imagens/7erros.jpg',
-        left: 'imagens/7erros.jpg',
-        right: 'imagens/10_erros_pessoas.JPG',
+            title: 'Pessoas - 10 Erros',
+            thumb: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
+            left: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
+            right: "{% static 'meu_app/imagens/7_erros/10_erros_pessoas.JPG' %}",
         hotspots: [
           { id: 1, left: 48.91, top: 12.11, w: 55, h: 55 },
           { id: 2, left: 68.16, top: 27.48, w: 60, h: 60 },
@@ -193,10 +194,11 @@
       },
       {
         id: 'Trevisan',
-        title: 'Trevisan - 10 Erros',
-        thumb: 'imagens/Trevisan_original.jpg',
-        left: 'imagens/Trevisan_original.jpg',
-        right: 'imagens/Trevisan_modificada.jpg',
+
+    title: 'Trevisan - 10 Erros',
+    thumb: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
+    left: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
+    right: "{% static 'meu_app/imagens/7_erros/Trevisan_modificada.jpg' %}",
         hotspots: [
           { id:1, left:15, top:20, w:45, h:45 },
           { id:2, left:30, top:40, w:45, h:45 },
