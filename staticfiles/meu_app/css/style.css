@@ -1,0 +1,733 @@
+/* Declaração de Variáveis CSS */
+:root {
+    --cor-ufsm-azul: #005A9E;
+    --cor-ufsm-laranja: #FF6600;
+    --cor-ufsm-vermelho: #D62828;
+    --cor-fundo-claro: #f0f0f0;
+    --cor-cinza-escuro: #333;
+    --cor-cinza-medio: #555;
+    --cor-branco: #fff;
+    --cor-sombra-leve: rgba(0,0,0,0.1);
+    --cor-sombra-media: rgba(0,0,0,0.15);
+    --cor-sombra-escura: rgba(0,0,0,0.2);
+    --fonte-principal: Arial, Helvetica, sans-serif;
+}
+
+/* Configurações Gerais */
+body {
+    font-family: var(--fonte-principal);
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--cor-fundo-claro);
+}
+
+/* Cabeçalho */
+header {
+    background-color: var(--cor-ufsm-azul);
+    color: var(--cor-branco);
+    padding: 15px 30px;
+    text-align: center;
+    box-shadow: 0 2px 4px var(--cor-sombra-leve);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 2em;
+}
+
+/* Conteúdo Principal */
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.game-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 30px;
+    max-width: 1000px;
+}
+
+.game-card {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background-color: var(--cor-ufsm-laranja);
+    color: var(--cor-branco);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px var(--cor-sombra-media);
+}
+
+.game-card:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 8px 16px var(--cor-sombra-escura);
+}
+
+.game-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    transition: opacity 0.4s ease;
+}
+
+.game-card::after {
+    content: attr(data-description);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.game-card:hover .game-title {
+    opacity: 0;
+}
+
+.game-card:hover::after {
+    opacity: 1;
+}
+
+footer {
+    background-color: var(--cor-cinza-escuro);
+    color: var(--cor-branco);
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+    margin-top: auto;
+}
+
+/* === ESTILOS PARA AS PÁGINAS DE JOGOS === */
+.game-page-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.game-instructions {
+    text-align: center;
+    max-width: 800px;
+    margin-bottom: 25px;
+}
+
+.game-instructions h2 {
+    color: var(--cor-ufsm-azul);
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+
+.game-instructions p {
+    font-size: 1.2em;
+    color: var(--cor-cinza-medio);
+    line-height: 1.6;
+}
+
+/* === ESTILOS PARA A PÁGINA MONTA CABEÇAS === */
+#game-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    padding: 40px;
+    flex-wrap: wrap;
+}
+
+#canvas {
+    width: 500px;
+    height: 500px;
+    border: 8px solid var(--cor-ufsm-azul);
+    border-radius: 10px;
+    position: relative;
+    background-color: var(--cor-branco);
+    box-shadow: 0 10px 20px var(--cor-sombra-escura);
+}
+
+.canvas-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+}
+
+#controls h2 {
+    color: var(--cor-ufsm-azul);
+    text-align: center;
+    margin-bottom: 0;
+}
+
+#controls p {
+    text-align: center;
+    margin-top: 5px;
+    color: var(--cor-cinza-medio);
+}
+
+.selector {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.selector span {
+    text-align: center;
+    font-weight: bold;
+    color: var(--cor-cinza-escuro);
+}
+
+.selector button {
+    background-color: var(--cor-ufsm-laranja);
+    color: var(--cor-branco);
+    border: none;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.random-mode {
+    margin-top: 20px;
+    border-top: 2px dashed #ccc;
+    padding-top: 20px;
+}
+
+#roll-dice {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: var(--cor-ufsm-vermelho);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#roll-dice:hover {
+    transform: scale(1.05);
+}
+
+.back-button {
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+    padding: 10px;
+    background-color: var(--cor-cinza-medio);
+    color: var(--cor-branco);
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+#cabeca-layer, #paisagem-layer {
+    width: 100%;
+    height: 100%;
+}
+
+#olhos-layer {
+    width: 50%;
+    height: auto;
+    top: 35%;
+    left: 25%;
+}
+
+#nariz-layer {
+    width: 25%;
+    height: auto;
+    top: 50%;
+    left: 37.5%;
+}
+
+#boca-layer {
+    width: 40%;
+    height: auto;
+    top: 65%;
+    left: 30%;
+}
+
+/* === ESTILOS PARA A PÁGINA DO JOGO "ENCONTRE O GALO" === */
+.image-container {
+    width: 100%;
+    max-width: 900px;
+    border: 10px solid var(--cor-ufsm-azul);
+    border-radius: 8px;
+    box-shadow: 0 10px 25px var(--cor-sombra-escura);
+    margin-bottom: 30px;
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* === ESTILOS PARA A PÁGINA DO BINGO DE PERGUNTAS === */
+#bingo-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+}
+
+#question-area {
+    background-color: var(--cor-branco);
+    padding: 20px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--cor-sombra-leve);
+    border-top: 5px solid var(--cor-ufsm-azul);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+#question-area h3 {
+    font-size: 1.5em;
+    color: var(--cor-cinza-escuro);
+    margin-top: 0;
+}
+
+#question-display {
+    min-height: 100px;
+    font-size: 1.2em;
+    color: #444;
+    border: 2px dashed #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#answer-display {
+    margin-top: 15px;
+    font-size: 1.1em;
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.button-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#draw-question-btn, #reveal-answer-btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 1em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#draw-question-btn {
+    background-color: var(--cor-ufsm-laranja);
+    color: var(--cor-branco);
+}
+
+#reveal-answer-btn {
+    background-color: var(--cor-cinza-medio);
+    color: var(--cor-branco);
+}
+
+.hidden {
+    display: none;
+}
+
+#bingo-card {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
+    max-width: 450px;
+}
+
+.bingo-cell {
+    background-color: var(--cor-branco);
+    border: 2px solid var(--cor-ufsm-azul);
+    border-radius: 8px;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--cor-cinza-escuro);
+    padding: 8px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.bingo-cell:hover {
+    transform: scale(1.05);
+}
+
+.bingo-cell.marked {
+    background-color: var(--cor-ufsm-vermelho);
+    color: var(--cor-branco);
+    border-color: var(--cor-ufsm-vermelho);
+}
+
+.bingo-cell.free-space {
+    background-color: var(--cor-ufsm-azul);
+    color: var(--cor-branco);
+    font-size: 1.2em;
+}
+
+/* === ESTILOS PARA A PÁGINA DO CAÇA-PALAVRAS === */
+#word-search-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    width: 100%;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+    background-color: var(--cor-ufsm-azul);
+    border: 5px solid var(--cor-ufsm-azul);
+    border-radius: 8px;
+    padding: 5px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px var(--cor-sombra-media);
+}
+
+.grid-cell {
+    background-color: var(--cor-branco);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--cor-cinza-escuro);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.grid-cell:hover {
+    background-color: #ffe0b2;
+}
+
+.grid-cell.selecting {
+    background-color: var(--cor-ufsm-laranja);
+    color: var(--cor-branco);
+}
+
+.grid-cell.found {
+    background-color: var(--cor-ufsm-vermelho);
+    color: var(--cor-branco);
+}
+
+#word-list-container {
+    background-color: #f9f9f9;
+    padding: 20px 30px;
+    border-radius: 8px;
+    border-left: 5px solid var(--cor-ufsm-laranja);
+    width: 100%;
+    max-width: 300px;
+    align-self: flex-start;
+}
+
+#word-list-container h3 {
+    margin-top: 0;
+    color: var(--cor-cinza-escuro);
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+#word-list {
+    list-style: none;
+    padding: 0;
+    font-size: 1.2em;
+}
+
+#word-list li {
+    margin-bottom: 10px;
+    color: var(--cor-cinza-medio);
+    transition: color 0.3s;
+}
+
+#word-list li.found {
+    text-decoration: line-through;
+    color: #aaa;
+    text-decoration-thickness: 2px;
+}
+
+#win-message {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #e8f5e9;
+    color: #1b5e20;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 900px;
+}
+
+/* === ESTILOS PARA A PÁGINA DIXIT DE PALAVRAS === */
+#dixit-game-container {
+    background-color: var(--cor-branco);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px var(--cor-sombra-leve);
+    width: 100%;
+    max-width: 600px;
+}
+
+#clue-area {
+    margin-bottom: 20px;
+}
+
+#clue-area h3 {
+    margin-top: 0;
+    color: var(--cor-ufsm-azul);
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+#clue-list {
+    list-style-type: '🎨';
+    padding-left: 25px;
+    font-size: 1.1em;
+}
+
+#clue-list li {
+    padding-left: 10px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+#game-status {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#game-status p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #444;
+}
+
+#game-status span {
+    color: var(--cor-ufsm-laranja);
+}
+
+#input-area {
+    display: flex;
+    gap: 10px;
+}
+
+#guess-input {
+    flex-grow: 1;
+    padding: 12px;
+    font-size: 1.1em;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+
+#guess-input:focus {
+    outline: none;
+    border-color: var(--cor-ufsm-azul);
+}
+
+#guess-button {
+    padding: 0 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--cor-branco);
+    background-color: var(--cor-ufsm-laranja);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#feedback-message {
+    min-height: 25px;
+    margin-top: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+}
+
+#end-game-message {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: var(--cor-fundo-claro);
+    text-align: center;
+    border-top: 3px solid var(--cor-ufsm-vermelho);
+}
+
+#play-again-button {
+    margin-top: 10px;
+    padding: 12px 25px;
+    font-size: 1em;
+    background-color: var(--cor-ufsm-azul);
+    color: var(--cor-branco);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* --- ESTILOS ADICIONAIS PARA O JOGO DA MEMÓRIA --- */
+.memory-game {
+    width: 900px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 15px;
+    perspective: 1000px;
+    margin: 0 auto;
+}
+
+.memory-card {
+    position: relative;
+    transform: scale(1);
+    transform-style: preserve-3d;
+    transition: transform .5s;
+    aspect-ratio: 4 / 3;
+    width: 100%;
+    height: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.game-info {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--cor-ufsm-azul);
+    margin-bottom: 20px;
+}
+
+#win-message {
+    text-align: center;
+    padding: 30px;
+    background-color: #e8f5e9;
+    border: 2px solid #1b5e20;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0 4px 8px var(--cor-sombra-leve);
+    max-width: 500px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+#win-message h2 {
+    color: #1b5e20;
+    font-size: 2.5em;
+}
+
+#win-message p {
+    font-size: 1.2em;
+    color: var(--cor-cinza-medio);
+    margin-top: 10px;
+}
+
+#play-again-btn, .back-button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: var(--cor-branco);
+    background-color: var(--cor-ufsm-laranja);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s;
+    display: inline-block;
+}
+
+#play-again-btn:hover, .back-button:hover {
+    transform: translateY(-2px);
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.memory-card:active {
+    transform: scale(0.97);
+    transition: transform .2s;
+}
+
+.front-face, .back-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    border-radius: 8px;
+    backface-visibility: hidden;
+    box-shadow: 0 3px 6px var(--cor-sombra-media), 0 3px 6px var(--cor-sombra-escura);
+}
+
+.front-face {
+    transform: rotateY(180deg);
+}
+
+.front-face img, .back-face img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.back-face img {
+    content: url('https://placehold.co/150x200/cccccc/000000?text=UFSM');
+}
