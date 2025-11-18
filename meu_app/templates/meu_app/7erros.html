@@ -345,11 +345,36 @@
     document.addEventListener('DOMContentLoaded', () => {
       renderMural();
 
-      // eventos botões
-      btnPlay.addEventListener('click', startGame);
-      btnHome.addEventListener('click', ()=> window.location.href = 'index.html');
-      btnBack.addEventListener('click', backToMural);
-      btnHomeGame.addEventListener('click', ()=> window.location.href = 'index.html');
+// ** --- 1. SELEÇÃO DE ELEMENTOS (GARANTIA DE EXISTÊNCIA NO HTML) --- **
+
+const btnPlay = document.getElementById('btnPlay');
+const btnHome = document.getElementById('btnHome');
+const btnBack = document.getElementById('btnBack');
+const btnHomeGame = document.getElementById('btnHomeGame');
+
+
+// ** --- 2. ADIÇÃO DOS EVENT LISTENERS (COM VERIFICAÇÃO DE SEGURANÇA) --- **
+
+// Eventos botões (Os que você forneceu)
+
+if (btnPlay) {
+    btnPlay.addEventListener('click', startGame);
+}
+
+if (btnHome) {
+    // Navegação direta para a home/galeria
+    btnHome.addEventListener('click', () => window.location.href = 'index.html');
+}
+
+if (btnBack) {
+    btnBack.addEventListener('click', backToMural);
+}
+
+if (btnHomeGame) {
+    // Navegação direta para a home/galeria (útil para botões de "Sair do Jogo")
+    btnHomeGame.addEventListener('click', () => window.location.href = 'index.html');
+}
+
 
       // tecla Esc também volta ao mural se estiver no jogo
       document.addEventListener('keydown', (e) => {
