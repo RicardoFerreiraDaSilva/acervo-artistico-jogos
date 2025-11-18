@@ -11,12 +11,10 @@
         /* --- Importação das Fontes (Google Fonts) --- */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
         
-        /* --- Variáveis de Cores do Acervo (BASE) --- */
+        /* --- Variáveis de Cores do Acervo --- */
         :root {
             --primary-color: #005285; /* Azul Acervo */
             --secondary-color: #EE7D00; /* Laranja Acervo */
-            --accent-color: #AE1917; /* Vermelho Acervo */
-            --background-light: #f4f4f4;
             --text-dark: #333;
             --text-light: #fff;
             --logo-bg: #fff; /* Fundo Branco para o logo */
@@ -28,7 +26,14 @@
             padding: 0;
             font-family: 'Roboto', sans-serif;
             color: var(--text-dark);
-            background-color: var(--background-light);
+            
+            /* Fundo de Imagem (Acervo_vermelho.JPG) */
+            background-image: url('{% static "meu_app/imagens/acervo_visual/Acervo_vermelho.JPG" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-color: var(--background-light); /* Fallback */
+            
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -40,9 +45,9 @@
             font-weight: 700;
         }
 
-        /* --- HEADER COM LOGO (Substituindo o H1) --- */
+        /* --- HEADER --- */
         header {
-            background-color: var(--primary-color); /* Azul Acervo */
+            background-color: var(--primary-color);
             color: var(--text-light);
             padding: 10px 40px; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -50,21 +55,20 @@
             align-items: center;
             justify-content: center; 
             position: relative;
-            min-height: 70px; /* Garante espaço para a imagem */
+            min-height: 70px; 
         }
 
-        /* Estilo do Container da Imagem (Fundo Branco e Centralização) */
+        /* Estilo do Logo (Substituindo o Título) */
         .logo-header {
             background-color: var(--logo-bg); /* Fundo branco para o logo */
             padding: 5px 15px; 
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-            /* Garante que o logo fique centralizado no espaço do header */
             display: inline-block; 
         }
 
         .logo-header img {
-            height: 50px; /* Tamanho da imagem */
+            height: 50px; 
             width: auto;
             display: block;
         }
@@ -76,6 +80,15 @@
             justify-content: center;
             gap: 20px;
             padding: 40px 20px;
+            
+            /* Fundo semi-transparente para legibilidade sobre a imagem de fundo */
+            background-color: rgba(255, 255, 255, 0.9); 
+            margin: 20px auto;
+            border-radius: 12px;
+            
+            /* MUDANÇA CRÍTICA PARA 4X4 */
+            max-width: 940px; /* 4 * 220px (card) + 3 * 20px (gap) */
+            width: 100%;
         }
 
         /* --- ESTILOS DOS CARDS (BOTOES) --- */
@@ -83,27 +96,26 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 220px;
+            width: 220px; /* Largura fixa para forçar 4 por linha */
             height: 140px;
             background-color: var(--secondary-color); /* Laranja Acervo */
             color: var(--text-light);
             text-decoration: none;
             border-radius: 12px;
-            font-size: 16px;
             font-weight: bold;
             text-align: center;
             position: relative;
             transition: transform 0.2s, box-shadow 0.2s;
-            /* PADRONIZAÇÃO DE FONTE PARA Stick No Bills */
+            /* PADRONIZAÇÃO DE FONTE */
             font-family: 'Stick No Bills', sans-serif; 
             letter-spacing: 1px;
             line-height: 1.1;
         }
 
         .game-title {
-            font-size: 1.5em; /* Aumenta um pouco o título do card */
-            margin: 0 5px; /* Espaçamento interno */
-            color: var(--text-light); /* Garante que o texto seja branco */
+            font-size: 1.5em; 
+            margin: 0 5px; 
+            color: var(--text-light); 
         }
         
         .game-card:hover {
@@ -114,7 +126,7 @@
         /* --- ESTILO DO RODAPÉ --- */
         footer {
             width: 100%;
-            background-color: var(--text-dark); /* Preto */
+            background-color: var(--text-dark); 
             color: var(--text-light); 
             text-align: center;
             padding: 15px;
@@ -136,32 +148,57 @@
             <a href="{% url 'bingo_app:selecao_memoria' %}" class="game-card" data-description="Desafie sua mente! Encontre os pares de cartas com obras de arte.">
                 <span class="game-title">Jogo da Memória</span>
             </a>
+            
             <a href="{% url 'galo' %}" class="game-card" data-description="Preste atenção aos detalhes. Uma figura de galo está escondida em uma obra de arte. Você consegue encontrá-la?">
                 <span class="game-title">Encontre o Galo</span>
             </a>
+            
             <a href="{% url 'monta_cabecas' %}" class="game-card" data-description="Relaxe e aprecie a arte montando quebra-cabeças digitais de diversas obras do acervo.">
                 <span class="game-title">Monta Cabeças</span>
             </a>
-            <a href="{% url 'sete_erros' %}" class="game-card" data-description="Compare duas imagens de uma obra de arte e encontre os 7 erros escondidos entre elas.">
-                <span class="game-title">Jogo dos 7 Erros</span>
+            
+            <a href="{% url 'sete_erros' %}" class="game-card" data-description="Compare duas imagens de uma obra de arte e encontre as 10 diferenças escondidas entre elas.">
+                <span class="game-title">Jogo dos 10 Erros</span>
             </a>
+            
             <a href="{% url 'bingo_app:selecao_bingo' %}" class="game-card" data-description="Teste seus conhecimentos! Um bingo interativo com perguntas e respostas sobre artistas e obras da UFSM.">
                 <span class="game-title">Bingo de Perguntas</span>
             </a>
+            
             <a href="{% url 'bingo_app:selecao_quiz' %}" class="game-card" data-description="Teste seus conhecimentos em História da Arte! Identifique o artista da obra ou o título da pintura.">
                 <span class="game-title">Quiz de Pinturas</span>
             </a>
+            
             <a href="{% url 'quebra_cabecas' %}" class="game-card" data-description="O clássico quebra-cabeças, agora com as mais belas obras de arte do nosso acervo para você montar.">
                 <span class="game-title">Quebra-Cabeças</span>
             </a>
+            
             <a href="{% url 'bingo_app:selecao_caca_palavras' %}" class="game-card" data-description="Encontre palavras de arte na grade e descubra suas descrições.">
                 <span class="game-title">Caça-Palavras</span>
             </a>
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
-    </footer>
+<footer>
+    <div style="max-width: 800px; margin: 0 auto; line-height: 1.25; padding: 5px 0;">
+        
+        <p style="font-weight: bold; margin: 0; font-size: 14px;">
+            Projeto desenvolvido para a disciplina de Projeto de Software II.
+        </p>
+        
+        <p style="margin: 3px 0; font-size: 13px;">
+            Pelos alunos Fabricio Thomas Freitas dos Santos e Ricardo da Silva.
+        </p>
+        
+        <p style="margin: 3px 0; font-size: 13px;">
+            Orientados pelo professor Celio Trois.
+        </p>
+
+        <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.8;">
+            &copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)
+        </p>
+
+    </div>
+</footer>
 </body>
 </html>
