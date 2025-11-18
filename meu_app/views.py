@@ -309,3 +309,70 @@ def jogar_memoria(request, tema_slug, dificuldade_id):
     }
     
     return render(request, 'meu_app/memoria.html', context)
+
+# seu_app/views.py
+
+from django.shortcuts import render, get_object_or_404
+import random # <--- MANTIDO AQUI (no topo), conforme a convenção Python (PEP 8)
+import json     # <--- NOVO: Importe 'json' para serializar explicitamente
+from .models import QuizTema 
+# OBS: Se seu modelo estiver em outro app, ajuste o import.
+
+
+def selecao_quiz(request):
+    """
+    Renderiza a página onde o usuário seleciona um tema para iniciar o Quiz.
+    """
+    temas = QuizTema.objects.all()
+    
+    context = {
+        'temas_quiz': temas,
+        'title': 'Seleção de Quiz',
+    }
+    # Retorna o template de seleção de tema
+    return render(request, 'meu_app/selecao_quiz.html', context)
+
+
+def jogar_quiz(request, tema_slug):
+    """
+    Carrega a página principal do quiz, baseada no tema selecionado.
+    """
+    tema = get_object_or_404(QuizTema, slug=tema_slug)
+    perguntas = tema.perguntas.all().prefetch_related('opcoes_incorretas') 
+    
+    quiz_data_array = [] # Renomeado para maior clareza
+    
+    for pergunta in perguntas:
+        pintura_correta = pergunta.pintura_pergunta
+        opcoes = list(pergunta.opcoes_incorretas.all())
+        
+        opcoes.append(pintura_correta)
+        
+        # CORREÇÃO CRÍTICA: 'import random' removido daqui.
+        random.shuffle(opcoes)
+
+        # Monta o objeto de pergunta
+        quiz_data_array.append({
+            'q_id': pergunta.id,
+            'image_url': pintura_correta.imagem.url,
+            'text': pergunta.texto_pergunta,
+            'correct_id': pintura_correta.id, 
+            'options': [
+                {'id': opt.id, 'text': opt.titulo} 
+                for opt in opcoes
+            ]
+        })
+    
+    # CORREÇÃO CRÍTICA: Serializa o array Python explicitamente em uma string JSON.
+    # Isso garante que o JSON seja injetado no frontend sem erros de formatação (position 2).
+    # O filtro 'json_script' no template cuidará do escaping seguro.
+    quiz_data_json_string = json.dumps(quiz_data_array)
+    
+    context = {
+        'tema': tema,
+        # Passamos a STRING JSON válida, que será injetada no template usando |json_script
+        'quiz_data_json': quiz_data_json_string, 
+        'title': f'Quiz: {tema.nome}',
+    }
+    
+    return render(request, 'meu_app/quiz.html', context)

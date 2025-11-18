@@ -91,3 +91,55 @@ class CartaMemoriaAdmin(admin.ModelAdmin):
     list_display = ('tema', 'par_id', 'informacao_acerto')
     list_filter = ('tema',)
     search_fields = ('par_id', 'informacao_acerto')
+
+from django.contrib import admin
+from .models import QuizTema, QuizPintura, QuizPergunta
+
+# 1. ADMIN para o Modelo QuizPintura
+@admin.register(QuizPintura)
+class QuizPinturaAdmin(admin.ModelAdmin):
+    # Campos que serão exibidos na lista (visão geral) do Admin
+    list_display = ('titulo', 'artista', 'ano', 'imagem_thumbnail')
+    # Adiciona campos de pesquisa rápida
+    search_fields = ('titulo', 'artista')
+    # Adiciona filtros laterais
+    list_filter = ('artista', 'ano')
+
+    # Função customizada para exibir uma miniatura da imagem no painel de lista
+    def imagem_thumbnail(self, obj):
+        if obj.imagem:
+            # Esta linha renderiza o HTML para exibir a imagem no Admin
+            return f'<img src="{obj.imagem.url}" width="100" height="auto" />'
+        return "Sem Imagem"
+    
+    # Informa ao Django para permitir que o HTML retornado seja renderizado (seguro)
+    imagem_thumbnail.allow_tags = True
+    imagem_thumbnail.short_description = 'Miniatura'
+
+
+# 2. ADMIN para o Modelo QuizTema
+@admin.register(QuizTema)
+class QuizTemaAdmin(admin.ModelAdmin):
+    # Campos na lista
+    list_display = ('nome', 'slug')
+    # Preenche automaticamente o campo 'slug' com base no campo 'nome'
+    prepopulated_fields = {'slug': ('nome',)}
+    
+    
+# 3. ADMIN para o Modelo QuizPergunta
+@admin.register(QuizPergunta)
+class QuizPerguntaAdmin(admin.ModelAdmin):
+    # Campos na lista
+    list_display = ('texto_pergunta', 'get_pintura_titulo', 'tema')
+    # Filtros laterais
+    list_filter = ('tema',)
+    # Campos de pesquisa
+    search_fields = ('texto_pergunta', 'pintura_pergunta__titulo')
+    
+    # Melhora a interface para selecionar as opções incorretas (muitas-para-muitas)
+    filter_horizontal = ('opcoes_incorretas',)
+    
+    # Campo customizado para exibir o título da pintura de forma mais limpa na lista
+    def get_pintura_titulo(self, obj):
+        return obj.pintura_pergunta.titulo
+    get_pintura_titulo.short_description = 'Pintura da Pergunta'

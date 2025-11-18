@@ -207,3 +207,68 @@ class CartaMemoria(models.Model):
     
     def __str__(self):
         return f"{self.par_id} ({self.tema.nome})"
+    
+from django.db import models
+
+# 1. Modelo QuizTema
+class QuizTema(models.Model):
+    nome = models.CharField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True)
+    descricao = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.nome
+
+    class Meta:
+        # Palavras 'Quiz' adicionadas aqui
+        verbose_name = "Quiz Tema"
+        verbose_name_plural = "Quiz Temas" 
+        
+# 2. Modelo QuizPintura
+class QuizPintura(models.Model):
+    titulo = models.CharField(max_length=255)
+    artista = models.CharField(max_length=255)
+    ano = models.IntegerField(null=True, blank=True)
+    imagem = models.ImageField(upload_to='quiz_pinturas/') 
+    
+    def __str__(self):
+        return f"{self.titulo} por {self.artista}"
+
+    class Meta:
+        # Palavras 'Quiz' adicionadas aqui
+        verbose_name = "Quiz Pintura"
+        verbose_name_plural = "Quiz Pinturas"
+
+# 3. Modelo QuizPergunta
+class QuizPergunta(models.Model):
+    # ATENÇÃO: O ForeignKey deve apontar para o nome atualizado do modelo (QuizTema)
+    tema = models.ForeignKey(QuizTema, on_delete=models.CASCADE, related_name='perguntas')
+    
+    texto_pergunta = models.CharField(
+        max_length=500, 
+        default="Quem é o artista desta obra?",
+        help_text="Exemplo: Quem pintou esta obra de arte?"
+    )
+
+    # ATENÇÃO: O ForeignKey deve apontar para o nome atualizado do modelo (QuizPintura)
+    pintura_pergunta = models.ForeignKey(
+        QuizPintura, 
+        on_delete=models.CASCADE, 
+        related_name='perguntas_associadas',
+        help_text="A Pintura que será exibida para o usuário identificar."
+    )
+
+    # Opções Incorretas: Referencia o novo nome do modelo (QuizPintura)
+    opcoes_incorretas = models.ManyToManyField(
+        QuizPintura,
+        related_name='opcoes_incorretas_em_perguntas',
+        limit_choices_to={'id__gt': 0},
+    )
+    
+    def __str__(self):
+        return f"Q: {self.texto_pergunta} - Tema: {self.tema.nome}"
+
+    class Meta:
+        # Palavras 'Quiz' adicionadas aqui
+        verbose_name = "Quiz Pergunta"
+        verbose_name_plural = "Quiz Perguntas"

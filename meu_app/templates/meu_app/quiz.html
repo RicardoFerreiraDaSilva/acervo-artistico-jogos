@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Quiz de Pinturas - {{ tema.nome }}</title>
+    <style>
+        /* [Seu Bloco de Estilos CSS Completo] */
+        :root{
+            --cor-ufsm-azul: #004d80;
+            --cor-ufsm-vermelho: #cc0000;
+            --cor-cinza-claro: #f4f4f4;
+            --cor-cinza-escuro: #333;
+            --cor-branco: #fff;
+        }
+        *{box-sizing:border-box}
+        body{
+            font-family: Arial, sans-serif;
+            margin:0; min-height:100vh; display:flex; flex-direction:column;
+            background:var(--cor-cinza-claro); color:var(--cor-cinza-escuro);
+        }
+        header{
+            background:var(--cor-ufsm-azul); color:var(--cor-branco);
+            text-align:center; padding:18px 10px;
+        }
+        main { flex:1; padding:20px; display: flex; justify-content: center; align-items: flex-start; }
+        footer{
+            background:var(--cor-cinza-escuro); color:var(--cor-branco);
+            text-align:center; padding:12px 10px;
+        }
+        
+        /* Estilos do Mural (ocultos nesta view) */
+        #tela-mural{ display:none; }
+        
+        /* Estilos da Tela do Quiz */
+        #quiz-area {
+            display: block; 
+            max-width: 700px;
+            width: 100%;
+            padding: 20px;
+            background: var(--cor-branco);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .quiz-controls {
+            display: flex; justify-content: space-between; margin-bottom: 20px;
+            align-items: center;
+        }
+        #painting-image {
+            max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 20px;
+            display: block; margin-left: auto; margin-right: auto;
+        }
+        .options-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+        }
+        .btn-option {
+            padding: 12px; border: 1px solid #ccc; border-radius: 6px;
+            background: #fff; cursor: pointer; text-align: left;
+            transition: background 0.2s, border-color 0.2s;
+            font-weight: 600;
+        }
+        .btn-option:hover {
+            background: #e0e0e0;
+        }
+        .btn-option.correct { background-color: #d4edda; border-color: #c3e6cb; } /* Verde */
+        .btn-option.incorrect { background-color: #f8d7da; border-color: #f5c6cb; } /* Vermelho */
+    </style>
+</head>
+<body>
+    <header><h1>Acervo Artístico - Quiz de Pinturas</h1></header>
+
+    <main>
+        <section id="tela-mural" style="display:none;">
+            <div id="muralGrid"></div>
+            <button id="btnStartQuiz"></button>
+            <button id="btnHome"></button>
+        </section>
+
+
+        <section id="quiz-area">
+            <div class="quiz-controls">
+                <a href="{% url 'bingo_app:selecao_quiz' %}" class="btn btn-secondary" id="btnQuizBack" style="text-decoration: none;">← Voltar</a>
+                
+                <div id="quiz-status">Pergunta <span id="current-question-number">0</span>/<span id="total-questions">0</span></div>
+            </div>
+
+            <img id="painting-image" src="" alt="Pintura para Quiz">
+
+            <h3 id="question-text"></h3>
+
+            <div class="options-grid" id="optionsGrid">
+            </div>
+            
+            <button class="btn btn-primary" id="btnNext" style="display:none; margin-top:20px;">Próxima Pergunta →</button>
+        </section>
+    </main>
+
+    <footer><p>&copy; 2025 Acervo Artístico - UFSM</p></footer>
+
+    <script id="quiz-data-json" type="application/json">
+        {{ quiz_data_json | safe }}
+    </script>
+    
+    <script>
+        // VARIÁVEIS GLOBAIS DE REFERÊNCIA (Selecionando todos os elementos do DOM)
+        const telaMural = document.getElementById('tela-mural');
+        const quizArea = document.getElementById('quiz-area');
+        const muralGrid = document.getElementById('muralGrid');
+        const paintingImage = document.getElementById('painting-image');
+        const questionText = document.getElementById('question-text');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const currentQuestionNumberEl = document.getElementById('current-question-number');
+        const totalQuestionsEl = document.getElementById('total-questions');
+        const btnNext = document.getElementById('btnNext');
+
+        let selectedThemeId = '{{ tema.slug }}'; 
+        
+        // Esta variável será preenchida com o JSON lido no quiz.js, não no HTML
+        let QUIZ_DATA = []; 
+    </script>
+    
+    <script src="{% static 'meu_app/js/quiz.js' %}"></script>
+</body>
+</html>

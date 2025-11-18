@@ -212,3 +212,12 @@ header h1 {
         align-self: center;
     }
 }
+/* --- NOVO: Estilo Padrão do Rodapé Acervo --- */
+footer {
+    width: 100%;
+    background-color: var(--text-dark); /* Fundo #333 */
+    color: var(--text-light); /* Texto branco */
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto; /* Necessário para garantir que o Flexbox o empurre para baixo */
+}

@@ -21,5 +21,6 @@ urlpatterns = [
     path('caca-palavras/jogar/<slug:tema_slug>/', views.jogar_caca_palavras, name='jogar_caca_palavras'),
     path('memoria/', views.selecao_memoria, name='selecao_memoria'),
     path('memoria/jogar/<slug:tema_slug>/<int:dificuldade_id>/', views.jogar_memoria, name='jogar_memoria'),
-
+    path('quiz/', views.selecao_quiz, name='selecao_quiz'),
+    path('quiz/jogar/<slug:tema_slug>/', views.jogar_quiz, name='jogar_quiz'),
 ]

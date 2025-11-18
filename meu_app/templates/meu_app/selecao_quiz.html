@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Quiz de Pinturas - Acervo Artístico</title>
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}"> 
+    
+    <style>
+        /* ... Estilos para body, header, .game-gallery, .game-card, footer ... */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Quiz de Pinturas</h1>
+    </header>
+
+    <main class="game-page-main">
+        <div class="game-instructions">
+            <h2>Escolha um Tema para Testar seus Conhecimentos</h2>
+            <p>Selecione um tema de pintura para iniciar o quiz de múltipla escolha.</p>
+        </div>
+
+        <div class="game-gallery"> 
+            
+            {% for tema in temas_quiz %}
+            
+            <a href="{% url 'bingo_app:jogar_quiz' tema_slug=tema.slug %}"
+                class="game-card" 
+                data-description="{{ tema.descricao }}">
+                
+                <h3 class="game-title">{{ tema.nome }}</h3>
+                
+                {% comment %}
+                <img src="{{ tema.imagem_thumb.url }}" alt="Miniatura do tema {{ tema.nome }}">
+                {% endcomment %}
+                
+            </a>
+            
+            {% empty %}
+            <p style="text-align: center; width: 100%;">Nenhum tema de Quiz de Pinturas cadastrado no momento.</p>
+            {% endfor %}
+            
+        </div>
+        
+        <a href="{% url 'index' %}" class="back-button" style="margin-top: 40px;">Voltar ao Menu Principal</a>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - UFSM</p>
+    </footer>
+</body>
+</html>
