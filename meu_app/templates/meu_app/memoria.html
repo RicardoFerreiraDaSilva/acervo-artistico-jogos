@@ -10,32 +10,43 @@
 <body>
 
 <header>
-<h1>Jogo da Memória</h1>
+    <h1>Jogo da Memória</h1>
 </header>
 
 <main class="game-page-main">
-<div class="game-instructions">
-<h2>Tema: {{ tema.nome }}</h2>
-<p>Tamanho do Tabuleiro: {{ dificuldade.num_linhas }}x{{ dificuldade.num_colunas }}</p>
-<p>Encontre os pares de cartas idênticas. Use sua memória para combinar as obras de arte do nosso acervo.</p>
-</div>
+    <div class="game-instructions">
+        <h2>Tema: {{ tema.nome }}</h2>
+        <p>Tamanho do Tabuleiro: {{ dificuldade.num_linhas }}x{{ dificuldade.num_colunas }}</p>
+        <p>Use sua memória para combinar os pares de obras de arte.</p>
+    </div>
 
-<div class="game-info">
-<p>Tentativas: <span id="tries-counter">0</span></p>
-</div>
+    <div class="game-controls-and-info">
+        
+        <div class="control-buttons">
+            <button id="play-again-btn" class="action-button">Jogar Novamente</button>
+            <a href="{% url 'index' %}" class="back-button action-button">Voltar para a Galeria</a>
+        </div>
+        
+        <div class="game-info">
+            <p>Tentativas: <span id="tries-counter">0</span></p>
+        </div>
 
-<div class="memory-game" id="memory-game-board"></div>
+        <div id="match-info-container" class="info-display-area">
+            <p id="match-info-text">Encontre um par para ler uma curiosidade!</p>
+            
+            <div id="win-message" class="hidden final-message">
+                <h3>Parabéns!</h3>
+                <p id="win-text"></p>
+            </div>
+        </div>
+        
+    </div>
+    <div class="memory-game" id="memory-game-board"></div>
 
-<div id="win-message" class="hidden">
-<h2>Parabéns!</h2>
-<p id="win-text"></p>
-<button id="play-again-btn">Jogar Novamente</button>
-<a href="{% url 'index' %}" class="back-button">Voltar para a Galeria</a>
-</div>
 </main>
 
 <footer>
-<p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
+    <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
 </footer>
 
 <script id="memory-game-data" type="application/json">
@@ -51,5 +62,6 @@
 </script>
 
 <script src="{% static 'meu_app/js/memoria.js' %}"></script>
+
 </body>
 </html>

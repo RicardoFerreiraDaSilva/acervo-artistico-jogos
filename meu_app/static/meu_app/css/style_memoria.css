@@ -5,15 +5,21 @@
 
 /* --- Variáveis de Cores (Alinhadas ao Acervo) --- */
 :root {
-    --primary-color: #005285;       /* Azul Acervo */
-    --secondary-color: #EE7D00;      /* Laranja Acervo */
-    --accent-color: #AE1917;         /* Vermelho Acervo */
+    --primary-color: #005285;  /* Azul Acervo */
+    --secondary-color: #EE7D00; /* Laranja Acervo */
+    --accent-color: #AE1917;  /* Vermelho Acervo */
     --background-light: #f4f4f4;
     --text-dark: #333;
     --text-light: #fff;
     --sombra-card: rgba(0, 0, 0, 0.25);
-    --matched-color: #28a745;        /* Verde para acerto */
+    --matched-color: #28a745; /* Verde para acerto */
 }
+
+/* 🎯 CORREÇÃO CRÍTICA: A regra 'hidden' deve estar no topo */
+.hidden {
+    display: none !important; 
+}
+
 
 /* --- Estilos Globais --- */
 body {
@@ -59,44 +65,148 @@ header h1 {
     margin-bottom: 20px;
 }
 
+/* --- NOVA ESTRUTURA DE CONTROLE (BARRA SUPERIOR) --- */
+.game-controls-and-info {
+    width: 100%;
+    max-width: 800px; /* Alinha com o max-width do tabuleiro */
+    display: flex;
+    justify-content: space-between; /* Espaça botões e info */
+    align-items: center;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.control-buttons {
+    display: flex; /* CORREÇÃO: Coloca os botões lado a lado */
+    flex-direction: row !important;
+    gap: 10px;
+}
+
+/* style_memoria.css */
+
+.action-button {
+    /* MUDANÇA PARA FORMATO QUADRADO/BLOCOS */
+    width: 80px; 
+    height: 80px; 
+    padding: 5px; /* Reduz o padding para maximizar a área de texto */
+    text-align: center;
+    line-height: 1.1; /* Linhas mais justas para caber o texto */
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
+    font-size: 0.8em; /* Diminui a fonte para o texto caber */
+    
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    
+    /* Demais estilos mantidos */
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    border: none;
+}
+
+#play-again-btn {
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+}
+
+#play-again-btn:hover {
+    background-color: #c26500; 
+}
+
+.back-button { 
+    background-color: var(--primary-color);
+    color: var(--text-light);
+}
+
+.back-button:hover {
+    background-color: #004269;
+}
+
 /* --- 1. Info do Jogo (Tentativas) --- */
-.game-info {
+.game-controls-and-info .game-info {
     font-size: 1.2em;
     font-weight: bold;
     color: var(--primary-color);
-    margin-bottom: 20px;
-    padding: 10px 20px;
+    margin-bottom: 0; /* Remove margem inferior */
+    padding: 8px 15px; /* Ajusta padding para caber na barra */
     background-color: var(--text-light);
     border-radius: 8px;
     box-shadow: 0 2px 4px var(--sombra-card);
 }
 
+/* --- CONTAINER DINÂMICO DE INFORMAÇÃO (Lado Direito) --- */
+.info-display-area {
+    width: 55%; /* Ocupa um espaço definido na direita */
+    min-height: 100px;
+    padding: 8px 15px;
+    background-color: var(--text-light);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--sombra-card);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    position: relative; 
+}
+
+#match-info-text {
+    margin: 0;
+    font-size: 0.9em;
+    font-style: italic;
+    color: var(--text-dark);
+}
+
+/* --- MENSAGEM DE VITÓRIA (Integrada) --- */
+.final-message {
+    width: 100%;
+    height: 100%;
+    position: absolute; /* Para sobrepor o texto de curiosidade no mesmo container */
+    top: 0;
+    left: 0;
+    background-color: var(--matched-color); /* Fundo verde de vitória */
+    color: var(--text-light);
+    border-radius: 8px;
+    padding: 8px 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: opacity 0.5s;
+}
+
+.final-message h3 {
+    margin: 0;
+    color: var(--text-light);
+    font-size: 1em;
+    line-height: 1.2;
+}
+
+
 /* --- 2. Tabuleiro do Jogo (Grid) --- */
 #memory-game-board {
     display: grid;
-    /* ! IMPORTANTE: grid-template-columns/rows SÃO DEFINIDOS NO JavaScript ! */
     gap: 10px;
     padding: 15px;
-    background-color: var(--primary-color); /* Fundo Azul Acervo */
+    background-color: var(--primary-color); 
     border-radius: 12px;
     box-shadow: 0 8px 16px var(--sombra-card);
-    
-    /* Configurações Máximas e Mínimas */
     width: 90vw;
     max-width: 800px;
-    aspect-ratio: 1; /* Garante que o tabuleiro seja visualmente coeso */
+    aspect-ratio: 1;
     height: 500px;
 }
 
 /* --- 3. Estilo da Carta (memory-card) --- */
 .memory-card {
-    /* É o container da carta que lida com o clique e o estado */
     position: relative;
     cursor: pointer;
     background: transparent;
     border-radius: 8px;
-    
-    /* Permite o efeito 3D de virar */
     transform-style: preserve-3d;
     transition: transform 0.6s;
     box-sizing: border-box;
@@ -122,14 +232,14 @@ header h1 {
     position: absolute;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden; /* Esconde a face oposta durante a rotação */
+    backface-visibility: hidden;
     border-radius: 8px;
     box-shadow: 0 3px 6px var(--sombra-card);
     overflow: hidden;
 }
 
 .front-face {
-    transform: rotateY(180deg); /* Começa virada para o verso */
+    transform: rotateY(180deg); 
 }
 
 .front-face img, .back-face img {
@@ -142,39 +252,11 @@ header h1 {
 /* Estilo para a Carta já Encontrada */
 .memory-card.matched {
     cursor: default;
-    /* Dica visual de acerto, levemente opaca ou com borda */
     opacity: 0.8;
     border: 2px solid var(--matched-color);
 }
 
-/* --- 4. Mensagem de Vitória --- */
-#win-message {
-    text-align: center;
-    padding: 30px;
-    background-color: var(--text-light);
-    border: 3px solid var(--matched-color);
-    border-radius: 10px;
-    margin-top: 30px;
-    box-shadow: 0 4px 10px var(--sombra-card);
-}
-
-#win-message h2 {
-    color: var(--matched-color);
-}
-
-#play-again-btn {
-    padding: 10px 20px;
-    margin-top: 15px;
-    background-color: var(--secondary-color);
-    color: var(--text-light);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.2s;
-}
-
-/* --- 5. Rodapé e Botões --- */
+/* --- 5. Rodapé --- */
 footer {
     background-color: var(--text-dark);
     color: var(--text-light);
@@ -184,26 +266,28 @@ footer {
     margin-top: auto;
 }
 
-.back-button {
-    /* Reutiliza o estilo do botão de voltar */
-    display: inline-block;
-    padding: 8px 15px;
-    background-color: var(--primary-color);
-    color: var(--text-light);
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    font-weight: bold;
-    margin-top: 20px;
+/* --- 6. Responsividade (opcional, mas útil) --- */
+@media (max-width: 768px) {
+    .game-controls-and-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .info-display-area {
+        width: 100%;
+    }
+    #memory-game-board {
+        gap: 8px;
+        padding: 10px;
+        height: auto;
+    }
 }
 
-/* --- 6. Responsividade (opcional, mas útil) --- */
 @media (max-width: 600px) {
-    #memory-game-board {
-        gap: 5px;
-        padding: 10px;
+    .control-buttons {
+        flex-direction: column;
+        width: 100%;
     }
-    .game-info p {
-        font-size: 1em;
+    .action-button {
+        width: 100%;
     }
 }
