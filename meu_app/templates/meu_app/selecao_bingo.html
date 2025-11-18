@@ -9,9 +9,29 @@
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
     
     <style>
-        /* O CSS para a tela de seleção NÃO ESTÁ NO style.css principal, 
-           então ele é mantido aqui para garantir o layout específico. 
-           Se você mover este CSS para o style.css, pode remover esta tag <style>. */
+        /* --- Variáveis de Cores do Acervo --- */
+        :root {
+            --primary-color: #005285; /* Azul Acervo */
+            --secondary-color: #EE7D00; /* Laranja Acervo */
+            --accent-color: #AE1917; /* Vermelho Acervo */
+            --background-light: #f4f4f9;
+            --text-dark: #333;
+            --text-light: #fff;
+            --sombra-card: rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- ESTILOS GERAIS --- */
+        .game-page-main {
+            flex: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* --- Contêiner de Seleção (Formulário e Controles) --- */
         .selection-container {
             background-color: var(--text-light);
             padding: 40px;
@@ -21,13 +41,17 @@
             max-width: 500px;
             width: 90%;
             margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; 
         }
 
         .selection-container h2 {
             color: var(--secondary-color);
             margin-bottom: 30px;
         }
-
+        
+        /* Estilos do Formulário */
         .form-group {
             margin-bottom: 25px;
             text-align: left;
@@ -50,6 +74,7 @@
             cursor: pointer;
         }
 
+        /* Botão INICIAR JOGO */
         .start-button {
             width: 100%;
             font-family: 'Stick No Bills', sans-serif;
@@ -61,10 +86,95 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            margin-bottom: 20px; /* Adiciona espaço antes dos novos botões */
         }
 
         .start-button:hover {
             background-color: #901614;
+        }
+        
+        /* --- ESTILOS DOS NOVOS BOTÕES DE CONTROLE --- */
+        
+        .control-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%; 
+        }
+
+        .main-control-btn {
+            width: 100%;
+            padding: 15px; 
+            font-size: 1.1em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            display: block; 
+            text-align: center;
+            box-sizing: border-box; 
+        }
+
+        /* Botão Voltar */
+        .main-control-btn.back-action {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            border: 2px solid var(--primary-color);
+        }
+        .main-control-btn.back-action:hover {
+            background-color: #004269;
+        }
+
+        /* Botão Expansível "Como Jogar" */
+        #rules-container {
+            width: 100%;
+            text-align: left;
+        }
+
+        #rules-container summary {
+            display: block;
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            list-style: none;
+            position: relative;
+            box-shadow: 0 2px 5px var(--sombra-card);
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        #rules-container summary:hover {
+            background-color: #c26500;
+        }
+
+        #rules-container summary::after {
+            content: '▼'; 
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.2s;
+        }
+
+        #rules-container[open] summary::after {
+            content: '▲'; 
+        }
+
+        .rules-content {
+            background-color: var(--background-light);
+            border: 1px solid var(--secondary-color);
+            border-top: none;
+            border-radius: 0 0 5px 5px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+        }
+        .rules-content ul {
+             padding-left: 25px;
         }
     </style>
 </head>
@@ -107,6 +217,44 @@
 
                 <button type="submit" class="start-button">INICIAR JOGO</button>
             </form>
+
+            <div class="control-btn-group">
+                
+                <details id="rules-container">
+                    <summary>COMO JOGAR (Regras e Pontuação)</summary>
+                    <div class="rules-content">
+                        <h3>Regras e Pontuação do Bingo de Perguntas 🎯</h3>
+                        <p>O objetivo é completar uma <strong>linha</strong>, <strong>coluna</strong> ou <strong>diagonal</strong> na cartela, encontrando as respostas das perguntas sorteadas.</p>
+                        
+                        <hr>
+                        
+                        <h4>Chances e Pontuação:</h4>
+                        <p>Para cada pergunta, você tem <strong>3 chances</strong> para clicar na célula correta e pontuar:</p>
+                        <ul>
+                            <li><strong>1ª Tentativa:</strong> ✅ <strong>100 pontos</strong> (Acerto Imediato).</li>
+                            <li><strong>2ª Tentativa:</strong> ✅ <strong>50 pontos</strong>.</li>
+                            <li><strong>3ª Tentativa:</strong> ✅ <strong>10 pontos</strong>.</li>
+                            <li><strong>Esgotar as 3 Chances:</strong> 🚫 <strong>0 pontos</strong> para a rodada.</li>
+                        </ul>
+                        
+                        <hr>
+
+                        <h4>Ações de Penalidade e Bônus:</h4>
+                        <ul>
+                            <li><strong>Clicar em "Ver Resposta":</strong> 🚫 <strong>0 pontos</strong>. A resposta é revelada, mas a pontuação é zerada.</li>
+                            <li><strong>Botão "Não Está na Cartela":</strong>
+                                <ul>
+                                    <li>Se <strong>CORRETO</strong> (a resposta realmente não está lá): ➕ <strong>10 pontos</strong>.</li>
+                                    <li>Se <strong>INCORRETO</strong> (a resposta estava na cartela): ➖ <strong>50 pontos</strong> (Penalidade).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </details>
+
+                <a href="{% url 'index' %}" class="main-control-btn back-action">VOLTAR AO MENU PRINCIPAL</a>
+            </div>
+            
         </div>
     </main>
 
@@ -122,8 +270,7 @@
             const dificuldade = document.getElementById('dificuldade-select').value;
             
             if (categoria && dificuldade) {
-                // Monta a URL completa: /bingo/jogar/ID/SLUG/
-                // Linha Correta:
+                // Monta a URL para iniciar o jogo
                 window.location.href = `/jogos/jogar/${dificuldade}/${categoria}/`;
             } else {
                 alert('Por favor, selecione um tema e uma dificuldade.');

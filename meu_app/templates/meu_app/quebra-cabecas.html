@@ -2,296 +2,390 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Quebra-Cabeça</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-      background: #f5f5f5;
-    }
-    h1 { margin-bottom: 20px; }
-    /* Mural */
-    #tela-mural { width: 100%; display:flex; flex-direction:column; align-items:center;}
-    .mural { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:15px;}
-    .mural img {
-      width:400px; height:250px; object-fit:cover; border:3px solid transparent;
-      border-radius:10px; cursor:pointer; transition: transform .2s, border .2s;
-    }
-    .mural img:hover { transform: scale(1.01); }
-    .mural img.selected { border-color:#007bff; transform: scale(1.08); }
-    .controls { display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
-    select, button { padding:6px 12px; font-size:14px; border-radius:5px; border:1px solid #aaa; }
-    button { background:#333; color:#fff; cursor:pointer; }
-    button:hover { background:#555; }
-    /* Jogo */
-    #tela-jogo { display:none; width:100%; flex-direction:column; align-items:center; }
-    .menu-jogo { display:flex; gap:10px; margin-bottom:15px; }
-    .board { display:grid; gap:1px; border:3px solid #333; background:#333; }
-    .slot { background:#ddd; position:relative; }
-    .piece {
-      width:100%; height:100%; cursor:grab; background-repeat:no-repeat;
-      /* background-size assigned inline em px */
-    }
-    .piece.dragging { opacity:.5; }
-    #status { margin-top:15px; font-weight:bold; }
-  </style>
+    <meta charset="UTF-8" />
+    <title>Quebra-Cabeça</title>
+    
+    <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
+    
+    <style>
+        /* --- Variáveis de Cores do Acervo --- */
+        :root {
+            --primary-color: #005285; /* Azul Acervo */
+            --secondary-color: #EE7D00; /* Laranja Acervo (Destaque/Ação) */
+            --accent-color: #AE1917; /* Vermelho Acervo (Alerta) */
+            --background-light: #f4f4f9; /* Fundo principal */
+            --text-dark: #333;
+            --text-light: #fff;
+            --sombra-card: rgba(0, 0, 0, 0.25);
+        }
+
+        /* --- ESTILOS GERAIS E LAYOUT PADRÃO ACERVO --- */
+        body {
+            font-family: 'Roboto', sans-serif; /* Padrão Acervo */
+            background: var(--background-light); 
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0; 
+        }
+
+        /* --- CABEÇALHO PADRÃO --- */
+        header {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 20px 40px;
+            box-shadow: 0 4px 6px var(--sombra-card);
+            text-align: center;
+        }
+
+        /* 🛑 CORREÇÃO FONTE: Aplica a fonte Stick No Bills ao título principal */
+        header h1 { 
+            color: var(--secondary-color); 
+            margin: 0; 
+            font-family: 'Stick No Bills', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL --- */
+        .game-page-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            padding: 20px; 
+        }
+        
+        /* --- ESTILOS REFATORADOS DO JOGO --- */
+        h1 { /* Mantido para estilo de títulos internos, se houverem */
+             margin-bottom: 20px; 
+             color: var(--primary-color);
+             font-family: 'Stick No Bills', sans-serif;
+        }
+
+        /* Mural */
+        #tela-mural { width: 100%; display:flex; flex-direction:column; align-items:center;}
+        .mural { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:15px;}
+        .mural img {
+            width:400px; height:250px; object-fit:cover; border:3px solid transparent;
+            border-radius:10px; cursor:pointer; transition: transform .2s, border .2s;
+            box-shadow: 0 2px 5px var(--sombra-card);
+        }
+        .mural img.selected { 
+            border-color: var(--secondary-color); 
+            transform: scale(1.08); 
+        }
+        
+        .controls { display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
+        
+        select, button { 
+            padding:8px 15px;
+            font-size:14px; 
+            border-radius:5px; 
+            border:1px solid var(--primary-color); 
+            font-weight: bold;
+        }
+        
+        button { 
+            background: var(--primary-color); 
+            color: var(--text-light); 
+            cursor:pointer; 
+        }
+        
+        button:hover { 
+            background: #004269; 
+        }
+
+        /* Jogo */
+        #tela-jogo { display:none; width:100%; flex-direction:column; align-items:center; }
+        .menu-jogo { display:flex; gap:10px; margin-bottom:15px; }
+        
+        .board { 
+            display:grid; 
+            gap:1px; 
+            border:3px solid var(--primary-color); 
+            background: var(--primary-color); 
+        }
+        
+        .slot { 
+            background: var(--text-light); 
+            position:relative; 
+        }
+        
+        .piece { width:100%; height:100%; cursor:grab; background-repeat:no-repeat; }
+        .piece.dragging { opacity:.5; }
+        
+        #status { 
+            margin-top:15px; 
+            font-weight:bold; 
+            color: var(--accent-color); 
+        }
+
+        /* --- RODAPÉ PADRÃO --- */
+        footer {
+            width: 100%;
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; /* Garante que fique no fundo */
+        }
+    </style>
 </head>
 <body>
-  <h1>🧩 Quebra-Cabeça 🧩</h1>
+    <header>
+        <h1> QUEBRA-CABEÇAS </h1>
+    </header>
 
-  <!-- TELA MURAL -->
-  <div id="tela-mural">
-<div class="mural" id="mural">
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}" 
-         alt="Imagem 1" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}">
+    <main class="game-page-main">
+        
+        <div id="tela-mural">
+            <div class="mural" id="mural">
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}" 
+                     alt="Imagem 1" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}">
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}" 
+                     alt="Imagem 2" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}">
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}" 
+                     alt="Imagem 3" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}">
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}" 
+                     alt="Imagem 4" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}">
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}" 
+                     alt="Imagem 5" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}">
+                
+                <img src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}" 
+                     alt="Imagem 6" 
+                     data-src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}">
+            </div>
 
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}" 
-         alt="Imagem 2" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}">
-    
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}" 
-         alt="Imagem 3" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}">
-         
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}" 
-         alt="Imagem 4" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}">
-         
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}" 
-         alt="Imagem 5" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}">
-         
-    <img src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}" 
-         alt="Imagem 6" 
-         data-src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}">
+            <div class="selection-controls">
+        <div class="difficulty-group">
+            <label for="difficulty">Dificuldade:</label>
+            <select id="difficulty">
+                <option value="facil">Fácil</option>
+                <option value="medio" selected>Normal</option>
+                <option value="dificil">Difícil</option>
+          
+            </select>
+            
+        </div>
+    </div>
+    <div class="action-center">
+        <button id="jogar">Jogar</button>
+        <button id="inicio">Menu Principal</button>
+    </div>
 </div>
 
-    <div class="controls">
-      <label for="difficulty">Dificuldade:</label>
-      <select id="difficulty">
-        <option value="facil">Fácil</option>
-        <option value="medio" selected>Normal</option>
-        <option value="dificil">Difícil</option>
-      </select>
-      <button id="jogar">Jogar</button>
-    </div>
-  </div>
+        <div id="tela-jogo">
+            <div class="menu-jogo">
+                <button id="voltar">← Voltar</button>
+                
+            </div>
+            <div class="board" id="board"></div>
+            <p id="status"></p>
+        </div>
+    </main>
 
-  <!-- TELA JOGO -->
-  <div id="tela-jogo">
-    <div class="menu-jogo">
-      <button id="voltar">← Voltar</button>
-      <button id="inicio">Início</button>
-    </div>
-    <div class="board" id="board"></div>
-    <p id="status"></p>
-  </div>
+    <footer>
+        <p>&copy; 2025 Acervo Artístico - UFSM</p>
+    </footer>
 
-  <script>
-    const mural = document.getElementById('mural');
-    const telaMural = document.getElementById('tela-mural');
-    const telaJogo = document.getElementById('tela-jogo');
-    const jogarBtn = document.getElementById('jogar');
-    const voltarBtn = document.getElementById('voltar');
-    const inicioBtn = document.getElementById('inicio');
-    const difficultySelect = document.getElementById('difficulty');
-    const board = document.getElementById('board');
-    const status = document.getElementById('status');
+    <script>
+        // --- CÓDIGO JAVASCRIPT (MANTIDO) ---
+        const mural = document.getElementById('mural');
+        const telaMural = document.getElementById('tela-mural');
+        const telaJogo = document.getElementById('tela-jogo');
+        const jogarBtn = document.getElementById('jogar');
+        const voltarBtn = document.getElementById('voltar');
+        const inicioBtn = document.getElementById('inicio');
+        const difficultySelect = document.getElementById('difficulty');
+        const board = document.getElementById('board');
+        const status = document.getElementById('status');
 
-    let slots = [];
-    let currentImage = null;
-    let rows = 4, cols = 6;
-    const tileSize = 100;
+        let slots = [];
+        let currentImage = null;
+        let rows = 4, cols = 6;
+        const tileSize = 100;
 
-    // ----- Seleção do mural -----
-    mural.addEventListener('click', (e) => {
-      if (e.target.tagName === 'IMG') {
-        document.querySelectorAll('.mural img').forEach(img => img.classList.remove('selected'));
-        e.target.classList.add('selected');
-        currentImage = e.target.dataset.src;
-      }
-    });
+        // ----- Seleção do mural -----
+        mural.addEventListener('click', (e) => {
+            if (e.target.tagName === 'IMG') {
+                document.querySelectorAll('.mural img').forEach(img => img.classList.remove('selected'));
+                e.target.classList.add('selected');
+                currentImage = e.target.dataset.src;
+            }
+        });
 
-    // ----- Navegação -----
-    jogarBtn.addEventListener('click', () => {
-      if (!currentImage) { alert('Selecione uma imagem antes de jogar!'); return; }
-      const img = new Image();
-      img.onload = function() {
-        telaMural.style.display = 'none';
-        telaJogo.style.display = 'flex';
-        init(currentImage, img.width, img.height);
-      };
-      img.src = currentImage;
-    });
+        // ----- Navegação -----
+        jogarBtn.addEventListener('click', () => {
+            if (!currentImage) { alert('Selecione uma imagem antes de jogar!'); return; }
+            const img = new Image();
+            img.onload = function() {
+                telaMural.style.display = 'none';
+                telaJogo.style.display = 'flex';
+                init(currentImage, img.width, img.height);
+            };
+            img.src = currentImage;
+        });
 
-    voltarBtn.addEventListener('click', () => {
-      telaJogo.style.display = 'none';
-      telaMural.style.display = 'flex';
-      board.innerHTML = '';
-      status.textContent = '';
-      // slots será recriado no próximo init
-      slots = [];
-    });
+        voltarBtn.addEventListener('click', () => {
+            telaJogo.style.display = 'none';
+            telaMural.style.display = 'flex';
+            board.innerHTML = '';
+            status.textContent = '';
+            slots = [];
+        });
 
-    inicioBtn.addEventListener('click', () => { window.location.href = 'index.html'; });
+        // URL 'index.html' assumida como Menu Principal
+        inicioBtn.addEventListener('click', () => { window.location.href = '{% url "index" %}'; }); 
 
-    // ----- Inicializa seleção padrão -----
-    window.onload = () => {
-      const firstImg = mural.querySelector('img');
-      firstImg.classList.add('selected');
-      currentImage = firstImg.dataset.src;
-      // registrar drag/drop apenas 1 vez
-      setupDragDrop();
-    };
+        // ----- Inicializa seleção padrão -----
+        window.onload = () => {
+            const firstImg = mural.querySelector('img');
+            firstImg.classList.add('selected');
+            currentImage = firstImg.dataset.src;
+            setupDragDrop();
+        };
 
-    // ----- Criação do tabuleiro e peças -----
-    function init(imageSrc, imgWidth, imgHeight) {
-      board.innerHTML = '';
-      slots = [];
-      status.textContent = '';
+        // ----- Criação do tabuleiro e peças -----
+        function init(imageSrc, imgWidth, imgHeight) {
+            board.innerHTML = '';
+            slots = [];
+            status.textContent = '';
 
-      const difficulty = difficultySelect.value;
-      const isHorizontal = imgWidth > imgHeight;
-      const isVertical = imgHeight > imgWidth;
+            const difficulty = difficultySelect.value;
+            const isHorizontal = imgWidth > imgHeight;
+            const isVertical = imgHeight > imgWidth;
 
-      if (difficulty === 'facil') {
-        rows = isHorizontal ? 3 : isVertical ? 5 : 4;
-        cols = isHorizontal ? 5 : isVertical ? 3 : 4;
-      } else if (difficulty === 'medio') {
-        rows = isHorizontal ? 4 : isVertical ? 6 : 5;
-        cols = isHorizontal ? 6 : isVertical ? 4 : 5;
-      } else {
-        rows = isHorizontal ? 5 : isVertical ? 7 : 6;
-        cols = isHorizontal ? 7 : isVertical ? 5 : 6;
-      }
+            if (difficulty === 'facil') {
+                rows = isHorizontal ? 3 : isVertical ? 5 : 4;
+                cols = isHorizontal ? 5 : isVertical ? 3 : 4;
+            } else if (difficulty === 'medio') {
+                rows = isHorizontal ? 4 : isVertical ? 6 : 5;
+                cols = isHorizontal ? 6 : isVertical ? 4 : 5;
+            } else {
+                rows = isHorizontal ? 5 : isVertical ? 7 : 6;
+                cols = isHorizontal ? 7 : isVertical ? 5 : 6;
+            }
 
-      board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
-      board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
+            board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
+            board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
 
-      createBoard();
-      const pieces = createPieces(imageSrc);
-      shuffle(pieces);
-      slots.forEach((slot, i) => slot.appendChild(pieces[i]));
+            createBoard();
+            const pieces = createPieces(imageSrc);
+            shuffle(pieces);
+            slots.forEach((slot, i) => slot.appendChild(pieces[i]));
 
-      // Garantir reflow antes de qualquer verificação opcional; mas não re-registra listeners
-      // Forçar um reflow mínimo (leitura de offsetHeight)
-      void board.offsetHeight;
-    }
-
-    function createBoard() {
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const slot = document.createElement('div');
-          slot.classList.add('slot');
-          slot.style.width = tileSize + 'px';
-          slot.style.height = tileSize + 'px';
-          slot.dataset.correct = r * cols + c;
-          board.appendChild(slot);
-          slots.push(slot);
+            void board.offsetHeight;
         }
-      }
-    }
 
-    function createPieces(imageSrc) {
-      const pieces = [];
-      // calculo do tamanho total de background em px para cada peça
-      const bgW = cols * tileSize;
-      const bgH = rows * tileSize;
-
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const idx = r * cols + c;
-          const piece = document.createElement('div');
-          piece.classList.add('piece');
-          piece.style.backgroundImage = `url("${imageSrc}")`;
-          // backgroundPosition em px
-          piece.style.backgroundPosition = `-${c * tileSize}px -${r * tileSize}px`;
-          // definir background-size explicitamente em px (evita depender de var CSS)
-          piece.style.backgroundSize = `${bgW}px ${bgH}px`;
-          piece.draggable = true;
-          piece.dataset.index = idx;
-          pieces.push(piece);
+        function createBoard() {
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const slot = document.createElement('div');
+                    slot.classList.add('slot');
+                    slot.style.width = tileSize + 'px';
+                    slot.style.height = tileSize + 'px';
+                    slot.dataset.correct = r * cols + c;
+                    board.appendChild(slot);
+                    slots.push(slot);
+                }
+            }
         }
-      }
-      return pieces;
-    }
 
-    function shuffle(arr) {
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-    }
+        function createPieces(imageSrc) {
+            const pieces = [];
+            const bgW = cols * tileSize;
+            const bgH = rows * tileSize;
 
-    // ----- Drag & Drop: registrado apenas 1 vez -----
-    let dragSetupDone = false;
-    let dragged = null; // variável única compartilhada entre handlers
-
-    function setupDragDrop() {
-      if (dragSetupDone) return;
-      dragSetupDone = true;
-
-      // dragstart
-      board.addEventListener('dragstart', (e) => {
-        const t = e.target;
-        if (t && t.classList && t.classList.contains('piece')) {
-          dragged = t;
-          t.classList.add('dragging');
-          // opcional: console.log('dragstart', dragged.dataset.index);
+            for (let r = 0; r < rows; r++) {
+                for (let c = 0; c < cols; c++) {
+                    const idx = r * cols + c;
+                    const piece = document.createElement('div');
+                    piece.classList.add('piece');
+                    piece.style.backgroundImage = `url("${imageSrc}")`;
+                    piece.style.backgroundPosition = `-${c * tileSize}px -${r * tileSize}px`;
+                    piece.style.backgroundSize = `${bgW}px ${bgH}px`;
+                    piece.draggable = true;
+                    piece.dataset.index = idx;
+                    pieces.push(piece);
+                }
+            }
+            return pieces;
         }
-      });
 
-      // dragend
-      board.addEventListener('dragend', (e) => {
-        if (dragged) {
-          dragged.classList.remove('dragging');
-          // opcional: console.log('dragend', dragged.dataset.index);
-          dragged = null;
+        function shuffle(arr) {
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
         }
-      });
 
-      // dragover - permitir drop
-      board.addEventListener('dragover', (e) => { e.preventDefault(); });
+        // ----- Drag & Drop: registrado apenas 1 vez -----
+        let dragSetupDone = false;
+        let dragged = null;
 
-      // drop (delegado)
-      board.addEventListener('drop', (e) => {
-        e.preventDefault();
-        // usa closest para achar o slot mesmo que o alvo seja a peça
-        const targetSlot = e.target.closest('.slot');
-        if (!targetSlot) return;
-        if (!dragged) return; // se null, não há peça sendo arrastada
+        function setupDragDrop() {
+            if (dragSetupDone) return;
+            dragSetupDone = true;
 
-        if (!targetSlot.firstChild) {
-          targetSlot.appendChild(dragged);
-        } else if (targetSlot.firstChild !== dragged) {
-          const other = targetSlot.firstChild;
-          const fromSlot = dragged.parentElement;
-          targetSlot.appendChild(dragged);
-          fromSlot.appendChild(other);
+            // dragstart
+            board.addEventListener('dragstart', (e) => {
+                const t = e.target;
+                if (t && t.classList && t.classList.contains('piece')) {
+                    dragged = t;
+                    t.classList.add('dragging');
+                }
+            });
+
+            // dragend
+            board.addEventListener('dragend', (e) => {
+                if (dragged) {
+                    dragged.classList.remove('dragging');
+                    dragged = null;
+                }
+            });
+
+            // dragover - permitir drop
+            board.addEventListener('dragover', (e) => { e.preventDefault(); });
+
+            // drop (delegado)
+            board.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const targetSlot = e.target.closest('.slot');
+                if (!targetSlot) return;
+                if (!dragged) return;
+
+                if (!targetSlot.firstChild) {
+                    targetSlot.appendChild(dragged);
+                } else if (targetSlot.firstChild !== dragged) {
+                    const other = targetSlot.firstChild;
+                    const fromSlot = dragged.parentElement;
+                    targetSlot.appendChild(dragged);
+                    fromSlot.appendChild(other);
+                }
+                checkWin();
+            });
         }
-        checkWin();
-      });
 
-      // opcional: log para depuração
-      // console.log('drag/drop listeners registered once.');
-    }
-
-    // ----- Verificação de vitória -----
-    function checkWin() {
-      const ok = slots.every(slot => {
-        if (!slot.firstChild) return false;
-        return slot.dataset.correct === slot.firstChild.dataset.index;
-      });
-      if (ok) status.textContent = '🎉 Parabéns! Você completou o quebra-cabeça!';
-    }
-  </script>
+        // ----- Verificação de vitória -----
+        function checkWin() {
+            const ok = slots.every(slot => {
+                if (!slot.firstChild) return false;
+                return slot.dataset.correct === slot.firstChild.dataset.index;
+            });
+            if (ok) status.textContent = '🎉 Parabéns! Você completou o quebra-cabeça!';
+        }
+    </script>
 </body>
 </html>

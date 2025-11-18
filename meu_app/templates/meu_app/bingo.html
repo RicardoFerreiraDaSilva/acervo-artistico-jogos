@@ -17,6 +17,11 @@
             <h2>Bingo de Perguntas sobre {{ categoria.nome }} ({{ dificuldade.nome }})</h2> 
             <p>Sorteie uma pergunta, encontre a resposta na cartela e marque! Complete uma linha, coluna ou diagonal para vencer o **Bingo {{ dificuldade.tamanho_cartela }}x{{ dificuldade.tamanho_cartela }}**.</p>
         </div>
+        
+        <div id="game-status-bar">
+            <p>Pontuação Atual: <span id="score-display">0</span></p>
+            <p>Tempo de Jogo: <span id="timer-display">00:00</span></p>
+        </div>
 
         <div id="bingo-container">
             <div id="question-area">
@@ -29,6 +34,7 @@
                 <div class="button-group">
                     <button id="draw-question-btn">Sortear Pergunta</button>
                     <button id="reveal-answer-btn" class="hidden">Ver Resposta</button>
+                    <button id="not-on-card-btn" class="hidden">A Resposta Não Está na Cartela</button>
                 </div>
             </div>
 
