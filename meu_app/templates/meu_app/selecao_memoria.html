@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
     
     <style>
+        /* INÍCIO DAS MUDANÇAS (APENAS O FUNDO DA PÁGINA) */
+        body {
+            /* Define a imagem de fundo usando o caminho estático do Django */
+            background-image: url("{% static 'meu_app/imagens/acervo_visual/Acervo.jpg' %}");
+            /* Garante que a imagem cubra toda a área da tela */
+            background-size: cover; 
+            /* Evita que a imagem se repita */
+            background-repeat: no-repeat;
+            /* Fixa a imagem no lugar ao rolar a página */
+            background-attachment: fixed; 
+            background-color: #333; /* Cor de backup */
+        }
+        /* FIM DAS MUDANÇAS PARA O FUNDO DA PÁGINA */
+
+        /* NOTA: Os seletores 'header' e 'footer' foram removidos daqui */
+        /* para que voltem a ser estilizados pelo seu style.css original. */
+
+
         /* Reutilizando estilos de seleção do Bingo para consistência */
         .selection-container {
             background-color: var(--text-light);
