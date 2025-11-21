@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ========================================
 
 # SECRET_KEY deve ser definida como uma variável de ambiente no Render.
-# NUNCA use a chave fixa em produção.
+# O segundo valor é o fallback, usado apenas em desenvolvimento local.
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-@8b85*q+*2_t!k_u1-a$g#x^01j#e-j(9e&k4c^n1z%t!t*z')
 
 # A variável RENDER_EXTERNAL_HOSTNAME é definida automaticamente pelo Render.
@@ -26,7 +26,7 @@ else:
     ALLOWED_HOSTS = ['*'] # Permite acesso local e testes
 
 # ========================================
-# 2. APPLICATION DEFINITION (Ajuste o 'meu_app' se necessário)
+# 2. APPLICATION DEFINITION (Manter como estava)
 # ========================================
 
 INSTALLED_APPS = [
@@ -56,7 +56,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# IMPORTANTE: Mantenha este nome correto
 ROOT_URLCONF = 'acervo_projeto.urls' 
 
 TEMPLATES = [
@@ -75,15 +74,12 @@ TEMPLATES = [
     },
 ]
 
-# IMPORTANTE: Mantenha este nome correto
 WSGI_APPLICATION = 'acervo_projeto.wsgi.application'
 
 # ========================================
 # 4. DATABASE (Alternância entre Render e Local)
 # ========================================
 
-# Usa a DATABASE_URL do Render se existir (PostgreSQL),
-# ou o SQLite local como padrão (fallback) para desenvolvimento.
 DATABASES = {
     'default': dj_database_url.config(
         # Fallback para SQLite local
@@ -117,19 +113,46 @@ USE_I18N = True
 USE_TZ = True
 
 # ========================================
-# 6. ARQUIVOS ESTÁTICOS E DE MÍDIA (Configuração WhiteNoise)
+# 6. ARQUIVOS ESTÁTICOS E DE MÍDIA (WhiteNoise e AWS S3)
 # ========================================
 
-# URL que o navegador usa para referenciar arquivos estáticos
-STATIC_URL = '/static/'
-# Diretório onde o `collectstatic` irá copiar todos os arquivos estáticos para produção
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
-# Configuração do WhiteNoise para comprimir e cachear estáticos
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+if DEBUG:
+    # Configurações de Mídia Local (APENAS EM DEV)
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    # ----------------------------------------------------
+    # CONFIGURAÇÃO DE PRODUÇÃO: ARMAZENAMENTO AWS S3
+    # Requer que as vars de ambiente AWS_... estejam no Render
+    # ----------------------------------------------------
+    
+    # 1. Credenciais do S3 (obtidas do Render Environment)
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    
+    # IMPORTANTE: Altere esta região para a que você escolheu no AWS
+    AWS_S3_REGION_NAME = os.environ.get('AWS_S3_REGION_NAME', 'sa-east-1') 
+    
+    # 2. Configura o domínio customizado para o S3
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+    
+    # 3. MÍDIA (Arquivos de upload do usuário/admin)
+    # Define o S3 como o armazenamento padrão para arquivos de MÍDIA
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+    # Define a pasta dentro do bucket S3 onde a mídia será salva
+    MEDIAFILES_LOCATION = 'media'
+    # URL que o Django usará para servir a mídia (aponta para o S3)
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+    
+    # 4. ESTÁTICOS (CSS/JS do projeto)
+    # WhiteNoise ainda serve os estáticos de forma eficiente
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# URL pública para arquivos de mídia (uploads)
-MEDIA_URL = '/media/'
-# Caminho absoluto onde os uploads são armazenados
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
