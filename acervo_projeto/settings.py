@@ -5,25 +5,30 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+# ========================================
+# 1. CONFIGURAÇÕES DE SEGURANÇA E AMBIENTE
+# ========================================
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
-# Chave de desenvolvimento (usar apenas LOCALMENTE)
-SECRET_KEY = 'django-insecure-@8b85*q+*2_t!k_u1-a$g#x^01j#e-j(9e&k4c^n1z%t!t*z'
+# SECRET_KEY deve ser definida como uma variável de ambiente no Render.
+# NUNCA use a chave fixa em produção.
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-@8b85*q+*2_t!k_u1-a$g#x^01j#e-j(9e&k4c^n1z%t!t*z')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# A variável RENDER_EXTERNAL_HOSTNAME é definida automaticamente pelo Render.
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
 if RENDER_EXTERNAL_HOSTNAME:
+    # Modo de Produção
     DEBUG = False
     ALLOWED_HOSTS = [RENDER_EXTERNAL_HOSTNAME]
 else:
+    # Modo de Desenvolvimento Local
     DEBUG = True
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['*'] # Permite acesso local e testes
 
-# Application definition
+# ========================================
+# 2. APPLICATION DEFINITION (Ajuste o 'meu_app' se necessário)
+# ========================================
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -32,13 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'meu_app',
+    'meu_app', # Certifique-se de que este é o nome correto do seu aplicativo
 ]
+
+# ========================================
+# 3. MIDDLEWARE (WhiteNoise inserido corretamente)
+# ========================================
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # Adicione o WhiteNoise middleware logo após o SecurityMiddleware
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # WhiteNoise deve vir logo após SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -47,7 +56,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'acervo_projeto.urls'
+# IMPORTANTE: Mantenha este nome correto
+ROOT_URLCONF = 'acervo_projeto.urls' 
 
 TEMPLATES = [
     {
@@ -65,24 +75,27 @@ TEMPLATES = [
     },
 ]
 
+# IMPORTANTE: Mantenha este nome correto
 WSGI_APPLICATION = 'acervo_projeto.wsgi.application'
 
-# Database
-# Use dj-database-url para se conectar ao banco de dados do Render
-DATABASE_URL = os.environ.get('DATABASE_URL')
-if DATABASE_URL:
-    DATABASES = {
-        'default': dj_database_url.config(default=DATABASE_URL, conn_max_age=600)
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+# ========================================
+# 4. DATABASE (Alternância entre Render e Local)
+# ========================================
 
-# Password validation
+# Usa a DATABASE_URL do Render se existir (PostgreSQL),
+# ou o SQLite local como padrão (fallback) para desenvolvimento.
+DATABASES = {
+    'default': dj_database_url.config(
+        # Fallback para SQLite local
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600 # Configuração para persistência da conexão
+    )
+}
+
+# ========================================
+# 5. VALIDAÇÃO DE SENHAS, I18N, TIMEZONE (Manter como estava)
+# ========================================
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -98,31 +111,25 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Internationalization
 LANGUAGE_CODE = 'pt-br'
 TIME_ZONE = 'America/Sao_Paulo'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.2/howto/static-files/
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# ========================================
+# 6. ARQUIVOS ESTÁTICOS E DE MÍDIA (Configuração WhiteNoise)
+# ========================================
 
-# Configuração para servir arquivos estáticos com WhiteNoise
+# URL que o navegador usa para referenciar arquivos estáticos
+STATIC_URL = '/static/'
+# Diretório onde o `collectstatic` irá copiar todos os arquivos estáticos para produção
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
+# Configuração do WhiteNoise para comprimir e cachear estáticos
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-# settings.py (Adicione na seção de Static Files ou crie uma nova seção)
-
-# ========================================
-# ARQUIVOS DE MÍDIA (Uploads do Usuário/Admin)
-# ========================================
-
-# URL pública que o navegador usará para acessar os arquivos de mídia (ex: /media/partes_cabecas/boca1.png)
+# URL pública para arquivos de mídia (uploads)
 MEDIA_URL = '/media/'
-
-# Caminho absoluto para o diretório onde os arquivos serão armazenados localmente
+# Caminho absoluto onde os uploads são armazenados
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
