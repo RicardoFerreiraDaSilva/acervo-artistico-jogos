@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'meu_app', # Certifique-se de que este é o nome correto do seu aplicativo
+    'storages'
 ]
 
 # ========================================
