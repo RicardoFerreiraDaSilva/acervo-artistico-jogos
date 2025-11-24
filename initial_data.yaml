@@ -1,0 +1,1446 @@
+- model: admin.logentry
+  pk: 1
+  fields:
+    action_time: 2025-11-19 09:15:52.738365+00:00
+    user: 1
+    content_type: 16
+    object_id: '1'
+    object_repr: Pinuras Yeddo
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 2
+  fields:
+    action_time: 2025-11-19 09:16:48.135259+00:00
+    user: 1
+    content_type: 15
+    object_id: '1'
+    object_repr: PadrÒo (5x4)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 3
+  fields:
+    action_time: 2025-11-19 09:19:32.025511+00:00
+    user: 1
+    content_type: 16
+    object_id: '1'
+    object_repr: Pinturas Yeddo
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Nome"]}}]'
+- model: admin.logentry
+  pk: 4
+  fields:
+    action_time: 2025-11-19 09:23:22.641872+00:00
+    user: 1
+    content_type: 17
+    object_id: '1'
+    object_repr: A (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 5
+  fields:
+    action_time: 2025-11-19 09:26:03.931293+00:00
+    user: 1
+    content_type: 17
+    object_id: '2'
+    object_repr: B (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 6
+  fields:
+    action_time: 2025-11-19 09:26:35.888004+00:00
+    user: 1
+    content_type: 15
+    object_id: '2'
+    object_repr: Curto (2x2)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 7
+  fields:
+    action_time: 2025-11-19 09:36:22.750235+00:00
+    user: 1
+    content_type: 17
+    object_id: '3'
+    object_repr: C (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 8
+  fields:
+    action_time: 2025-11-19 09:38:04.352182+00:00
+    user: 1
+    content_type: 17
+    object_id: '4'
+    object_repr: D (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 9
+  fields:
+    action_time: 2025-11-19 09:38:57.318622+00:00
+    user: 1
+    content_type: 17
+    object_id: '5'
+    object_repr: E (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 10
+  fields:
+    action_time: 2025-11-19 09:39:56.934225+00:00
+    user: 1
+    content_type: 17
+    object_id: '6'
+    object_repr: F (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 11
+  fields:
+    action_time: 2025-11-19 09:42:43.669659+00:00
+    user: 1
+    content_type: 17
+    object_id: '7'
+    object_repr: G (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 12
+  fields:
+    action_time: 2025-11-19 09:44:04.391367+00:00
+    user: 1
+    content_type: 17
+    object_id: '8'
+    object_repr: H (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 13
+  fields:
+    action_time: 2025-11-19 09:45:01.065180+00:00
+    user: 1
+    content_type: 17
+    object_id: '9'
+    object_repr: I (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 14
+  fields:
+    action_time: 2025-11-19 09:46:39.244931+00:00
+    user: 1
+    content_type: 17
+    object_id: '10'
+    object_repr: J (Pinturas Yeddo)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 15
+  fields:
+    action_time: 2025-11-19 09:53:08.685550+00:00
+    user: 1
+    content_type: 16
+    object_id: '2'
+    object_repr: Pinturas Carlos Scliar
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 16
+  fields:
+    action_time: 2025-11-19 09:54:05.832717+00:00
+    user: 1
+    content_type: 17
+    object_id: '11'
+    object_repr: A (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 17
+  fields:
+    action_time: 2025-11-19 09:54:57.953097+00:00
+    user: 1
+    content_type: 17
+    object_id: '12'
+    object_repr: B (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 18
+  fields:
+    action_time: 2025-11-19 09:55:40.151778+00:00
+    user: 1
+    content_type: 17
+    object_id: '13'
+    object_repr: C (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 19
+  fields:
+    action_time: 2025-11-19 09:56:29.038420+00:00
+    user: 1
+    content_type: 17
+    object_id: '14'
+    object_repr: D (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 20
+  fields:
+    action_time: 2025-11-19 09:57:15.739671+00:00
+    user: 1
+    content_type: 17
+    object_id: '15'
+    object_repr: E (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 21
+  fields:
+    action_time: 2025-11-19 09:58:06.206941+00:00
+    user: 1
+    content_type: 17
+    object_id: '16'
+    object_repr: F (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 22
+  fields:
+    action_time: 2025-11-19 09:58:36.513955+00:00
+    user: 1
+    content_type: 17
+    object_id: '17'
+    object_repr: G (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 23
+  fields:
+    action_time: 2025-11-19 09:59:29.513581+00:00
+    user: 1
+    content_type: 17
+    object_id: '18'
+    object_repr: H (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 24
+  fields:
+    action_time: 2025-11-19 10:00:00.885646+00:00
+    user: 1
+    content_type: 17
+    object_id: '19'
+    object_repr: I (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 25
+  fields:
+    action_time: 2025-11-19 10:02:18.381288+00:00
+    user: 1
+    content_type: 17
+    object_id: '20'
+    object_repr: J (Pinturas Carlos Scliar)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 26
+  fields:
+    action_time: 2025-11-19 17:49:24.208944+00:00
+    user: 1
+    content_type: 8
+    object_id: '1'
+    object_repr: PadrÒo
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 27
+  fields:
+    action_time: 2025-11-19 18:02:45.933844+00:00
+    user: 1
+    content_type: 7
+    object_id: '1'
+    object_repr: Bingo ArtÝstico
+    action_flag: 1
+    change_message: '[{"added": {}}, {"added": {"name": "pergunta", "object": "Litogravura
+      (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Xilogravura
+      (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Serigrafia
+      (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Goiva (Bingo
+      Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Pincel (Bingo
+      Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Pintura Rupestre
+      (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object": "Acervo
+      Art\u00edstico (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object":
+      "Escultura (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object":
+      "Performance (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object":
+      "Land Art (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta", "object":
+      "Instala\u00e7\u00e3o (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta",
+      "object": "Videoarte (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta",
+      "object": "Tinta \u00f3leo (Bingo Art\u00edstico)"}}, {"added": {"name": "pergunta",
+      "object": "Tinta acr\u00edlica (Bingo Art\u00edstico)"}}, {"added": {"name":
+      "pergunta", "object": "Stencil (Bingo Art\u00edstico)"}}, {"added": {"name":
+      "pergunta", "object": "Frida Kahlo (Bingo Art\u00edstico)"}}, {"added": {"name":
+      "pergunta", "object": "Tarsila do Amaral (Bingo Art\u00edstico)"}}, {"added":
+      {"name": "pergunta", "object": "Van Gogh (Bingo Art\u00edstico)"}}, {"added":
+      {"name": "pergunta", "object": "Michelangelo (Bingo Art\u00edstico)"}}, {"added":
+      {"name": "pergunta", "object": "Leonardo Da Vinci (Bingo Art\u00edstico)"}},
+      {"added": {"name": "pergunta", "object": "Iber\u00ea Camargo (Bingo Art\u00edstico)"}},
+      {"added": {"name": "pergunta", "object": "Semana de Arte Moderna (Bingo Art\u00edstico)"}}]'
+- model: admin.logentry
+  pk: 28
+  fields:
+    action_time: 2025-11-19 18:06:11.637384+00:00
+    user: 1
+    content_type: 8
+    object_id: '2'
+    object_repr: MÚdio
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 29
+  fields:
+    action_time: 2025-11-19 18:17:02.781328+00:00
+    user: 1
+    content_type: 7
+    object_id: '2'
+    object_repr: Arte Rupestre
+    action_flag: 1
+    change_message: '[{"added": {}}, {"added": {"name": "pergunta", "object": "Rochas
+      (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object": "Pictogramas (Arte
+      Rupestre)"}}, {"added": {"name": "pergunta", "object": "Petr\u00f3glifos (Arte
+      Rupestre)"}}, {"added": {"name": "pergunta", "object": "Arqueologia (Arte Rupestre)"}},
+      {"added": {"name": "pergunta", "object": "Paleol\u00edtico (Arte Rupestre)"}},
+      {"added": {"name": "pergunta", "object": "Lascaux (Arte Rupestre)"}}, {"added":
+      {"name": "pergunta", "object": "Altamira (Arte Rupestre)"}}, {"added": {"name":
+      "pergunta", "object": "Serra da Capivara (Arte Rupestre)"}}, {"added": {"name":
+      "pergunta", "object": "Carv\u00e3o (Arte Rupestre)"}}, {"added": {"name": "pergunta",
+      "object": "Ocre (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object":
+      "Gordura (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object": "Animais
+      (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object": "M\u00e3os em negativo
+      (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object": "N\u00e3o (Arte
+      Rupestre)"}}, {"added": {"name": "pergunta", "object": "\u00c1frica (Arte Rupestre)"}},
+      {"added": {"name": "pergunta", "object": "Piau\u00ed (Arte Rupestre)"}}, {"added":
+      {"name": "pergunta", "object": "Sim (Arte Rupestre)"}}, {"added": {"name": "pergunta",
+      "object": "Arte Rupestre (Arte Rupestre)"}}, {"added": {"name": "pergunta",
+      "object": "Da rocha (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object":
+      "Bis\u00e3o (Arte Rupestre)"}}, {"added": {"name": "pergunta", "object": "Arte
+      m\u00f3vel (Arte Rupestre)"}}]'
+- model: admin.logentry
+  pk: 30
+  fields:
+    action_time: 2025-11-19 18:25:45.760903+00:00
+    user: 1
+    content_type: 12
+    object_id: '1'
+    object_repr: Arte Moderna
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 31
+  fields:
+    action_time: 2025-11-19 18:29:34.942005+00:00
+    user: 1
+    content_type: 14
+    object_id: '1'
+    object_repr: Grade 12x12 - Arte Moderna
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 32
+  fields:
+    action_time: 2025-11-19 18:30:53.703648+00:00
+    user: 1
+    content_type: 13
+    object_id: '1'
+    object_repr: VANGUARDA (Arte Moderna)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 33
+  fields:
+    action_time: 2025-11-19 18:32:47.082956+00:00
+    user: 1
+    content_type: 13
+    object_id: '2'
+    object_repr: FUTURISMO (Arte Moderna)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 34
+  fields:
+    action_time: 2025-11-19 18:34:02.323185+00:00
+    user: 1
+    content_type: 13
+    object_id: '3'
+    object_repr: CUBISMO (Arte Moderna)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 35
+  fields:
+    action_time: 2025-11-19 18:38:44.710256+00:00
+    user: 1
+    content_type: 14
+    object_id: '1'
+    object_repr: Grade 12x12 - Arte Moderna
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Layout json"]}}]'
+- model: admin.logentry
+  pk: 36
+  fields:
+    action_time: 2025-11-19 18:40:04.378477+00:00
+    user: 1
+    content_type: 14
+    object_id: '1'
+    object_repr: Grade 12x12 - Arte Moderna
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Layout json"]}}]'
+- model: admin.logentry
+  pk: 37
+  fields:
+    action_time: 2025-11-19 18:41:51.014037+00:00
+    user: 1
+    content_type: 13
+    object_id: '4'
+    object_repr: SURREALISMO (Arte Moderna)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 38
+  fields:
+    action_time: 2025-11-19 18:43:09.450576+00:00
+    user: 1
+    content_type: 13
+    object_id: '5'
+    object_repr: DADAISMO (Arte Moderna)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 39
+  fields:
+    action_time: 2025-11-20 01:43:38.946432+00:00
+    user: 1
+    content_type: 12
+    object_id: '2'
+    object_repr: Arte Rulpestre
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 40
+  fields:
+    action_time: 2025-11-20 01:43:57.772250+00:00
+    user: 1
+    content_type: 14
+    object_id: '2'
+    object_repr: Grade 12x12 - Arte Rulpestre
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 41
+  fields:
+    action_time: 2025-11-20 01:45:38.713640+00:00
+    user: 1
+    content_type: 13
+    object_id: '6'
+    object_repr: PALEOLITICO (Arte Rulpestre)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 42
+  fields:
+    action_time: 2025-11-20 01:46:31.478367+00:00
+    user: 1
+    content_type: 13
+    object_id: '7'
+    object_repr: CAVERNA (Arte Rulpestre)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 43
+  fields:
+    action_time: 2025-11-20 01:47:03.310277+00:00
+    user: 1
+    content_type: 13
+    object_id: '8'
+    object_repr: GRAFITE (Arte Rulpestre)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 44
+  fields:
+    action_time: 2025-11-20 01:50:53.506098+00:00
+    user: 1
+    content_type: 14
+    object_id: '2'
+    object_repr: Grade 12x12 - Arte Rulpestre
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Layout json"]}}]'
+- model: admin.logentry
+  pk: 45
+  fields:
+    action_time: 2025-11-20 01:52:49.902304+00:00
+    user: 1
+    content_type: 13
+    object_id: '9'
+    object_repr: BISAO (Arte Rulpestre)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 46
+  fields:
+    action_time: 2025-11-20 01:53:01.240662+00:00
+    user: 1
+    content_type: 12
+    object_id: '2'
+    object_repr: Arte Rupestre
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Nome"]}}]'
+- model: admin.logentry
+  pk: 47
+  fields:
+    action_time: 2025-11-20 01:54:09.765590+00:00
+    user: 1
+    content_type: 13
+    object_id: '10'
+    object_repr: ESTENCIL (Arte Rupestre)
+    action_flag: 1
+    change_message: '[{"added": {}}]'
+- model: admin.logentry
+  pk: 48
+  fields:
+    action_time: 2025-11-20 01:55:17.391817+00:00
+    user: 1
+    content_type: 14
+    object_id: '2'
+    object_repr: Grade 12x12 - Arte Rupestre
+    action_flag: 2
+    change_message: '[{"changed": {"fields": ["Layout json"]}}]'
+- model: auth.user
+  pk: 1
+  fields:
+    password: pbkdf2_sha256$1000000$6N18QdJQbrCRAWGIH8OEdn$kJ7UOE+/N93cVLyXAbzFWGJptcgUpNKXwNP5G6dzG/c=
+    last_login: 2025-11-19 17:48:31.484199+00:00
+    is_superuser: true
+    username: dasil
+    first_name: ''
+    last_name: ''
+    email: dasilvaricardo787@gmail.com
+    is_staff: true
+    is_active: true
+    date_joined: 2025-11-19 09:09:15.423435+00:00
+    groups: []
+    user_permissions: []
+- model: sessions.session
+  pk: 9bivva3rth34g88mcbagtv059vemnk4m
+  fields:
+    session_data: .eJxVjM0OwiAQhN-FsyHLVn7q0bvPQBYWpGogKe3J-O62SQ86x_m-mbfwtC7Frz3NfmJxEUqcfrtA8ZnqDvhB9d5kbHWZpyB3RR60y1vj9Loe7t9BoV62tc3EBGhdikEhjojBUMgAxIAxn4NNPGhlCJwCrXFkdEYPBrJDu0V8vur2NzA:1vLeCJ:hklJsjvXEJW8mb3kVPhuP6ziVeQ7qrTGueG4zjPJCkU
+    expire_date: 2025-12-03 09:09:55.479249+00:00
+- model: sessions.session
+  pk: aqkeyk215mrkdh9jb3venw89ywqk8ukf
+  fields:
+    session_data: .eJxVjM0OwiAQhN-FsyHLVn7q0bvPQBYWpGogKe3J-O62SQ86x_m-mbfwtC7Frz3NfmJxEUqcfrtA8ZnqDvhB9d5kbHWZpyB3RR60y1vj9Loe7t9BoV62tc3EBGhdikEhjojBUMgAxIAxn4NNPGhlCJwCrXFkdEYPBrJDu0V8vur2NzA:1vLmIB:UD65VKB-lnIV-OL4WuKyRSEg_Y3bwExySAgJ1WF-jG4
+    expire_date: 2025-12-03 17:48:31.498403+00:00
+- model: meu_app.dificuldade
+  pk: 1
+  fields:
+    nome: PadrÒo
+    tamanho_cartela: 3
+- model: meu_app.dificuldade
+  pk: 2
+  fields:
+    nome: MÚdio
+    tamanho_cartela: 4
+- model: meu_app.categoria
+  pk: 1
+  fields:
+    nome: Bingo ArtÝstico
+    slug: bingo-artistico
+- model: meu_app.categoria
+  pk: 2
+  fields:
+    nome: Arte Rupestre
+    slug: arte-rupestre
+- model: meu_app.pergunta
+  pk: 1
+  fields:
+    categoria: 1
+    pergunta: Qual tÚcnica que utiliza a pedra como base para fazer impress§es de
+      uma mesma imagem?
+    resposta: Litogravura
+- model: meu_app.pergunta
+  pk: 2
+  fields:
+    categoria: 1
+    pergunta: Qual a tÚcnica que utiliza a madeira como base para fazer impress§es
+      de uma mesma imagem.
+    resposta: Xilogravura
+- model: meu_app.pergunta
+  pk: 3
+  fields:
+    categoria: 1
+    pergunta: Qual a tÚcnica artÝstica que tambÚm Ú utilizada na estamparia de peþas
+      de roupa?
+    resposta: Serigrafia
+- model: meu_app.pergunta
+  pk: 4
+  fields:
+    categoria: 1
+    pergunta: Qual o nome da principal ferramenta utilizada para fazer uma xilogravura?
+    resposta: Goiva
+- model: meu_app.pergunta
+  pk: 5
+  fields:
+    categoria: 1
+    pergunta: Qual nome da principal ferramenta utilizada para fazer uma pintura?
+    resposta: Pincel
+- model: meu_app.pergunta
+  pk: 6
+  fields:
+    categoria: 1
+    pergunta: Qual manifestaþÒo feita no perÝodo prÚ-hist¾rico, utilizando pigmentos
+      naturais, como carvÒo, argila, sangue, etc?
+    resposta: Pintura Rupestre
+- model: meu_app.pergunta
+  pk: 7
+  fields:
+    categoria: 1
+    pergunta: Qual o local onde se re·nem obras de arte para propiciar sua conservaþÒo
+      e acesso?
+    resposta: Acervo ArtÝstico
+- model: meu_app.pergunta
+  pk: 8
+  fields:
+    categoria: 1
+    pergunta: Qual Ú a arte que trabalha com volumes e relevos, criando formas tridimensionais?
+    resposta: Escultura
+- model: meu_app.pergunta
+  pk: 9
+  fields:
+    categoria: 1
+    pergunta: Qual a expressÒo artÝstica que se dß a partir do uso do corpo do artista
+      em movimento, com duraþÒo determinada?
+    resposta: Performance
+- model: meu_app.pergunta
+  pk: 10
+  fields:
+    categoria: 1
+    pergunta: Qual tipo de arte em que o terreno natural se torna a pr¾pria obra?
+    resposta: Land Art
+- model: meu_app.pergunta
+  pk: 11
+  fields:
+    categoria: 1
+    pergunta: Qual a obra que utiliza o espaþo como elemento fundamental, assim como
+      o espectador que irß adentrar a obra?
+    resposta: InstalaþÒo
+- model: meu_app.pergunta
+  pk: 12
+  fields:
+    categoria: 1
+    pergunta: Qual a forma de expressÒo artÝstica focada em elementos audiovisuais?
+    resposta: Videoarte
+- model: meu_app.pergunta
+  pk: 13
+  fields:
+    categoria: 1
+    pergunta: Qual  Ú o nome da tinta de secagem lenta, que nÒo Ú a base de ßgua?
+    resposta: Tinta ¾leo
+- model: meu_app.pergunta
+  pk: 14
+  fields:
+    categoria: 1
+    pergunta: Qual o nome da tinta de secagem rßpida e que Ú a base de ßgua?
+    resposta: Tinta acrÝlica
+- model: meu_app.pergunta
+  pk: 15
+  fields:
+    categoria: 1
+    pergunta: Qual o nome da tÚcnica que utiliza um molde vazado de uma imagem que
+      se quer estampar em uma superfÝcie?
+    resposta: Stencil
+- model: meu_app.pergunta
+  pk: 16
+  fields:
+    categoria: 1
+    pergunta: Artista mexicana que ficou famosa por seus retratos e autorretratos.
+    resposta: Frida Kahlo
+- model: meu_app.pergunta
+  pk: 17
+  fields:
+    categoria: 1
+    pergunta: Artista que fez a obra ôAbaporuö em 1928.
+    resposta: Tarsila do Amaral
+- model: meu_app.pergunta
+  pk: 18
+  fields:
+    categoria: 1
+    pergunta: Artista que cortou sua pr¾pria orelha.
+    resposta: Van Gogh
+- model: meu_app.pergunta
+  pk: 19
+  fields:
+    categoria: 1
+    pergunta: Artista responsßvel pela obra do teto da Capela Sistina, executado entre
+      1508 e 1512.
+    resposta: Michelangelo
+- model: meu_app.pergunta
+  pk: 20
+  fields:
+    categoria: 1
+    pergunta: Artista que desenhou o ôHomem Vitruvianoö por volta de 1490.
+    resposta: Leonardo Da Vinci
+- model: meu_app.pergunta
+  pk: 21
+  fields:
+    categoria: 1
+    pergunta: Artista brasileiro, do RS, que possui uma fundaþÒo em seu nome, cuja
+      sede Ú um dos pontos turÝsticos culturais de Porto Alegre.
+    resposta: IberÛ Camargo
+- model: meu_app.pergunta
+  pk: 22
+  fields:
+    categoria: 1
+    pergunta: Evento que aconteceu em 1922, no Theatro Municipal de SÒo Paulo.
+    resposta: Semana de Arte Moderna
+- model: meu_app.pergunta
+  pk: 23
+  fields:
+    categoria: 2
+    pergunta: Qual o suporte usado na arte rupestre?
+    resposta: Rochas
+- model: meu_app.pergunta
+  pk: 24
+  fields:
+    categoria: 2
+    pergunta: Qual o nome das pinturas em cavernas?
+    resposta: Pictogramas
+- model: meu_app.pergunta
+  pk: 25
+  fields:
+    categoria: 2
+    pergunta: Qual o nome das gravaþ§es em pedra?
+    resposta: Petr¾glifos
+- model: meu_app.pergunta
+  pk: 26
+  fields:
+    categoria: 2
+    pergunta: Qual ciÛncia estuda a arte rupestre?
+    resposta: Arqueologia
+- model: meu_app.pergunta
+  pk: 27
+  fields:
+    categoria: 2
+    pergunta: Em qual perÝodo surgiu a arte rupestre?
+    resposta: PaleolÝtico
+- model: meu_app.pergunta
+  pk: 28
+  fields:
+    categoria: 2
+    pergunta: Qual caverna famosa fica na Franþa?
+    resposta: Lascaux
+- model: meu_app.pergunta
+  pk: 29
+  fields:
+    categoria: 2
+    pergunta: Qual caverna famosa fica na Espanha?
+    resposta: Altamira
+- model: meu_app.pergunta
+  pk: 30
+  fields:
+    categoria: 2
+    pergunta: Qual o principal sÝtio rupestre no Brasil?
+    resposta: Serra da Capivara
+- model: meu_app.pergunta
+  pk: 31
+  fields:
+    categoria: 2
+    pergunta: Qual material produzia a cor preta?
+    resposta: CarvÒo
+- model: meu_app.pergunta
+  pk: 32
+  fields:
+    categoria: 2
+    pergunta: Qual material produzia a cor vermelha?
+    resposta: Ocre
+- model: meu_app.pergunta
+  pk: 33
+  fields:
+    categoria: 2
+    pergunta: O que usavam para fixar a tinta?
+    resposta: Gordura
+- model: meu_app.pergunta
+  pk: 34
+  fields:
+    categoria: 2
+    pergunta: Qual tema Ú muito comum nas pinturas?
+    resposta: Animais
+- model: meu_app.pergunta
+  pk: 35
+  fields:
+    categoria: 2
+    pergunta: Qual tÚcnica usa a mÒo como molde?
+    resposta: MÒos em negativo
+- model: meu_app.pergunta
+  pk: 36
+  fields:
+    categoria: 2
+    pergunta: A arte rupestre Ú um tipo de escrita?
+    resposta: NÒo
+- model: meu_app.pergunta
+  pk: 37
+  fields:
+    categoria: 2
+    pergunta: Qual continente tem as artes mais antigas?
+    resposta: ┴frica
+- model: meu_app.pergunta
+  pk: 38
+  fields:
+    categoria: 2
+    pergunta: Onde fica a Serra da Capivara?
+    resposta: PiauÝ
+- model: meu_app.pergunta
+  pk: 39
+  fields:
+    categoria: 2
+    pergunta: Cenas de danþa e rituais sÒo comuns?
+    resposta: Sim
+- model: meu_app.pergunta
+  pk: 40
+  fields:
+    categoria: 2
+    pergunta: Qual o tipo de arte mais aintiga?
+    resposta: Arte Rupestre
+- model: meu_app.pergunta
+  pk: 41
+  fields:
+    categoria: 2
+    pergunta: O que significa "rupestre"?
+    resposta: Da rocha
+- model: meu_app.pergunta
+  pk: 42
+  fields:
+    categoria: 2
+    pergunta: Qual animal Ú sÝmbolo de Lascaux?
+    resposta: BisÒo
+- model: meu_app.pergunta
+  pk: 43
+  fields:
+    categoria: 2
+    pergunta: Arte em objetos m¾veis chama-se?
+    resposta: Arte m¾vel
+- model: meu_app.temacacapalavras
+  pk: 1
+  fields:
+    nome: Arte Moderna
+    slug: arte-moderna
+    descricao: Caþa palavras sobre arte moderna!
+- model: meu_app.temacacapalavras
+  pk: 2
+  fields:
+    nome: Arte Rupestre
+    slug: arte-rulpestre
+    descricao: Arte das Cavernas!
+- model: meu_app.palavracacapalavras
+  pk: 1
+  fields:
+    tema: 1
+    palavra: VANGUARDA
+    descricao: Movimentos.
+- model: meu_app.palavracacapalavras
+  pk: 2
+  fields:
+    tema: 1
+    palavra: FUTURISMO
+    descricao: O Futurismo foi a primeira vanguarda artÝstica moderna do sÚculo XX,
+      surgida na Itßlia em 1909, impulsionada pelo poeta Filippo Tommaso Marinetti.
+      O movimento representou uma ruptura radical com a estÚtica e a moral tradicionais,
+      propondo a glorificaþÒo da velocidade, do maquinismo, da tecnologia e do dinamismo
+      da vida urbana moderna.
+- model: meu_app.palavracacapalavras
+  pk: 3
+  fields:
+    tema: 1
+    palavra: CUBISMO
+    descricao: O Cubismo foi uma vanguarda artÝstica europeia (inÝcio do sÚculo XX,
+      na Franþa) fundada por Pablo Picasso e Georges Braque. O movimento revolucionou
+      a arte ao romper com a perspectiva tradicional e a representaþÒo fiel da natureza,
+      buscando mostrar os objetos em uma superfÝcie plana (bidimensional) atravÚs
+      de m·ltiplos pontos de vista simultaneamente, como se fossem fragmentados.
+- model: meu_app.palavracacapalavras
+  pk: 4
+  fields:
+    tema: 1
+    palavra: SURREALISMO
+    descricao: O objetivo principal do Surrealismo era libertar a criatividade atravÚs
+      do inconsciente, do sonho e do irracional, desafiando a l¾gica e a razÒo estabelecidas
+      pela sociedade.
+- model: meu_app.palavracacapalavras
+  pk: 5
+  fields:
+    tema: 1
+    palavra: DADAISMO
+    descricao: O DadaÝsmo, ou Dadß, foi um movimento artÝstico e literßrio de vanguarda
+      que surgiu em 1916 em Zurique (SuÝþa), durante a Primeira Guerra Mundial. Ele
+      nÒo foi um estilo, mas sim um movimento de protesto radical que criticava e
+      repudiava os valores culturais, a l¾gica e a sociedade que, segundo seus membros,
+      haviam levado Ó catßstrofe da guerra.
+- model: meu_app.palavracacapalavras
+  pk: 6
+  fields:
+    tema: 2
+    palavra: PALEOLITICO
+    descricao: Diz-se de ou perÝodo mais antigo da PrÚ-Hist¾ria, caracterizado pela
+      ind·stria da pedra lascada, ou seja, pedaþos de rocha quebrados grosseiramente.
+- model: meu_app.palavracacapalavras
+  pk: 7
+  fields:
+    tema: 2
+    palavra: CAVERNA
+    descricao: Cavidade natural subterrÔnea, acessÝvel a seres humanos, formada ao
+      longo de milhares de anos por processos geol¾gicos, como a dissoluþÒo quÝmica
+      de rochas.
+- model: meu_app.palavracacapalavras
+  pk: 8
+  fields:
+    tema: 2
+    palavra: GRAFITE
+    descricao: Tipo de pintura.
+- model: meu_app.palavracacapalavras
+  pk: 9
+  fields:
+    tema: 2
+    palavra: BISAO
+    descricao: Animal muito representado em pinturas rupestre.
+- model: meu_app.palavracacapalavras
+  pk: 10
+  fields:
+    tema: 2
+    palavra: ESTENCIL
+    descricao: TÚcnica de pintura ou impressÒo que utiliza um molde vazado para transferir
+      um desenho, letra ou padrÒo para uma superfÝcie, como tecido, parede, madeira
+      ou papel.
+- model: meu_app.gradecacapalavras
+  pk: 1
+  fields:
+    tema: 1
+    tamanho: 12
+    layout_json:
+    - - F
+      - U
+      - T
+      - U
+      - R
+      - I
+      - S
+      - M
+      - O
+      - R
+      - A
+      - D
+    - - E
+      - X
+      - P
+      - R
+      - E
+      - S
+      - S
+      - I
+      - O
+      - N
+      - A
+      - S
+    - - C
+      - U
+      - B
+      - I
+      - S
+      - M
+      - O
+      - E
+      - P
+      - D
+      - M
+      - U
+    - - A
+      - B
+      - S
+      - T
+      - R
+      - A
+      - C
+      - T
+      - A
+      - I
+      - R
+      - R
+    - - N
+      - L
+      - I
+      - R
+      - E
+      - D
+      - A
+      - I
+      - E
+      - S
+      - V
+      - R
+    - - S
+      - A
+      - D
+      - A
+      - I
+      - S
+      - S
+      - O
+      - C
+      - U
+      - S
+      - E
+    - - E
+      - V
+      - E
+      - U
+      - Q
+      - M
+      - O
+      - N
+      - L
+      - R
+      - B
+      - A
+    - - M
+      - T
+      - E
+      - R
+      - O
+      - S
+      - C
+      - C
+      - P
+      - R
+      - J
+      - L
+    - - O
+      - U
+      - P
+      - D
+      - B
+      - C
+      - H
+      - R
+      - A
+      - T
+      - L
+      - I
+    - - D
+      - R
+      - N
+      - I
+      - S
+      - C
+      - G
+      - T
+      - T
+      - L
+      - S
+      - S
+    - - A
+      - T
+      - R
+      - N
+      - O
+      - D
+      - R
+      - I
+      - M
+      - I
+      - O
+      - M
+    - - V
+      - A
+      - N
+      - G
+      - U
+      - A
+      - R
+      - D
+      - A
+      - L
+      - I
+      - O
+- model: meu_app.gradecacapalavras
+  pk: 2
+  fields:
+    tema: 2
+    tamanho: 12
+    layout_json:
+    - - P
+      - A
+      - L
+      - E
+      - O
+      - L
+      - I
+      - T
+      - I
+      - C
+      - O
+      - V
+    - - I
+      - C
+      - U
+      - R
+      - V
+      - A
+      - B
+      - F
+      - P
+      - H
+      - D
+      - R
+    - - N
+      - R
+      - M
+      - N
+      - T
+      - E
+      - E
+      - U
+      - G
+      - O
+      - L
+      - A
+    - - T
+      - G
+      - P
+      - S
+      - C
+      - A
+      - V
+      - E
+      - R
+      - N
+      - A
+      - N
+    - - U
+      - C
+      - R
+      - E
+      - D
+      - B
+      - C
+      - H
+      - R
+      - A
+      - T
+      - G
+    - - R
+      - A
+      - F
+      - A
+      - T
+      - E
+      - I
+      - S
+      - T
+      - U
+      - O
+      - U
+    - - A
+      - S
+      - E
+      - L
+      - F
+      - A
+      - I
+      - E
+      - A
+      - I
+      - A
+      - A
+    - - R
+      - E
+      - D
+      - I
+      - A
+      - I
+      - R
+      - N
+      - I
+      - S
+      - S
+      - M
+    - - U
+      - S
+      - P
+      - E
+      - C
+      - I
+      - T
+      - I
+      - O
+      - T
+      - I
+      - A
+    - - P
+      - U
+      - E
+      - N
+      - T
+      - E
+      - S
+      - E
+      - M
+      - I
+      - B
+      - P
+    - - E
+      - S
+      - T
+      - E
+      - N
+      - C
+      - I
+      - L
+      - A
+      - N
+      - R
+      - O
+    - - S
+      - H
+      - T
+      - C
+      - R
+      - M
+      - I
+      - G
+      - R
+      - A
+      - Ã
+      - ├
+- model: meu_app.dificuldadememoria
+  pk: 1
+  fields:
+    nome: PadrÒo
+    num_colunas: 4
+    num_linhas: 5
+- model: meu_app.dificuldadememoria
+  pk: 2
+  fields:
+    nome: Curto
+    num_colunas: 2
+    num_linhas: 2
+- model: meu_app.temamemoria
+  pk: 1
+  fields:
+    nome: Pinturas Yeddo
+    slug: pinuras-yeddo
+    descricao: Jogo com pinturas do artista plßstico Yeddo Titze, pintor, tapeceiro,
+      desenhista e professor brasileiro, nascido em Santana do Livramento, Rio Grande
+      do Sul, um dos fundadores do Curso de Artes Visuais da UFSM.
+- model: meu_app.temamemoria
+  pk: 2
+  fields:
+    nome: Pinturas Carlos Scliar
+    slug: pinturas-carlos-scliar
+    descricao: O pintor Carlos Scliar (1920 û 2001) foi um importante artista brasileiro,
+      reconhecido como um dos pioneiros da arte moderna no Brasil, especialmente no
+      Rio Grande do Sul. Sua produþÒo nÒo se limitou Ó pintura; ele tambÚm se destacou
+      como gravador, desenhista, ilustrador, cen¾grafo, roteirista e designer grßfico.
+- model: meu_app.cartamemoria
+  pk: 1
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo1.png
+    par_id: A
+    verso_padrao: ''
+    informacao_acerto: A cor Ú uma das principais marcas dessa pintura. Yeddo utilizava
+      cores exuberantes, intensas e muito fortes, demonstrando um impressionante domÝnio
+      tÚcnico na sua aplicaþÒo.
+- model: meu_app.cartamemoria
+  pk: 2
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo2.png
+    par_id: B
+    verso_padrao: ''
+    informacao_acerto: Essa pintura se destaca pelo uso de cores exuberantes, intensas
+      e vibrantes, demonstrando um alto domÝnio tÚcnico no manejo dos tons.
+- model: meu_app.cartamemoria
+  pk: 3
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo3.png
+    par_id: C
+    verso_padrao: ''
+    informacao_acerto: Esta Ú uma obra que mantÚm o desenho nÝtido, servindo como
+      um "esqueleto" visual para uma tapeþaria que nunca chegou a ser executada.
+- model: meu_app.cartamemoria
+  pk: 4
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo4.png
+    par_id: D
+    verso_padrao: ''
+    informacao_acerto: Esta pintura Ú marcada pela aplicaþÒo espessa (empasto) de
+      tinta amarela e vermelha, quase gritando a intensidade do verÒo ga·cho.
+- model: meu_app.cartamemoria
+  pk: 5
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo5.png
+    par_id: E
+    verso_padrao: ''
+    informacao_acerto: VocÛ pode notar que a tinta foi diluÝda ao mßximo, criando
+      manchas transl·cidas que dÒo a sensaþÒo de nÚvoa e umidade do outono.
+- model: meu_app.cartamemoria
+  pk: 6
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo6.png
+    par_id: F
+    verso_padrao: ''
+    informacao_acerto: O Yeddo usou um tom de roxo profundo e quase metßlico, que
+      domina a tela.
+- model: meu_app.cartamemoria
+  pk: 7
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo7.png
+    par_id: G
+    verso_padrao: ''
+    informacao_acerto: O artista experimentou a tÚcnica do "encausto" (mistura de
+      tinta com cera) para dar um brilho fosco e uma textura resinosa Ó superfÝcie.
+- model: meu_app.cartamemoria
+  pk: 8
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo8.png
+    par_id: H
+    verso_padrao: ''
+    informacao_acerto: ExplosÒo de cores Ú estruturada e organizada por uma linha
+      ou desenho forte, que dÒo limites Ós formas abstratas.
+- model: meu_app.cartamemoria
+  pk: 9
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo9.png
+    par_id: I
+    verso_padrao: ''
+    informacao_acerto: Yeddo Ú creditado por introduzir as primeiras referÛncias abstratas
+      em nÝvel matÚrico na arte ga·cha, explorando a materialidade e a textura da
+      pr¾pria tinta.
+- model: meu_app.cartamemoria
+  pk: 10
+  fields:
+    tema: 1
+    imagem: memoria/pares/yeddo10.png
+    par_id: J
+    verso_padrao: ''
+    informacao_acerto: Nesta, ele usou o pastel seco para criar um efeito esfumaþado
+      e suave, deixando de lado o alto contraste de cores para explorar a atmosfera.
+- model: meu_app.cartamemoria
+  pk: 11
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSciliar1.png
+    par_id: A
+    verso_padrao: ''
+    informacao_acerto: Ele se tornou muito famoso por suas pinturas de natureza-morta,
+      muitas vezes retratando objetos simples do cotidiano, como bules, chaleiras,
+      frutas e peixes.
+- model: meu_app.cartamemoria
+  pk: 12
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSciliar2.png
+    par_id: B
+    verso_padrao: ''
+    informacao_acerto: Seu trabalho com naturezas-mortas demonstra um dißlogo consciente
+      com o Cubismo (Picasso e Braque) e com a metafÝsica (Morandi), na forma como
+      ele compunha e simplificava os objetos.
+- model: meu_app.cartamemoria
+  pk: 13
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSciliar3.png
+    par_id: C
+    verso_padrao: ''
+    informacao_acerto: A pintura de Scliar pode ser dividida em fases muito claras,
+      transitando entre o figurativismo social (p¾s-guerra) e um figurativismo mais
+      lÝrico (posteriormente).
+- model: meu_app.cartamemoria
+  pk: 14
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSciliar4.png
+    par_id: D
+    verso_padrao: ''
+    informacao_acerto: A pintura de Scliar pode ser dividida em fases muito claras,
+      transitando entre o figurativismo social (p¾s-guerra) e um figurativismo mais
+      lÝrico (posteriormente).
+- model: meu_app.cartamemoria
+  pk: 15
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSliar5.png
+    par_id: E
+    verso_padrao: ''
+    informacao_acerto: A pintura de Scliar pode ser dividida em fases muito claras,
+      transitando entre o figurativismo social (p¾s-guerra) e um figurativismo mais
+      lÝrico (posteriormente).
+- model: meu_app.cartamemoria
+  pk: 16
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSliar6.png
+    par_id: F
+    verso_padrao: ''
+    informacao_acerto: Scliar viveu parte da vida na Ilha do Sul, em Vit¾ria, e a
+      paisagem marinha, os barcos e os peixes se tornaram temas recorrentes e afetivos
+      em suas telas.
+- model: meu_app.cartamemoria
+  pk: 17
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSliar7.png
+    par_id: G
+    verso_padrao: ''
+    informacao_acerto: Mesmo sendo figurativo, Scliar tendia a simplificar as formas
+      dos objetos, reduzindo-os a volumes geomÚtricos essenciais para focar na composiþÒo
+      e no peso da cor.
+- model: meu_app.cartamemoria
+  pk: 18
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSliar8.png
+    par_id: H
+    verso_padrao: ''
+    informacao_acerto: Sua intensa atividade como gravador influenciou sua pintura,
+      pois ele usava muitas vezes o contorno forte (linha) para delimitar as formas
+      dos objetos.
+- model: meu_app.cartamemoria
+  pk: 19
+  fields:
+    tema: 2
+    imagem: ''
+    par_id: I
+    verso_padrao: ''
+    informacao_acerto: Seu estilo era frequentemente chamado de realismo poÚtico ou
+      lÝrico, pois ele nÒo se limitava a copiar a realidade, mas infundia sentimentos
+      e simbolismo nos objetos cotidianos.
+- model: meu_app.cartamemoria
+  pk: 20
+  fields:
+    tema: 2
+    imagem: memoria/pares/CarlosSliar10.png
+    par_id: J
+    verso_padrao: ''
+    informacao_acerto: Em muitas de suas naturezas-mortas e interiores, Scliar retratava
+      espaþos e objetos que implicavam a presenþa humana, mas sem mostrar as pessoas,
+      mas nessa pintura ele quebrou um padrÒo e fez um autorretrato.
