@@ -6,52 +6,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encontre o Galo - Acervo Artístico</title>
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap" rel="stylesheet">
 
     <style>
+        /* ---------------------------------------------------------
+        >>> CORREÇÃO ESSENCIAL PARA RESPONSIVIDADE <<<
+        --------------------------------------------------------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        /* --- Variáveis de Cores do Acervo --- */
+        :root {
+            --primary-color: #005285;   /* Azul Acervo */
+            --secondary-color: #EE7D00; /* Laranja Acervo */
+            --accent-color: #AE1917;    /* Vermelho Acervo (Marcador de acerto) */
+            --background-light: #f4f4f4; 
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        /* --- Estilos Globais e Tipografia --- */
         body {
-            font-family: Arial, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            
+            /* CORREÇÃO DA CENTRALIZAÇÃO E REDIMENSIONAMENTO DA IMAGEM DE FUNDO */
+            background-image: url('{% static "meu_app/imagens/acervo_visual/Acervo_vermelho.JPG" %}');
+            background-size: cover; /* Garante que cubra a tela */
+            background-position: center center; /* Garante a centralização absoluta */
+            background-attachment: fixed;
+            background-color: var(--text-dark);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Stick No Bills', sans-serif;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+        
+        /* =========================================================
+        >>> ESTILO PADRÃO: HEADER, MAIN & FOOTER <<<
+        ========================================================= */
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--secondary-color);
+            margin: 0;
+            font-size: 2em;
+        }
+
+        .game-page-main {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 20px;
+            width: 100%;
+            /* Container principal com fundo semi-transparente sobre a imagem */
+            background-color: rgba(255, 255, 255, 0.95); 
+            
+            /* CORREÇÃO: Centraliza o bloco principal na tela do PC */
+            margin: 20px auto; 
+            
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            max-width: 1000px; 
         }
-        h1 { margin-bottom: 15px; }
 
+        /* =========================================================
+        >>> ESTILOS ESPECÍFICOS DO JOGO <<<
+        ========================================================= */
         .game {
             display: flex;
+            justify-content: center;
             gap: 20px;
+            max-width: 100%;
+            padding: 10px;
         }
 
         .panel {
             position: relative;
-            border: 2px solid #ccc;
-            border-radius: 6px;
+            border: 4px solid var(--primary-color); 
+            border-radius: 8px;
             overflow: hidden;
+            max-width: 700px; 
+            width: 100%;
         }
 
         .panel img {
             display: block;
-            max-width: 100%;
+            width: 100%;
             height: auto;
         }
+        
+        .status {
+            margin-top: 25px;
+            padding: 10px 20px;
+            font-family: 'Stick No Bills', sans-serif;
+            font-size: 1.8em;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--secondary-color);
+        }
 
-        /* hotspots invisíveis */
+        /* Hotspots */
         .hotspot {
             position: absolute;
             border-radius: 50%;
-            cursor: default;
+            cursor: default; /* Mantido como default conforme solicitado */
             transform: translate(-50%, -50%);
+            background: none; 
+            border: none;
+            outline: none; 
+            z-index: 10;
         }
 
-        /* quando acertado */
+        /* Animação quando acertado */
         .hotspot.found::after {
             content: "";
             position: absolute;
             left: 50%; top: 50%;
             width: 40px; height: 40px;
             transform: translate(-50%, -50%);
-            border: 3px solid rgb(199, 53, 53);
+            border: 3px solid var(--accent-color); /* Vermelho Acervo */
             border-radius: 50%;
             animation: pop 0.3s ease-out;
         }
@@ -61,11 +155,84 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
-        .status {
-            margin-top: 15px;
-            font-size: 18px;
+        /* Botão Voltar */
+        .back-button {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
         }
-  </style>
+        .back-button:hover {
+            background-color: #003a5b;
+        }
+        
+        /* --- MENSAGEM DE AVISO (Para Telas Pequenas) --- */
+        #mobile-warning {
+            display: none;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            max-width: 90%;
+        }
+        
+        /* =========================================================
+        >>> RODAPÉ PADRÃO ACERVO <<<
+        ========================================================= */
+        footer {
+            width: 100%;
+            background-color: var(--text-dark); 
+            color: var(--text-light); 
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; 
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+        footer p {
+            margin: 5px 15px;
+        }
+        
+        /* =========================================================
+        >>> RESPONSIVIDADE <<<
+        ========================================================= */
+        @media (max-width: 768px) {
+            .game-page-main {
+                padding: 10px;
+                width: 95%;
+            }
+            .game {
+                gap: 0;
+            }
+            #mobile-warning {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 500px) {
+             .panel {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+             .status {
+                font-size: 1.5em;
+            }
+             .game-instructions {
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -74,17 +241,19 @@
 
     <main class="game-page-main">
         
+        <div id="mobile-warning">
+            ⚠️ **Atenção:** A aplicação está em desenvolvimento. Para uma melhor experiência de jogo, utilize uma tela maior.
+        </div>
+
         <div class="game-instructions">
             <h2>Encontre o Galo</h2>
-            <p>Observe a obra de arte com atenção e clique no local onde você acha que o galo está escondido!</p>
+            <p>Observe a obra de arte com atenção e clique no local onde você acha que o galo está escondido! (12 galos no total)</p>
         </div>
 
         <div class="game">
-            <!-- Imagem do galo -->
             <div class="panel" id="panel">
-                <img src="{% static 'meu_app/imagens/encontreogalo/galo.jpg' %}" alt="Galo">
-                <!-- Hotspots dos erros -->
-                <!-- Basta ajustar left/top em % (coordenadas relativas à imagem) -->
+                <img src="{% static 'meu_app/imagens/encontreogalo/galo.jpg' %}" alt="Obra de Arte com Galos Escondidos">
+                
                 <div class="hotspot" data-id="1" style="left: 43.33%; top: 26.02%; width: 40px; height: 40px;"></div>
                 <div class="hotspot" data-id="2" style="left: 72.54%; top: 32.48%; width: 110px; height: 110px;"></div>
                 <div class="hotspot" data-id="3" style="left: 12.61%; top: 34.43%; width: 40px; height: 40px;"></div>
@@ -106,6 +275,7 @@
         </div>
 
         <script>
+            // Lógica do jogo mantida intacta
             const hotspots = document.querySelectorAll('.hotspot');
             let foundCount = 0;
 
@@ -116,14 +286,14 @@
                 foundCount++;
                 document.getElementById('found').textContent = foundCount;
                 if (foundCount === hotspots.length) {
-                    setTimeout(() => alert("Parabéns! Você encontrou todos os erros!"), 200);
+                    setTimeout(() => alert("Parabéns! Você encontrou todos os galos!"), 200);
                 }
                 }
             });
             });
         </script>
 
-        <a href="{% url 'index' %}">Voltar ao Início</a>
+        <a href="{% url 'index' %}" class="back-button">Voltar à Galeria de Jogos</a>
 
     </main>
 
@@ -131,5 +301,5 @@
         <p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p>
     </footer>
 
-    </body>
+</body>
 </html>
