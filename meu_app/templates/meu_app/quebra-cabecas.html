@@ -2,106 +2,174 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8" />
-    <title>Quebra-Cabeça</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quebra-Cabeça - Acervo Artístico</title>
     
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap" rel="stylesheet">
     
     <style>
+        /* ---------------------------------------------------------
+        >>> ESTILOS COMPARTILHADOS (Do Encontre o Galo) <<<
+        --------------------------------------------------------- */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
         /* --- Variáveis de Cores do Acervo --- */
         :root {
-            --primary-color: #005285; /* Azul Acervo */
+            --primary-color: #005285;   /* Azul Acervo */
             --secondary-color: #EE7D00; /* Laranja Acervo (Destaque/Ação) */
-            --accent-color: #AE1917; /* Vermelho Acervo (Alerta) */
-            --background-light: #f4f4f9; /* Fundo principal */
+            --accent-color: #AE1917; /* Vermelho Acervo (Alerta/Status) */
+            --background-light: #f4f4f4; /* Não é usado no body, mas é usado em main */
             --text-dark: #333;
             --text-light: #fff;
             --sombra-card: rgba(0, 0, 0, 0.25);
         }
 
-        /* --- ESTILOS GERAIS E LAYOUT PADRÃO ACERVO --- */
+        /* --- Estilos Globais e Fundo --- */
         body {
-            font-family: 'Roboto', sans-serif; /* Padrão Acervo */
-            background: var(--background-light); 
+            font-family: 'Roboto', sans-serif;
             color: var(--text-dark);
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
             min-height: 100vh;
-            margin: 0;
-            padding: 0; 
+            overflow-x: hidden;
+            
+            /* Fundo igual ao do "Encontre o Galo" */
+            background-image: url('{% static "meu_app/imagens/acervo_visual/Acervo_vermelho.JPG" %}');
+            background-size: cover; 
+            background-position: center center; 
+            background-attachment: fixed;
+            background-color: var(--text-dark);
+        }
+
+        h1, h2, h3 {
+            font-family: 'Stick No Bills', sans-serif;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            font-weight: 700;
         }
 
         /* --- CABEÇALHO PADRÃO --- */
         header {
-            width: 100%;
             background-color: var(--primary-color);
             color: var(--text-light);
-            padding: 20px 40px;
-            box-shadow: 0 4px 6px var(--sombra-card);
+            padding: 10px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
             text-align: center;
         }
 
-        /* 🛑 CORREÇÃO FONTE: Aplica a fonte Stick No Bills ao título principal */
-        header h1 { 
-            color: var(--secondary-color); 
-            margin: 0; 
-            font-family: 'Stick No Bills', sans-serif;
-            text-transform: uppercase;
+        header h1 {
+            color: var(--secondary-color);
+            margin: 0;
+            font-size: 2em;
         }
 
-        /* --- CONTEÚDO PRINCIPAL --- */
+        /* --- CONTEÚDO PRINCIPAL (Main Container) --- */
         .game-page-main {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            padding: 20px;
             width: 100%;
-            padding: 20px; 
+            /* Fundo semi-transparente igual ao do "Encontre o Galo" */
+            background-color: rgba(255, 255, 255, 0.95); 
+            
+            margin: 20px auto; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            max-width: 1200px; /* Aumentado um pouco para caber o mural */
         }
         
-        /* --- ESTILOS REFATORADOS DO JOGO --- */
-        h1 { /* Mantido para estilo de títulos internos, se houverem */
-             margin-bottom: 20px; 
-             color: var(--primary-color);
-             font-family: 'Stick No Bills', sans-serif;
+        /* --- RODAPÉ PADRÃO --- */
+        footer {
+            width: 100%;
+            background-color: var(--text-dark); 
+            color: var(--text-light); 
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto; 
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+        footer p {
+            margin: 5px 15px;
         }
 
+        /* --- MENSAGEM DE AVISO (Para Telas Pequenas) --- */
+        #mobile-warning {
+            display: none; /* Controlado pelo Media Query */
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin: 10px auto;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+            max-width: 90%;
+        }
+        
+        /* ---------------------------------------------------------
+        >>> ESTILOS ESPECÍFICOS DO QUEBRA-CABEÇA <<<
+        --------------------------------------------------------- */
+        
         /* Mural */
-        #tela-mural { width: 100%; display:flex; flex-direction:column; align-items:center;}
-        .mural { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:15px;}
+        #tela-mural { width: 100%; display:flex; flex-direction:column; align-items:center; }
+        .mural { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-bottom:15px; }
         .mural img {
-            width:400px; height:250px; object-fit:cover; border:3px solid transparent;
-            border-radius:10px; cursor:pointer; transition: transform .2s, border .2s;
-            box-shadow: 0 2px 5px var(--sombra-card);
+            width: 300px; /* Reduzido para melhor visualização no container */
+            height: 187.5px; /* Mantém a proporção 16:10 aproximada se o original for 400x250 */
+            object-fit: cover; 
+            border: 3px solid transparent;
+            border-radius: 8px; /* Alterado para 8px para consistência com main */
+            cursor: pointer; 
+            transition: transform .2s, border .2s;
+            box-shadow: 0 4px 8px var(--sombra-card);
         }
         .mural img.selected { 
-            border-color: var(--secondary-color); 
-            transform: scale(1.08); 
+            border-color: var(--secondary-color); /* Laranja Acervo */
+            transform: scale(1.05); 
+        }
+
+        /* Controles */
+        .selection-controls, .action-center { 
+            display:flex; 
+            gap:15px; 
+            align-items:center; 
+            justify-content:center; 
+            flex-wrap:wrap;
+            margin-bottom: 20px;
         }
         
-        .controls { display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap; }
-        
         select, button { 
-            padding:8px 15px;
-            font-size:14px; 
+            padding:10px 20px;
+            font-size:16px; 
             border-radius:5px; 
             border:1px solid var(--primary-color); 
             font-weight: bold;
+            font-family: 'Roboto', sans-serif;
         }
         
         button { 
             background: var(--primary-color); 
             color: var(--text-light); 
             cursor:pointer; 
+            transition: background-color 0.3s;
         }
         
         button:hover { 
-            background: #004269; 
+            background: #003a5b; /* Azul Acervo mais escuro */
         }
-
+        
         /* Jogo */
         #tela-jogo { display:none; width:100%; flex-direction:column; align-items:center; }
         .menu-jogo { display:flex; gap:10px; margin-bottom:15px; }
@@ -109,8 +177,9 @@
         .board { 
             display:grid; 
             gap:1px; 
-            border:3px solid var(--primary-color); 
+            border:4px solid var(--primary-color); 
             background: var(--primary-color); 
+            box-shadow: 0 4px 10px var(--sombra-card);
         }
         
         .slot { 
@@ -118,23 +187,50 @@
             position:relative; 
         }
         
-        .piece { width:100%; height:100%; cursor:grab; background-repeat:no-repeat; }
-        .piece.dragging { opacity:.5; }
+        .piece { 
+            width:100%; 
+            height:100%; 
+            cursor:grab; 
+            background-repeat:no-repeat; 
+            transition: opacity .1s; /* Transição para dragging */
+        }
+        .piece.dragging { opacity:.6; }
         
         #status { 
-            margin-top:15px; 
+            margin-top:20px; 
             font-weight:bold; 
-            color: var(--accent-color); 
+            font-family: 'Stick No Bills', sans-serif;
+            font-size: 1.8em;
+            color: var(--accent-color); /* Vermelho Acervo para destaque */
         }
 
-        /* --- RODAPÉ PADRÃO --- */
-        footer {
-            width: 100%;
-            background-color: var(--text-dark);
-            color: var(--text-light);
-            text-align: center;
-            padding: 10px 0;
-            margin-top: auto; /* Garante que fique no fundo */
+        /* =========================================================
+        >>> RESPONSIVIDADE (Cópia do Encontre o Galo) <<<
+        ========================================================= */
+        @media (max-width: 768px) {
+            .game-page-main {
+                padding: 10px;
+                width: 95%;
+                margin: 10px auto;
+            }
+            .mural img {
+                width: 45%;
+                height: auto;
+            }
+            #mobile-warning {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 500px) {
+            .board {
+                border-radius: 0;
+                border-left: none;
+                border-right: none;
+            }
+            #status {
+                font-size: 1.5em;
+            }
         }
     </style>
 </head>
@@ -145,51 +241,52 @@
 
     <main class="game-page-main">
         
+        <div id="mobile-warning">
+            ⚠️ **Atenção:** A aplicação está em desenvolvimento. Para uma melhor experiência de jogo, utilize uma tela maior.
+        </div>
+        
         <div id="tela-mural">
+            <h2>Escolha sua Obra</h2>
             <div class="mural" id="mural">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}" 
-                     alt="Imagem 1" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}">
+                    alt="Imagem 1" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/7erros.jpg' %}">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}" 
-                     alt="Imagem 2" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}">
+                    alt="Imagem 2" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/2.jpg' %}">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}" 
-                     alt="Imagem 3" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}">
+                    alt="Imagem 3" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/3.jpg' %}">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}" 
-                     alt="Imagem 4" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}">
+                    alt="Imagem 4" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/4.jpg' %}">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}" 
-                     alt="Imagem 5" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}">
-                
+                    alt="Imagem 5" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/5.jpg' %}">
                 <img src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}" 
-                     alt="Imagem 6" 
-                     data-src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}">
+                    alt="Imagem 6" 
+                    data-src="{% static 'meu_app/imagens/quebra_cabeça/6.jpg' %}">
             </div>
 
             <div class="selection-controls">
-        <div class="difficulty-group">
-            <label for="difficulty">Dificuldade:</label>
-            <select id="difficulty">
-                <option value="facil">Fácil</option>
-                <option value="medio" selected>Normal</option>
-                <option value="dificil">Difícil</option>
-          
-            </select>
-            
+                <div class="difficulty-group">
+                    <label for="difficulty" style="font-weight: bold;">Dificuldade:</label>
+                    <select id="difficulty">
+                        <option value="facil">Fácil (Menos Peças)</option>
+                        <option value="medio" selected>Normal (Padrão)</option>
+                        <option value="dificil">Difícil (Mais Peças)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="action-center">
+                <button id="jogar">Jogar</button>
+                <button id="inicio">Menu Principal</button>
+            </div>
         </div>
-    </div>
-    <div class="action-center">
-        <button id="jogar">Jogar</button>
-        <button id="inicio">Menu Principal</button>
-    </div>
-</div>
 
         <div id="tela-jogo">
             <div class="menu-jogo">
                 <button id="voltar">← Voltar</button>
-                
             </div>
             <div class="board" id="board"></div>
             <p id="status"></p>
@@ -201,7 +298,7 @@
     </footer>
 
     <script>
-        // --- CÓDIGO JAVASCRIPT (MANTIDO) ---
+        // --- CÓDIGO JAVASCRIPT (Lógica Original Mantida) ---
         const mural = document.getElementById('mural');
         const telaMural = document.getElementById('tela-mural');
         const telaJogo = document.getElementById('tela-jogo');
@@ -215,7 +312,7 @@
         let slots = [];
         let currentImage = null;
         let rows = 4, cols = 6;
-        const tileSize = 100;
+        let tileSize = 100; // Tamanho base da peça em pixels
 
         // ----- Seleção do mural -----
         mural.addEventListener('click', (e) => {
@@ -231,9 +328,38 @@
             if (!currentImage) { alert('Selecione uma imagem antes de jogar!'); return; }
             const img = new Image();
             img.onload = function() {
+                // Cálculo de tamanho da peça e tabuleiro para melhor ajuste na tela
+                const maxBoardWidth = Math.min(1100, window.innerWidth - 40); // Limite máximo para o tabuleiro
+                
+                let tempRows, tempCols;
+                const difficulty = difficultySelect.value;
+                const ratio = img.width / img.height;
+
+                if (difficulty === 'facil') {
+                    tempCols = ratio > 1 ? 5 : ratio < 1 ? 3 : 4;
+                    tempRows = Math.round(tempCols / ratio);
+                    if(ratio > 1 && tempRows > 4) tempRows = 4; // Limita em 4 linhas se for muito horizontal
+                } else if (difficulty === 'medio') {
+                    tempCols = ratio > 1 ? 6 : ratio < 1 ? 4 : 5;
+                    tempRows = Math.round(tempCols / ratio);
+                    if(ratio > 1 && tempRows > 5) tempRows = 5; // Limita em 5 linhas se for muito horizontal
+                } else { // dificil
+                    tempCols = ratio > 1 ? 7 : ratio < 1 ? 5 : 6;
+                    tempRows = Math.round(tempCols / ratio);
+                    if(ratio > 1 && tempRows > 6) tempRows = 6; // Limita em 6 linhas se for muito horizontal
+                }
+
+                // Garante um número mínimo de linhas e colunas
+                rows = Math.max(3, tempRows);
+                cols = Math.max(3, tempCols);
+                
+                // Calcula o tamanho ideal da peça para caber no container
+                tileSize = Math.floor(maxBoardWidth / cols);
+                if (tileSize > 120) tileSize = 120; // Limite máximo para a peça
+
                 telaMural.style.display = 'none';
                 telaJogo.style.display = 'flex';
-                init(currentImage, img.width, img.height);
+                init(currentImage);
             };
             img.src = currentImage;
         });
@@ -258,35 +384,20 @@
         };
 
         // ----- Criação do tabuleiro e peças -----
-        function init(imageSrc, imgWidth, imgHeight) {
+        function init(imageSrc) {
             board.innerHTML = '';
             slots = [];
             status.textContent = '';
 
-            const difficulty = difficultySelect.value;
-            const isHorizontal = imgWidth > imgHeight;
-            const isVertical = imgHeight > imgWidth;
-
-            if (difficulty === 'facil') {
-                rows = isHorizontal ? 3 : isVertical ? 5 : 4;
-                cols = isHorizontal ? 5 : isVertical ? 3 : 4;
-            } else if (difficulty === 'medio') {
-                rows = isHorizontal ? 4 : isVertical ? 6 : 5;
-                cols = isHorizontal ? 6 : isVertical ? 4 : 5;
-            } else {
-                rows = isHorizontal ? 5 : isVertical ? 7 : 6;
-                cols = isHorizontal ? 7 : isVertical ? 5 : 6;
-            }
-
             board.style.gridTemplateColumns = `repeat(${cols}, ${tileSize}px)`;
             board.style.gridTemplateRows = `repeat(${rows}, ${tileSize}px)`;
-
+            
             createBoard();
             const pieces = createPieces(imageSrc);
             shuffle(pieces);
             slots.forEach((slot, i) => slot.appendChild(pieces[i]));
 
-            void board.offsetHeight;
+            void board.offsetHeight; // Força o reflow
         }
 
         function createBoard() {
@@ -331,7 +442,7 @@
             }
         }
 
-        // ----- Drag & Drop: registrado apenas 1 vez -----
+        // ----- Drag & Drop: registrado apenas 1 vez (Lógica Original Mantida) -----
         let dragSetupDone = false;
         let dragged = null;
 
@@ -345,6 +456,8 @@
                 if (t && t.classList && t.classList.contains('piece')) {
                     dragged = t;
                     t.classList.add('dragging');
+                    // Adicionar um pequeno atraso para permitir que a opacidade seja aplicada antes do drag.
+                    setTimeout(() => t.style.opacity = '0.5', 0);
                 }
             });
 
@@ -352,6 +465,7 @@
             board.addEventListener('dragend', (e) => {
                 if (dragged) {
                     dragged.classList.remove('dragging');
+                    dragged.style.opacity = '1';
                     dragged = null;
                 }
             });
@@ -384,7 +498,13 @@
                 if (!slot.firstChild) return false;
                 return slot.dataset.correct === slot.firstChild.dataset.index;
             });
-            if (ok) status.textContent = '🎉 Parabéns! Você completou o quebra-cabeça!';
+            if (ok) {
+                status.textContent = '🎉 Parabéns! Você completou o quebra-cabeça!';
+                // Opcional: Desabilitar o Drag & Drop após a vitória
+                document.querySelectorAll('.piece').forEach(p => p.draggable = false);
+            } else {
+                 status.textContent = ''; // Limpa o status se não ganhou
+            }
         }
     </script>
 </body>
