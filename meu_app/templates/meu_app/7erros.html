@@ -2,385 +2,430 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Jogos - Jogo dos 10 Erros (com Mural)</title>
-  <style>
-    :root{
-      --cor-ufsm-azul: #004d80;
-      --cor-ufsm-vermelho: #cc0000;
-      --cor-cinza-claro: #f4f4f4;
-      --cor-cinza-medio: #666;
-      --cor-cinza-escuro: #333;
-      --cor-branco: #fff;
-      --cor-sombra-media: rgba(0,0,0,0.2);
-    }
-    *{box-sizing:border-box}
-    body{
-      font-family: Arial, sans-serif;
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      background:var(--cor-cinza-claro);
-      color:var(--cor-cinza-escuro);
-    }
-    header{
-      background:var(--cor-ufsm-azul);
-      color:var(--cor-branco);
-      text-align:center;
-      padding:18px 10px;
-    }
-    main { flex:1; padding:20px; }
-    footer{
-      background:var(--cor-cinza-escuro);
-      color:var(--cor-branco);
-      text-align:center;
-      padding:12px 10px;
-    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jogos - Jogo dos 10 Erros (com Mural)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ---------------------------------------------------------
+        >>> CORREÇÃO ESSENCIAL PARA RESPONSIVIDADE <<<
+        --------------------------------------------------------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
 
-    h1,h2{margin:0 0 12px 0}
-    p{margin:0 0 10px 0}
+        /* --- Variáveis de Cores (Padrão Acervo - Baseado na referência) --- */
+        :root {
+            --primary-color: #005285;  /* Azul Acervo */
+            --secondary-color: #EE7D00; /* Laranja Acervo */
+            --accent-color: #AE1917; /* Vermelho Acervo */
+            --background-light: #f4f4f4;
+            --text-dark: #333;
+            --text-light: #fff;
+            --font-heading: 'Stick No Bills', sans-serif;
+            --font-body: 'Roboto', sans-serif;
+            --shadow-light: rgba(0,0,0,0.1);
+            --shadow-dark: rgba(0,0,0,0.2);
+        }
 
-    /* ===== MURAL ===== */
-    #tela-mural{ display:flex; flex-direction:column; align-items:center; gap:18px; }
-    .mural-grid{
-      display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1200px;
-    }
-    .thumb {
-      width:200px; height:130px; overflow:hidden; border-radius:8px; cursor:pointer;
-      border:4px solid transparent; box-shadow:0 6px 14px var(--cor-sombra-media);
-      transition:transform .15s, border-color .15s, box-shadow .15s;
-      display:flex; align-items:center; justify-content:center;
-      background:#fff;
-    }
-    .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-    .thumb:hover{ transform:translateY(-4px); box-shadow:0 10px 20px rgba(0,0,0,.25) }
-    .thumb.selected{ border-color:var(--cor-ufsm-azul); transform:scale(1.03); }
+        /* 1. ESTILOS GERAIS DA PÁGINA (Padrão Acervo) */
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            
+            /* 👇 ALTERAÇÃO: Adição da Imagem de Fundo Padrão */
+            background-color: var(--text-dark); /* Cor de base escura (para carregar antes da imagem) */
+            background-image: url("{% static 'meu_app/imagens/acervo_visual/Acervo_vermelho.JPG' %}");
+            background-size: cover; /* Cobre todo o viewport */
+            background-position: center center; /* Centraliza a imagem */
+            background-attachment: fixed; /* Fixa a imagem, o conteúdo rola por cima */
+            overflow-x: hidden; /* Garante que não haja rolagem horizontal */
+        }
+        
+        header {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 6px var(--shadow-dark);
+        }
+        
+        header h1 {
+            margin: 0;
+            font-family: var(--font-heading);
+            color: var(--secondary-color);
+            font-size: 2.5em;
+            text-transform: uppercase;
+        }
 
-    .mural-actions{ display:flex; gap:12px; align-items:center; }
-    .btn{
-      padding:10px 16px; border-radius:6px; border:0; cursor:pointer; font-weight:600;
-    }
-    .btn-primary{ background:var(--cor-ufsm-azul); color:var(--cor-branco); }
-    .btn-secondary{ background:#e0e0e0; color:#111; }
+        /* CONTÊINER PRINCIPAL PARA APLICAR FUNDO BRANCO SOBRE A IMAGEM */
+        main { 
+            flex: 1; 
+            padding: 20px; 
+            width: 100%;
+            max-width: 1200px; /* Limita largura do conteúdo principal */
+            margin: 20px auto; /* Centraliza o bloco principal na tela */
+            
+            /* Fundo semi-transparente para legibilidade sobre a imagem */
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0 0 15px var(--shadow-dark);
+        }
+        
+        footer {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            text-align: center;
+            padding: 15px;
+            font-size: 0.9em;
+            width: 100%;
+            margin-top: auto;
+        }
 
-    /* ===== TELA DO JOGO ===== */
-    #tela-jogo{ display:none; flex-direction:column; align-items:center; gap:12px; }
-    .game-row{ display:flex; flex-direction:column; gap:16px; width:100%; align-items:center; }
-    .game{
-      display:flex; flex-wrap:wrap; gap:20px; justify-content:center; width:100%;
-    }
-    .panel{
-      position:relative; width:100%; max-width:760px; border:2px solid var(--cor-cinza-escuro);
-      background:#fff; box-shadow:0 6px 12px var(--cor-sombra-media);
-    }
-    .panel img{ display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; }
+        h1,h2{margin:0 0 12px 0; font-family: var(--font-heading);}
+        h2 { color: var(--primary-color); text-transform: uppercase; }
+        p{margin:0 0 10px 0}
 
-    /* hotspots relativos usando % => encaixam com a imagem */
-    .hotspot{
-      position:absolute;
-      transform:translate(-50%,-50%);
-      border-radius:50%;
-      cursor:default;
-      z-index:12;
-      /* invisível por padrão */
-    }
-    .hotspot.found::after{
-      content:"";
-      position:absolute;
-      left:50%; top:50%;
-      width:48px; height:48px;
-      transform:translate(-50%,-50%);
-      border:4px solid var(--cor-ufsm-vermelho);
-      border-radius:50%;
-      animation:pop .32s ease-out;
-      box-shadow:0 4px 8px rgba(0,0,0,.14);
-    }
-    @keyframes pop{
-      from{ transform:translate(-50%,-50%) scale(.3); opacity:0 }
-      to{ transform:translate(-50%,-50%) scale(1); opacity:1 }
-    }
+        /* ===== MURAL (Estilos mantidos, mas com variáveis Acervo) ===== */
+        #tela-mural{ display:flex; flex-direction:column; align-items:center; gap:18px; }
+        .mural-grid{
+            display:flex; flex-wrap:wrap; gap:16px; justify-content:center; max-width:1200px;
+        }
+        .thumb {
+            width:200px; height:130px; overflow:hidden; border-radius:8px; cursor:pointer;
+            border:4px solid transparent; box-shadow:0 6px 14px var(--shadow-dark);
+            transition:transform .15s, border-color .15s, box-shadow .15s;
+            display:flex; align-items:center; justify-content:center;
+            background:var(--text-light);
+        }
+        .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+        .thumb:hover{ transform:translateY(-4px); box-shadow:0 10px 20px rgba(0,0,0,.25) }
+        .thumb.selected{ border-color:var(--primary-color); transform:scale(1.03); }
 
-    .controls-row{ display:flex; gap:8px; align-items:center; }
-    .status{ font-size:1.25rem; font-weight:700; color:var(--cor-ufsm-azul) }
+        .mural-actions{ display:flex; gap:12px; align-items:center; }
+        
+        /* === Estilo de Botão Padrão Acervo === */
+        .btn{
+            padding:10px 16px; border-radius:6px; border:0; cursor:pointer; font-weight:600;
+            transition: background-color 0.2s, transform 0.1s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary{ 
+            background:var(--primary-color); 
+            color:var(--text-light); 
+            border: 2px solid var(--primary-color);
+        }
+        .btn-primary:hover{ 
+            background: #00456b;
+            transform: translateY(-1px);
+        }
+        .btn-secondary{ 
+            background:var(--background-light); 
+            color:var(--text-dark); 
+            border: 2px solid var(--text-dark);
+        }
+        .btn-secondary:hover{ 
+            background: #e0e0e0;
+            transform: translateY(-1px);
+        }
+        /* ========================================================= */
 
-    /* responsividade */
-    @media(min-width:1200px){
-      .game{ flex-wrap:nowrap; }
-      .panel{ width:760px; }
-      .thumb{ width:220px; height:140px; }
-    }
-  </style>
+        /* ===== TELA DO JOGO (Estilos ajustados) ===== */
+        #tela-jogo{ display:none; flex-direction:column; align-items:center; gap:12px; }
+        .game-row{ display:flex; flex-direction:column; gap:16px; width:100%; align-items:center; }
+        .game{
+            display:flex; flex-wrap:wrap; gap:20px; justify-content:center; width:100%;
+        }
+        .panel{
+            position:relative; width:100%; max-width:760px; border:4px solid var(--primary-color);
+            background:var(--text-light); box-shadow:0 6px 12px var(--shadow-dark);
+            border-radius: 8px;
+        }
+        .panel img{ display:block; width:100%; height:auto; user-select:none; -webkit-user-drag:none; }
+
+        /* hotspots */
+        .hotspot{
+            position:absolute;
+            transform:translate(-50%,-50%);
+            border-radius:50%;
+            cursor:default;
+            z-index:12;
+        }
+        
+        .hotspot.found::after{
+            content:"";
+            position:absolute;
+            left:50%; top:50%;
+            width:48px; height:48px;
+            transform:translate(-50%,-50%);
+            border:4px solid var(--accent-color); /* Vermelho Acervo */
+            border-radius:50%;
+            animation:pop .32s ease-out;
+            box-shadow:0 4px 8px rgba(0,0,0,.14);
+        }
+        @keyframes pop{
+            from{ transform:translate(-50%,-50%) scale(.3); opacity:0 }
+            to{ transform:translate(-50%,-50%) scale(1); opacity:1 }
+        }
+
+        .controls-row{ display:flex; gap:8px; align-items:center; }
+        
+        /* Estilo do Status Score */
+        .status{ 
+            font-family: var(--font-heading);
+            font-size:1.8em; 
+            font-weight:700; 
+            color:var(--primary-color);
+            padding-bottom: 5px;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        /* responsividade */
+        @media(min-width:1200px){
+            .game{ flex-wrap:nowrap; }
+            .panel{ width:760px; }
+            .thumb{ width:220px; height:140px; }
+        }
+        
+        @media (max-width: 850px) {
+            .game-row { gap: 10px; }
+            .controls-row { 
+                width: 100%; 
+                justify-content: space-between;
+                padding: 0 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <header><h1>Acervo Artístico</h1></header>
+    <header><h1>Acervo Artístico</h1></header>
 
-  <main>
-    <!-- TELA DO MURAL -->
-    <section id="tela-mural">
-      <div style="text-align:center; max-width:980px; margin:0 auto;">
-        <h2>Escolha um desafio</h2>
-        <p>Selecione uma miniatura e clique em "Jogar" para começar. Você deve encontrar as 10 diferenças.</p>
-      </div>
+    <main>
+        <section id="tela-mural">
+            <div style="text-align:center; max-width:980px; margin:0 auto;">
+                <h2>Escolha um desafio</h2>
+                <p>Selecione uma miniatura e clique em "Jogar" para começar. Você deve encontrar as 10 diferenças.</p>
+            </div>
 
-      <div class="mural-grid" id="muralGrid">
-        <!-- miniaturas geradas dinamicamente -->
-      </div>
+            <div class="mural-grid" id="muralGrid">
+                </div>
 
-      <div class="mural-actions">
-        <button class="btn btn-primary" id="btnPlay">Jogar</button>
-        <button class="btn btn-secondary" id="btnHome">Início</button>
-      </div>
-    </section>
+            <div class="mural-actions">
+                <button class="btn btn-primary" id="btnPlay">Jogar</button>
+                <a href="{% url 'index' %}" class="btn btn-secondary" id="btnHome">Galeria Principal</a>
+            </div>
+        </section>
 
-    <!-- TELA DO JOGO -->
-    <section id="tela-jogo">
-      <div style="width:100%; max-width:1100px; display:flex; justify-content:space-between; align-items:center;">
-        <div class="controls-row">
-          <button class="btn btn-secondary" id="btnBack">← Voltar</button>
-          <button class="btn btn-secondary" id="btnHomeGame">Início</button>
-        </div>
-        <div class="status">Erros encontrados: <span id="foundCount">0</span>/10</div>
-      </div>
+        <section id="tela-jogo">
+            <div style="width:100%; max-width:1540px; display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; padding: 0 10px;">
+                <div class="controls-row">
+                    <button class="btn btn-secondary" id="btnBack">← Voltar ao Mural</button>
+                    <a href="{% url 'index' %}" class="btn btn-primary" id="btnHomeGame">Início (Sair)</a>
+                </div>
+                <div class="status">Erros encontrados: <span id="foundCount">0</span>/10</div>
+            </div>
 
-      <div class="game-row">
-        <div class="game" id="gameArea">
-          <div class="panel" id="panel-left">
-            <img id="img-left" src="" alt="Imagem original">
-          </div>
+            <div class="game-row">
+                <div class="game" id="gameArea">
+                    <div class="panel" id="panel-left">
+                        <img id="img-left" src="" alt="Imagem original">
+                    </div>
 
-          <div class="panel" id="panel-right">
-            <img id="img-right" src="" alt="Imagem com diferenças">
-            <!-- hotspots gerados dinamicamente -->
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+                    <div class="panel" id="panel-right">
+                        <img id="img-right" src="" alt="Imagem com diferenças">
+                        </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
-  <footer><p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p></footer>
+    <footer><p>&copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)</p></footer>
 
-  <script>
-    /* === Configuração dos puzzles (substitua/adicione conforme necessário) ===
-       Cada item possui:
-         id: identificador
-         title: título exibido (opcional)
-         thumb: miniatura mostrada no mural
-         left: imagem original (esq)
-         right: imagem com diferenças (dir)
-         hotspots: array de { id, leftPercent, topPercent, widthPx, heightPx }
-       left/top em percentuais (0-100) para escala with resizing.
-    */
-    const GAMES = [
-      {
-        id: 'pessoas',
-            title: 'Pessoas - 10 Erros',
-            thumb: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
-            left: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
-            right: "{% static 'meu_app/imagens/7_erros/10_erros_pessoas.JPG' %}",
-        hotspots: [
-          { id: 1, left: 48.91, top: 12.11, w: 55, h: 55 },
-          { id: 2, left: 68.16, top: 27.48, w: 60, h: 60 },
-          { id: 3, left: 93.80, top: 33.20, w: 30, h: 30 },
-          { id: 4, left: 92.16, top: 50.20, w: 40, h: 40 },
-          { id: 5, left: 29.66, top: 15.24, w: 40, h: 40 },
-          { id: 6, left: 9.62, top: 77.01, w: 40, h: 40 },
-          { id: 7, left: 12.99, top: 39.05, w: 40, h: 40 },
-          { id: 8, left: 44.17, top: 30.61, w: 30, h: 30 },
-          { id: 9, left: 14.11, top: 92.11, w: 40, h: 40 },
-          { id: 10,left: 20.76, top: 89.52, w: 40, h: 40 }
-        ]
-      },
-      {
-        id: 'Trevisan',
+    <script>
+        /* === Configuração dos puzzles (Mantido) === */
+        const GAMES = [
+            {
+                id: 'pessoas',
+                title: 'Pessoas - 10 Erros',
+                thumb: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
+                left: "{% static 'meu_app/imagens/7_erros/7erros.jpg' %}",
+                right: "{% static 'meu_app/imagens/7_erros/10_erros_pessoas.JPG' %}",
+                hotspots: [
+                    { id: 1, left: 48.91, top: 12.11, w: 55, h: 55 },
+                    { id: 2, left: 68.16, top: 27.48, w: 60, h: 60 },
+                    { id: 3, left: 93.80, top: 33.20, w: 30, h: 30 },
+                    { id: 4, left: 92.16, top: 50.20, w: 40, h: 40 },
+                    { id: 5, left: 29.66, top: 15.24, w: 40, h: 40 },
+                    { id: 6, left: 9.62, top: 77.01, w: 40, h: 40 },
+                    { id: 7, left: 12.99, top: 39.05, w: 40, h: 40 },
+                    { id: 8, left: 44.17, top: 30.61, w: 30, h: 30 },
+                    { id: 9, left: 14.11, top: 92.11, w: 40, h: 40 },
+                    { id: 10,left: 20.76, top: 89.52, w: 40, h: 40 }
+                ]
+            },
+            {
+                id: 'Trevisan',
+                title: 'Trevisan - 10 Erros',
+                thumb: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
+                left: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
+                right: "{% static 'meu_app/imagens/7_erros/Trevisan_modificada.jpg' %}",
+                hotspots: [
+                    { id: 1, left: 79.56, top: 33.56, w: 40, h: 40 },
+                    { id: 2, left: 84.77, top: 20.82, w: 40, h: 40 },
+                    { id: 3, left: 90.31, top: 73.29, w: 40, h: 40 },
+                    { id: 4, left: 62.89, top: 85.48, w: 40, h: 40 },
+                    { id: 5, left: 42.78, top: 72.33, w: 40, h: 40 },
+                    { id: 6, left: 19.31, top: 91.92, w: 40, h: 40 },
+                    { id: 7, left: 37.31, top: 20.00, w: 40, h: 40 },
+                    { id: 8, left: 55.24, top: 42.33, w: 40, h: 40 },
+                    { id: 9, left: 47.40, top: 91.78, w: 40, h: 40 },
+                    { id: 10, left: 68.09, top: 30.96, w: 40, h: 40 }
+                ]
+            }
+        ];
 
-    title: 'Trevisan - 10 Erros',
-    thumb: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
-    left: "{% static 'meu_app/imagens/7_erros/Trevisan_original.jpg' %}",
-    right: "{% static 'meu_app/imagens/7_erros/Trevisan_modificada.jpg' %}",
-        hotspots: [
-            { id: 1, left: 79.56, top: 33.56, w: 40, h: 40 },
-            { id: 2, left: 84.77, top: 20.82, w: 40, h: 40 },
-            { id: 3, left: 90.31, top: 73.29, w: 40, h: 40 },
-            { id: 4, left: 62.89, top: 85.48, w: 40, h: 40 },
-            { id: 5, left: 42.78, top: 72.33, w: 40, h: 40 },
-            { id: 6, left: 19.31, top: 91.92, w: 40, h: 40 },
-            { id: 7, left: 37.31, top: 20.00, w: 40, h: 40 },
-            { id: 8, left: 55.24, top: 42.33, w: 40, h: 40 },
-            { id: 9, left: 47.40, top: 91.78, w: 40, h: 40 },
-            { id: 10, left: 68.09, top: 30.96, w: 40, h: 40 }
-        ]
-      }
-    ];
+        // Elementos DOM
+        const muralGrid = document.getElementById('muralGrid');
+        const btnPlay = document.getElementById('btnPlay');
+        const telaMural = document.getElementById('tela-mural');
+        const telaJogo = document.getElementById('tela-jogo');
+        const btnBack = document.getElementById('btnBack');
 
-    // Elementos DOM
-    const muralGrid = document.getElementById('muralGrid');
-    const btnPlay = document.getElementById('btnPlay');
-    const btnHome = document.getElementById('btnHome');
-    const telaMural = document.getElementById('tela-mural');
-    const telaJogo = document.getElementById('tela-jogo');
-    const btnBack = document.getElementById('btnBack');
-    const btnHomeGame = document.getElementById('btnHomeGame');
-    const imgLeft = document.getElementById('img-left');
-    const imgRight = document.getElementById('img-right');
-    const panelRight = document.getElementById('panel-right');
-    const foundCountEl = document.getElementById('foundCount');
+        const imgLeft = document.getElementById('img-left');
+        const imgRight = document.getElementById('img-right');
+        const panelRight = document.getElementById('panel-right');
+        const foundCountEl = document.getElementById('foundCount');
 
-    let selectedGameId = null;
-    let foundCount = 0;
+        let selectedGameId = null;
+        let foundCount = 0;
 
-    // Cria miniaturas no mural
-    function renderMural(){
-      muralGrid.innerHTML = '';
-      GAMES.forEach(game => {
-        const t = document.createElement('div');
-        t.className = 'thumb';
-        t.dataset.gameId = game.id;
-        t.title = game.title || '';
-        const img = document.createElement('img');
-        img.src = game.thumb;
-        img.alt = game.title || game.id;
-        t.appendChild(img);
-        t.addEventListener('click', () => {
-          document.querySelectorAll('.thumb').forEach(x => x.classList.remove('selected'));
-          t.classList.add('selected');
-          selectedGameId = game.id;
+        // Cria miniaturas no mural
+        function renderMural(){
+            muralGrid.innerHTML = '';
+            GAMES.forEach(game => {
+                const t = document.createElement('div');
+                t.className = 'thumb';
+                t.dataset.gameId = game.id;
+                t.title = game.title || '';
+                const img = document.createElement('img');
+                img.src = game.thumb;
+                img.alt = game.title || game.id;
+                t.appendChild(img);
+                t.addEventListener('click', () => {
+                    document.querySelectorAll('.thumb').forEach(x => x.classList.remove('selected'));
+                    t.classList.add('selected');
+                    selectedGameId = game.id;
+                });
+                muralGrid.appendChild(t);
+            });
+
+            // seleciona o primeiro por padrão
+            const first = muralGrid.querySelector('.thumb');
+            if(first){
+                first.classList.add('selected');
+                selectedGameId = first.dataset.gameId;
+            }
+        }
+
+        // Inicia o jogo com o puzzle selecionado
+        function startGame(){
+            const game = GAMES.find(g => g.id === selectedGameId);
+            if(!game) { alert('Selecione um desafio do mural.'); return; }
+
+            // muda telas
+            telaMural.style.display = 'none';
+            telaJogo.style.display = 'flex';
+
+            // configura imagens
+            imgLeft.src = game.left;
+            imgRight.src = game.right;
+
+            // limpa hotspots antigos
+            clearHotspots();
+            foundCount = 0;
+            updateFoundCount();
+
+            // cria hotspots dinamicamente
+            if (imgRight.complete) {
+                createHotspots(game.hotspots);
+            } else {
+                imgRight.onload = () => createHotspots(game.hotspots);
+            }
+        }
+
+        // Cria hotspots na div panelRight
+        function createHotspots(hotspots){
+            clearHotspots();
+
+            hotspots.forEach(h => {
+                const el = document.createElement('div');
+                el.className = 'hotspot';
+                el.dataset.id = h.id;
+                el.style.left = h.left + '%';
+                el.style.top = h.top + '%';
+                el.style.width = (h.w || 40) + 'px';
+                el.style.height = (h.h || 40) + 'px';
+                el.title = 'Marcar erro #' + h.id;
+
+                el.addEventListener('click', (ev) => {
+                    if (el.classList.contains('found')) return;
+                    el.classList.add('found');
+                    foundCount++;
+                    updateFoundCount();
+
+                    if(foundCount >= hotspots.length){
+                        setTimeout(()=> alert('Parabéns! Você encontrou todos os erros!'), 150);
+                    }
+                });
+
+                panelRight.appendChild(el);
+            });
+        }
+
+        function clearHotspots(){
+            panelRight.querySelectorAll('.hotspot').forEach(n => n.remove());
+        }
+
+        function updateFoundCount(){
+            foundCountEl.textContent = foundCount;
+        }
+
+        // Voltar para mural
+        function backToMural(){
+            // limpar jogo
+            clearHotspots();
+            imgLeft.src = '';
+            imgRight.src = '';
+            foundCount = 0;
+            updateFoundCount();
+
+            telaJogo.style.display = 'none';
+            telaMural.style.display = 'flex';
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMural();
+
+            // Eventos botões de controle de tela
+            if (btnPlay) {
+                btnPlay.addEventListener('click', startGame);
+            }
+
+            if (btnBack) {
+                btnBack.addEventListener('click', backToMural);
+            }
+
+            // tecla Esc também volta ao mural se estiver no jogo
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && telaJogo.style.display === 'flex') backToMural();
+            });
         });
-        muralGrid.appendChild(t);
-      });
-
-      // seleciona o primeiro por padrão
-      const first = muralGrid.querySelector('.thumb');
-      if(first){
-        first.classList.add('selected');
-        selectedGameId = first.dataset.gameId;
-      }
-    }
-
-    // Inicia o jogo com o puzzle selecionado
-    function startGame(){
-      const game = GAMES.find(g => g.id === selectedGameId);
-      if(!game) { alert('Selecione um desafio do mural.'); return; }
-
-      // muda telas
-      telaMural.style.display = 'none';
-      telaJogo.style.display = 'flex';
-
-      // configura imagens
-      imgLeft.src = game.left;
-      imgRight.src = game.right;
-
-      // limpa hotspots antigos
-      clearHotspots();
-      foundCount = 0;
-      updateFoundCount();
-
-      // cria hotspots dinamicamente
-      // colocamos os elementos quando a imagem direita já carregou (para garantir tamanhos)
-      if (imgRight.complete) {
-        createHotspots(game.hotspots);
-      } else {
-        imgRight.onload = () => createHotspots(game.hotspots);
-      }
-    }
-
-    // Cria fotos hotspots na div panelRight
-    function createHotspots(hotspots){
-      // garante que não haja leftovers
-      clearHotspots();
-
-      hotspots.forEach(h => {
-        const el = document.createElement('div');
-        el.className = 'hotspot';
-        el.dataset.id = h.id;
-        // posiciona usando percentuais + tamanho absoluto (w,h em px)
-        el.style.left = h.left + '%';
-        el.style.top = h.top + '%';
-        el.style.width = (h.w || 40) + 'px';
-        el.style.height = (h.h || 40) + 'px';
-        // botão acessível - ainda invisível, click detecta
-        el.title = 'Marcar erro #' + h.id;
-
-        el.addEventListener('click', (ev) => {
-          // evitar múltiplos cliques no mesmo hotspot
-          if (el.classList.contains('found')) return;
-          el.classList.add('found');
-          foundCount++;
-          updateFoundCount();
-
-          // se encontrou todos, dar parabéns
-          if(foundCount >= hotspots.length){
-            setTimeout(()=> alert('Parabéns! Você encontrou todos os erros!'), 150);
-          }
-        });
-
-        panelRight.appendChild(el);
-      });
-    }
-
-    function clearHotspots(){
-      // remove apenas os elementos .hotspot dentro do panelRight
-      panelRight.querySelectorAll('.hotspot').forEach(n => n.remove());
-    }
-
-    function updateFoundCount(){
-      foundCountEl.textContent = foundCount;
-    }
-
-    // Voltar para mural
-    function backToMural(){
-      // limpar jogo
-      clearHotspots();
-      imgLeft.src = '';
-      imgRight.src = '';
-      foundCount = 0;
-      updateFoundCount();
-
-      telaJogo.style.display = 'none';
-      telaMural.style.display = 'flex';
-    }
-
-    // Inicialização
-    document.addEventListener('DOMContentLoaded', () => {
-      renderMural();
-
-// ** --- 1. SELEÇÃO DE ELEMENTOS (GARANTIA DE EXISTÊNCIA NO HTML) --- **
-
-const btnPlay = document.getElementById('btnPlay');
-const btnHome = document.getElementById('btnHome');
-const btnBack = document.getElementById('btnBack');
-const btnHomeGame = document.getElementById('btnHomeGame');
-
-
-// ** --- 2. ADIÇÃO DOS EVENT LISTENERS (COM VERIFICAÇÃO DE SEGURANÇA) --- **
-
-// Eventos botões (Os que você forneceu)
-
-if (btnPlay) {
-    btnPlay.addEventListener('click', startGame);
-}
-
-if (btnHome) {
-    // Navegação direta para a home/galeria
-    btnHome.addEventListener('click', () => window.location.href = 'index.html');
-}
-
-if (btnBack) {
-    btnBack.addEventListener('click', backToMural);
-}
-
-if (btnHomeGame) {
-    // Navegação direta para a home/galeria (útil para botões de "Sair do Jogo")
-    btnHomeGame.addEventListener('click', () => window.location.href = 'index.html');
-}
-
-
-      // tecla Esc também volta ao mural se estiver no jogo
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && telaJogo.style.display === 'flex') backToMural();
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
