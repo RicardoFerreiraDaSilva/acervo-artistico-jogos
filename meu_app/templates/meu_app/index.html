@@ -82,50 +82,49 @@
         
         /* --- ESTILOS DA GALERIA DE JOGOS (Mantidos e ok para a galeria) --- */
         .game-gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 40px 20px;
-            
-            background-color: rgba(255, 255, 255, 0.9); 
-            margin: 20px auto;
-            border-radius: 12px;
-            
-            max-width: 940px;
-            width: 100%;
-        }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px 20px;
+    
+    background-color: rgba(255, 255, 255, 0.9); 
+    margin: 20px auto;
+    border-radius: 12px;
+    
+    max-width: 940px;
+    width: 100%;
+}
 
-        .game-card {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Mantenha a largura para desktop, mas adicione media query se precisar de 1 por linha no celular */
-            width: 220px; 
-            height: 140px;
-            background-color: var(--secondary-color);
-            color: var(--text-light);
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: bold;
-            text-align: center;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-family: 'Stick No Bills', sans-serif; 
-            letter-spacing: 1px;
-            line-height: 1.1;
-        }
+.game-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 220px; 
+    height: 140px;
+    background-color: var(--secondary-color);
+    color: var(--text-light);
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    text-align: center;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: 'Stick No Bills', sans-serif; 
+    letter-spacing: 1px;
+    line-height: 1.1;
+}
 
-        .game-title {
-            font-size: 1.5em; 
-            margin: 0 5px; 
-            color: var(--text-light); 
-        }
-        
-        .game-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
+.game-title {
+    font-size: 1.5em; 
+    margin: 0 5px; 
+    color: var(--text-light); 
+}
+
+.game-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
 
         /* =========================================================
         >>> CORREÇÃO DE RESPONSIVIDADE (RODAPÉ) <<<
@@ -162,16 +161,17 @@
 
         /* Estilo para telas pequenas (opcional, mas recomendado) */
         @media (max-width: 500px) {
-            .game-gallery {
-                /* Em telas muito pequenas, a galeria pode ser mais estreita */
-                padding: 20px 10px; 
-            }
-            .game-card {
-                /* Permite que o card ocupe quase toda a largura para melhorar o toque */
-                width: 90%; 
-                margin: 0 auto;
-            }
-        }
+    .game-gallery {
+        /* Garanta que o gap seja zero, pois os cards já ocupam 90% */
+        gap: 10px; 
+        padding: 20px 5px; /* Reduza o padding para 5px */
+    }
+    .game-card {
+        /* Reduza o width para 85% para dar mais folga lateral */
+        width: 85%; 
+        margin: 0 auto;
+    }
+}
     </style>
 </head>
 <body>
