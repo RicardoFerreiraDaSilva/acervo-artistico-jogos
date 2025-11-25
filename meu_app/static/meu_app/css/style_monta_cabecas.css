@@ -3,11 +3,17 @@
 /* --- Importação das Fontes (Se necessário) --- */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght=700&display=swap');
 
+/* --- Reset Básico e Otimização para Layouts --- */
+/* Garante que padding e border sejam incluídos na largura/altura do elemento */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 /* --- Variáveis de Cores (Padrão Acervo) --- */
 :root {
-    --primary-color: #005285;   /* Azul Acervo */
+    --primary-color: #005285;  /* Azul Acervo */
     --secondary-color: #EE7D00; /* Laranja Acervo */
-    --accent-color: #AE1917;    /* Vermelho Acervo */
+    --accent-color: #AE1917; /* Vermelho Acervo */
     --background-light: #f4f4f4;
     --text-dark: #333;
     --text-light: #fff;
@@ -22,6 +28,8 @@ body {
     font-family: var(--font-body);
     color: var(--text-dark);
     margin: 0;
+    /* ADICIONADO: Remove a barra de rolagem horizontal que pode ser causada por pequenos overflows */
+    overflow-x: hidden; 
     display: flex;
     flex-direction: column;
     min-height: 100vh;
