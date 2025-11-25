@@ -7,14 +7,20 @@
     <title>Acervo Artístico - Jogos</title>
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
     
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap" rel="stylesheet">
+    
     <style>
+        /* ---------------------------------------------------------
+        >>> CORREÇÃO ESSENCIAL PARA RESPONSIVIDADE <<<
+        --------------------------------------------------------- */
         *,
-*::before,
-*::after {
-    box-sizing: border-box; 
-}
+        *::before,
+        *::after {
+            box-sizing: border-box; 
+        }
+        
         /* --- Importação e Variáveis (Mantidas) --- */
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
+        /* Linha @import REMOVIDA daqui, pois agora usamos <link> no HTML. */
         
         :root {
             --primary-color: #005285; /* Azul Acervo */
@@ -24,14 +30,14 @@
             --logo-bg: #fff;
         }
         
-        /* --- Estilos Globais e Tipografia (Mantidos) --- */
+        /* --- Estilos Globais e Tipografia --- */
         body {
             margin: 0;
-            padding: 0;
+            padding: 0; 
             font-family: 'Roboto', sans-serif;
             color: var(--text-dark);
 
-            overflow-x: hidden;
+            overflow-x: hidden; 
             
             background-image: url('{% static "meu_app/imagens/acervo_visual/Acervo_vermelho.JPG" %}');
             background-size: cover;
@@ -45,6 +51,7 @@
         }
         
         h1, h2, h3 {
+            /* Fonte Stick No Bills aplicada a todos os cabeçalhos */
             font-family: 'Stick No Bills', sans-serif;
             text-transform: uppercase;
             font-weight: 700;
@@ -52,131 +59,145 @@
 
         /* =========================================================
         >>> CORREÇÃO DE RESPONSIVIDADE (HEADER) <<<
-        =========================================================
-        */
+        ========================================================= */
         header {
             background-color: var(--primary-color);
             color: var(--text-light);
-            /* Reduzimos o padding horizontal para evitar quebras em telas muito pequenas */
-            padding: 10px 15px; 
+            /* CORRIGIDO: Padding horizontal zero */
+            padding: 10px 0; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex; 
             align-items: center;
             justify-content: center; 
             position: relative;
             min-height: 70px; 
+            width: 100%;
         }
 
         .logo-header {
             background-color: var(--logo-bg);
-            padding: 5px 10px; /* Padding ajustado */
+            padding: 5px 10px;
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             display: inline-block; 
-            /* Adicionada largura máxima para garantir que o logo não empurre o header */
+            /* CORRIGIDO: Margem lateral para espaçamento interno */
+            margin: 0 15px; 
             max-width: 90%; 
         }
 
         .logo-header img {
             height: 50px; 
             width: auto;
-            /* Adicionado max-width para o caso de a imagem ser muito grande */
             max-width: 100%; 
             display: block;
         }
         
-        /* --- ESTILOS DA GALERIA DE JOGOS (Mantidos e ok para a galeria) --- */
+        /* =========================================================
+        >>> ESTILOS DA GALERIA DE JOGOS (LAYOUT 4x2) <<<
+        ========================================================= */
         .game-gallery {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 40px 20px;
-    
-    background-color: rgba(255, 255, 255, 0.9); 
-    margin: 20px auto;
-    border-radius: 12px;
-    
-    max-width: 940px;
-    width: 100%;
-}
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 40px 20px;
+            
+            background-color: rgba(255, 255, 255, 0.9); 
+            margin: 20px auto;
+            border-radius: 12px;
+            
+            /* CORRIGIDO: 980px para o layout 4x2 no desktop */
+            max-width: 980px; 
+            width: 100%;
+        }
 
-.game-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 220px; 
-    height: 140px;
-    background-color: var(--secondary-color);
-    color: var(--text-light);
-    text-decoration: none;
-    border-radius: 12px;
-    font-weight: bold;
-    text-align: center;
-    position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
-    font-family: 'Stick No Bills', sans-serif; 
-    letter-spacing: 1px;
-    line-height: 1.1;
-}
+        .game-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 220px; 
+            height: 140px;
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            transition: transform 0.2s, box-shadow 0.2s;
+            /* Stick No Bills aplicado aos cards */
+            font-family: 'Stick No Bills', sans-serif; 
+            letter-spacing: 1px;
+            line-height: 1.1;
+        }
 
-.game-title {
-    font-size: 1.5em; 
-    margin: 0 5px; 
-    color: var(--text-light); 
-}
-
-.game-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
+        .game-title {
+            font-size: 1.5em; 
+            margin: 0 5px; 
+            color: var(--text-light); 
+        }
+        
+        .game-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
 
         /* =========================================================
         >>> CORREÇÃO DE RESPONSIVIDADE (RODAPÉ) <<<
-        =========================================================
-        */
+        ========================================================= */
         footer {
             width: 100%;
             background-color: var(--text-dark); 
             color: var(--text-light); 
-            text-align: center; /* Centraliza o texto */
-            padding: 15px;
+            text-align: center; 
+            /* CORRIGIDO: Padding horizontal zero */
+            padding: 15px 0; 
             margin-top: auto;
             font-family: 'Roboto', sans-serif;
             font-size: 14px;
-            /* Adicionando um padding lateral pequeno para evitar quebras de borda */
-            padding: 15px 10px; 
         }
 
-        /* Removemos os estilos inline e criamos uma classe CSS para o container do footer */
         .footer-content {
             max-width: 800px; 
             margin: 0 auto; 
-            line-height: 1.4; /* Ajuste o line-height para melhor leitura no celular */
-            padding: 5px 0;
-            /* Garante que o texto se alinhe bem no centro em telas pequenas */
+            line-height: 1.4; 
+            /* CORRIGIDO: Padding lateral aplicado aqui */
+            padding: 5px 15px; 
             text-align: center; 
         }
         
-        .footer-content p {
-            /* Estilos mais limpos, agora sem ser inline */
+        /* Classes para substituir estilos inline no rodapé */
+        .footer-bold-text {
+            font-weight: bold; 
+            font-size: 14px;
             margin: 5px 0;
-            padding: 0 5px; /* Adiciona um pequeno padding nas laterais dos parágrafos */
+            padding: 0 5px;
+        }
+        
+        .footer-small-text {
+            font-size: 13px;
+            margin: 5px 0;
+            padding: 0 5px;
         }
 
-        /* Estilo para telas pequenas (opcional, mas recomendado) */
+        .footer-copyright {
+            font-size: 12px; 
+            opacity: 0.8;
+            margin: 5px 0;
+            padding: 0 5px;
+        }
+
+        /* Estilo para telas pequenas */
         @media (max-width: 500px) {
-    .game-gallery {
-        /* Garanta que o gap seja zero, pois os cards já ocupam 90% */
-        gap: 10px; 
-        padding: 20px 5px; /* Reduza o padding para 5px */
-    }
-    .game-card {
-        /* Reduza o width para 85% para dar mais folga lateral */
-        width: 85%; 
-        margin: 0 auto;
-    }
-}
+            .game-gallery {
+                gap: 10px; 
+                padding: 20px 5px; 
+            }
+            .game-card {
+                width: 85%; 
+                margin: 0 auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -225,19 +246,19 @@
 <footer>
     <div class="footer-content">
         
-        <p style="font-weight: bold; font-size: 14px;">
+        <p class="footer-bold-text">
             Projeto desenvolvido para a disciplina de Projeto de Software II.
         </p>
         
-        <p style="font-size: 13px;">
+        <p class="footer-small-text">
             Pelos alunos Fabricio Thomas Freitas Santos e Ricardo da Silva.
         </p>
         
-        <p style="font-size: 13px;">
+        <p class="footer-small-text">
             Orientados pelo professor Celio Trois.
         </p>
 
-        <p style="font-size: 12px; opacity: 0.8;">
+        <p class="footer-copyright">
             &copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)
         </p>
 
