@@ -1,55 +1,57 @@
 /* style_monta_cabecas.css */
 
 /* --- Importação das Fontes (Se necessário) --- */
-/* Se você não estiver usando um CSS principal que já importou as fontes, 
-   adicione o bloco @import aqui. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght=700&display=swap');
 
-/* --- Variáveis de Cores (Reutilizando o padrão UFSM) --- */
-/* Estas variáveis devem ser as mesmas do seu CSS principal, 
-   ou você pode importá-las diretamente se possível. */
+/* --- Variáveis de Cores (Padrão Acervo) --- */
 :root {
-    --cor-ufsm-azul: #005A9E;
-    --cor-ufsm-laranja: #FF6600;
-    --cor-ufsm-vermelho: #D62828;
-    --cor-fundo-claro: #f0f0f0;
-    --cor-cinza-escuro: #333;
-    --cor-cinza-medio: #555;
-    --cor-branco: #fff;
-    --cor-sombra-leve: rgba(0,0,0,0.1);
-    --cor-sombra-escura: rgba(0,0,0,0.2);
-    --fonte-principal: Arial, Helvetica, sans-serif;
+    --primary-color: #005285;   /* Azul Acervo */
+    --secondary-color: #EE7D00; /* Laranja Acervo */
+    --accent-color: #AE1917;    /* Vermelho Acervo */
+    --background-light: #f4f4f4;
+    --text-dark: #333;
+    --text-light: #fff;
+    --font-heading: 'Stick No Bills', sans-serif;
+    --font-body: 'Roboto', sans-serif;
+    --shadow-light: rgba(0,0,0,0.1);
+    --shadow-dark: rgba(0,0,0,0.2);
 }
 
-/* 1. ESTILOS GERAIS DA PÁGINA (Baseados no seu CSS principal) */
+/* 1. ESTILOS GERAIS DA PÁGINA (Padrão Acervo) */
 body {
-    font-family: var(--fonte-principal);
+    font-family: var(--font-body);
+    color: var(--text-dark);
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--cor-fundo-claro);
+    background-color: var(--background-light);
 }
 
 header {
-    background-color: var(--cor-ufsm-azul);
-    color: var(--cor-branco);
-    padding: 15px 30px;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 15px 0; /* Centralização horizontal pelo padding zero */
     text-align: center;
-    box-shadow: 0 2px 4px var(--cor-sombra-leve);
+    box-shadow: 0 4px 6px var(--shadow-dark);
 }
 
 header h1 {
     margin: 0;
-    font-size: 2em;
+    font-family: var(--font-heading);
+    color: var(--secondary-color); /* Título Laranja Acervo */
+    font-size: 2.5em;
+    text-transform: uppercase;
 }
 
 footer {
-    background-color: var(--cor-cinza-escuro);
-    color: var(--cor-branco);
+    background-color: var(--text-dark); /* Fundo escuro */
+    color: var(--text-light);
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     width: 100%;
     margin-top: auto;
+    font-size: 0.9em;
 }
 
 /* 2. LAYOUT PRINCIPAL DO JOGO */
@@ -59,19 +61,22 @@ footer {
     align-items: flex-start;
     gap: 50px;
     padding: 40px;
-    flex-wrap: wrap; /* Para responsividade */
-    flex: 1; /* Ocupa o espaço restante */
+    flex-wrap: wrap; 
+    flex: 1; 
+    width: 100%;
+    max-width: 1100px; /* Ajustei o max-width para melhor visualização desktop */
+    margin: 0 auto;
 }
 
 /* 3. CANVAS (Área de Montagem) */
 #canvas {
     width: 500px;
     height: 500px;
-    border: 8px solid var(--cor-ufsm-azul);
+    border: 8px solid var(--primary-color); /* Borda Azul Acervo */
     border-radius: 10px;
     position: relative;
-    background-color: var(--cor-branco);
-    box-shadow: 0 10px 20px var(--cor-sombra-escura);
+    background-color: var(--text-light);
+    box-shadow: 0 10px 20px var(--shadow-dark);
 }
 
 .canvas-layer {
@@ -83,7 +88,7 @@ footer {
     object-fit: contain;
 }
 
-/* Posições das Camadas (Mantidas do seu código, essencial para o visual) */
+/* Posições das Camadas (Mantidas) */
 #olhos-layer {
     width: 50%;
     height: auto;
@@ -110,43 +115,45 @@ footer {
 #controls {
     display: flex;
     flex-direction: column;
-    gap: 25px; /* Aumentei o gap para melhor separação */
+    gap: 25px; 
     width: 300px;
     min-width: 280px;
 }
 
 #controls h2 {
-    color: var(--cor-ufsm-azul);
+    font-family: var(--font-heading);
+    color: var(--primary-color);
     text-align: center;
     margin-bottom: 0;
+    font-size: 1.8em;
 }
 
 #controls p {
     text-align: center;
     margin-top: 5px;
-    color: var(--cor-cinza-medio);
+    color: var(--text-dark);
 }
 
 .selector {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
     align-items: center;
-    background-color: var(--cor-branco); /* Fundo branco */
+    background-color: var(--text-light); 
     padding: 10px;
     border-radius: 8px;
-    border: 1px solid var(--cor-ufsm-azul); /* Borda Azul UFSM */
-    box-shadow: 0 2px 5px var(--cor-sombra-leve);
+    border: 1px solid var(--secondary-color); /* Borda Laranja Acervo */
+    box-shadow: 0 2px 5px var(--shadow-light);
 }
 
 .selector span {
     text-align: center;
     font-weight: bold;
-    color: var(--cor-cinza-escuro);
+    color: var(--text-dark);
 }
 
 .selector button {
-    background-color: var(--cor-ufsm-laranja);
-    color: var(--cor-branco);
+    background-color: var(--secondary-color); /* Laranja Acervo */
+    color: var(--text-light);
     border: none;
     font-size: 1.2em;
     cursor: pointer;
@@ -159,17 +166,18 @@ footer {
     background-color: #d85c00; /* Laranja mais escuro no hover */
 }
 
-/* Área de Metadados (Novidade) */
+/* Área de Metadados */
 #info-display {
     background-color: #f9f9f9;
-    border-left: 5px solid var(--cor-ufsm-laranja);
+    border-left: 5px solid var(--primary-color); /* Borda Azul Acervo */
     padding: 15px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px var(--cor-sombra-leve);
+    box-shadow: 0 2px 4px var(--shadow-light);
 }
 
 #info-display h3 {
-    color: var(--cor-cinza-escuro);
+    font-family: var(--font-heading);
+    color: var(--text-dark);
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
     margin-top: 0;
@@ -179,18 +187,18 @@ footer {
     margin-bottom: 10px;
     line-height: 1.3;
     font-size: 0.9em;
-    color: var(--cor-cinza-medio);
+    color: var(--text-dark);
 }
 
 .part-info strong {
-    color: var(--cor-ufsm-azul);
+    color: var(--secondary-color); /* Destaque Laranja Acervo */
     display: block;
 }
 
 /* Modo Aleatório (Dado) */
 .random-mode {
     margin-top: 20px;
-    border-top: 2px solid #ccc; /* Linha divisória simples */
+    border-top: 2px solid var(--primary-color); /* Linha divisória Azul Acervo */
     padding-top: 20px;
 }
 
@@ -199,8 +207,8 @@ footer {
     padding: 15px;
     font-size: 1.2em;
     font-weight: bold;
-    background-color: var(--cor-ufsm-vermelho);
-    color: var(--cor-branco);
+    background-color: var(--accent-color); /* Vermelho Acervo */
+    color: var(--text-light);
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -212,15 +220,15 @@ footer {
     background-color: #b02323; /* Vermelho mais escuro */
 }
 
-/* Botão de Publicação (Novidade) */
+/* Botão de Publicação */
 #save-montage-btn {
     width: 100%;
     padding: 15px;
     font-size: 1.1em;
     font-weight: bold;
-    background-color: var(--cor-ufsm-azul);
-    color: var(--cor-branco);
-    border: 2px solid var(--cor-ufsm-azul);
+    background-color: var(--primary-color); /* Azul Acervo */
+    color: var(--text-light);
+    border: 2px solid var(--primary-color);
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
@@ -238,8 +246,8 @@ footer {
     margin-top: 20px;
     display: block;
     padding: 10px;
-    background-color: var(--cor-cinza-medio);
-    color: var(--cor-branco);
+    background-color: var(--text-dark); /* Cinza Escuro Acervo */
+    color: var(--text-light);
     text-decoration: none;
     border-radius: 5px;
     transition: background-color 0.2s;
@@ -261,7 +269,7 @@ footer {
     }
 
     #canvas {
-        width: 90vw; /* Ajusta a largura do canvas para telas menores */
+        width: 90vw; 
         height: 90vw;
         max-width: 400px;
         max-height: 400px;
