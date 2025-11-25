@@ -8,31 +8,29 @@
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}">
     
     <style>
-        /* --- Importação das Fontes (Google Fonts) --- */
+        /* --- Importação e Variáveis (Mantidas) --- */
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Stick+No+Bills:wght@700&display=swap');
         
-        /* --- Variáveis de Cores do Acervo --- */
         :root {
             --primary-color: #005285; /* Azul Acervo */
             --secondary-color: #EE7D00; /* Laranja Acervo */
             --text-dark: #333;
             --text-light: #fff;
-            --logo-bg: #fff; /* Fundo Branco para o logo */
+            --logo-bg: #fff;
         }
         
-        /* --- Estilos Globais e Tipografia --- */
+        /* --- Estilos Globais e Tipografia (Mantidos) --- */
         body {
             margin: 0;
             padding: 0;
             font-family: 'Roboto', sans-serif;
             color: var(--text-dark);
             
-            /* Fundo de Imagem (Acervo_vermelho.JPG) */
             background-image: url('{% static "meu_app/imagens/acervo_visual/Acervo_vermelho.JPG" %}');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
-            background-color: var(--background-light); /* Fallback */
+            background-color: var(--background-light);
             
             display: flex;
             flex-direction: column;
@@ -45,11 +43,15 @@
             font-weight: 700;
         }
 
-        /* --- HEADER --- */
+        /* =========================================================
+        >>> CORREÇÃO DE RESPONSIVIDADE (HEADER) <<<
+        =========================================================
+        */
         header {
             background-color: var(--primary-color);
             color: var(--text-light);
-            padding: 10px 40px; 
+            /* Reduzimos o padding horizontal para evitar quebras em telas muito pequenas */
+            padding: 10px 15px; 
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex; 
             align-items: center;
@@ -58,22 +60,25 @@
             min-height: 70px; 
         }
 
-        /* Estilo do Logo (Substituindo o Título) */
         .logo-header {
-            background-color: var(--logo-bg); /* Fundo branco para o logo */
-            padding: 5px 15px; 
+            background-color: var(--logo-bg);
+            padding: 5px 10px; /* Padding ajustado */
             border-radius: 4px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             display: inline-block; 
+            /* Adicionada largura máxima para garantir que o logo não empurre o header */
+            max-width: 90%; 
         }
 
         .logo-header img {
             height: 50px; 
             width: auto;
+            /* Adicionado max-width para o caso de a imagem ser muito grande */
+            max-width: 100%; 
             display: block;
         }
         
-        /* --- ESTILOS DA GALERIA DE JOGOS --- */
+        /* --- ESTILOS DA GALERIA DE JOGOS (Mantidos e ok para a galeria) --- */
         .game-gallery {
             display: flex;
             flex-wrap: wrap;
@@ -81,24 +86,22 @@
             gap: 20px;
             padding: 40px 20px;
             
-            /* Fundo semi-transparente para legibilidade sobre a imagem de fundo */
             background-color: rgba(255, 255, 255, 0.9); 
             margin: 20px auto;
             border-radius: 12px;
             
-            /* MUDANÇA CRÍTICA PARA 4X4 */
-            max-width: 940px; /* 4 * 220px (card) + 3 * 20px (gap) */
+            max-width: 940px;
             width: 100%;
         }
 
-        /* --- ESTILOS DOS CARDS (BOTOES) --- */
         .game-card {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 220px; /* Largura fixa para forçar 4 por linha */
+            /* Mantenha a largura para desktop, mas adicione media query se precisar de 1 por linha no celular */
+            width: 220px; 
             height: 140px;
-            background-color: var(--secondary-color); /* Laranja Acervo */
+            background-color: var(--secondary-color);
             color: var(--text-light);
             text-decoration: none;
             border-radius: 12px;
@@ -106,7 +109,6 @@
             text-align: center;
             position: relative;
             transition: transform 0.2s, box-shadow 0.2s;
-            /* PADRONIZAÇÃO DE FONTE */
             font-family: 'Stick No Bills', sans-serif; 
             letter-spacing: 1px;
             line-height: 1.1;
@@ -123,16 +125,50 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
-        /* --- ESTILO DO RODAPÉ --- */
+        /* =========================================================
+        >>> CORREÇÃO DE RESPONSIVIDADE (RODAPÉ) <<<
+        =========================================================
+        */
         footer {
             width: 100%;
             background-color: var(--text-dark); 
             color: var(--text-light); 
-            text-align: center;
+            text-align: center; /* Centraliza o texto */
             padding: 15px;
             margin-top: auto;
             font-family: 'Roboto', sans-serif;
             font-size: 14px;
+            /* Adicionando um padding lateral pequeno para evitar quebras de borda */
+            padding: 15px 10px; 
+        }
+
+        /* Removemos os estilos inline e criamos uma classe CSS para o container do footer */
+        .footer-content {
+            max-width: 800px; 
+            margin: 0 auto; 
+            line-height: 1.4; /* Ajuste o line-height para melhor leitura no celular */
+            padding: 5px 0;
+            /* Garante que o texto se alinhe bem no centro em telas pequenas */
+            text-align: center; 
+        }
+        
+        .footer-content p {
+            /* Estilos mais limpos, agora sem ser inline */
+            margin: 5px 0;
+            padding: 0 5px; /* Adiciona um pequeno padding nas laterais dos parágrafos */
+        }
+
+        /* Estilo para telas pequenas (opcional, mas recomendado) */
+        @media (max-width: 500px) {
+            .game-gallery {
+                /* Em telas muito pequenas, a galeria pode ser mais estreita */
+                padding: 20px 10px; 
+            }
+            .game-card {
+                /* Permite que o card ocupe quase toda a largura para melhorar o toque */
+                width: 90%; 
+                margin: 0 auto;
+            }
         }
     </style>
 </head>
@@ -180,21 +216,21 @@
     </main>
 
 <footer>
-    <div style="max-width: 800px; margin: 0 auto; line-height: 1.25; padding: 5px 0;">
+    <div class="footer-content">
         
-        <p style="font-weight: bold; margin: 0; font-size: 14px;">
+        <p style="font-weight: bold; font-size: 14px;">
             Projeto desenvolvido para a disciplina de Projeto de Software II.
         </p>
         
-        <p style="margin: 3px 0; font-size: 13px;">
+        <p style="font-size: 13px;">
             Pelos alunos Fabricio Thomas Freitas dos Santos e Ricardo da Silva.
         </p>
         
-        <p style="margin: 3px 0; font-size: 13px;">
+        <p style="font-size: 13px;">
             Orientados pelo professor Celio Trois.
         </p>
 
-        <p style="margin: 5px 0 0; font-size: 12px; opacity: 0.8;">
+        <p style="font-size: 12px; opacity: 0.8;">
             &copy; 2025 Acervo Artístico - Universidade Federal de Santa Maria (UFSM)
         </p>
 
