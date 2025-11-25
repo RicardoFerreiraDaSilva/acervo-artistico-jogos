@@ -6,6 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleção de Caça-Palavras - Acervo Artístico</title>
     <link rel="stylesheet" href="{% static 'meu_app/css/style.css' %}"> 
+    
+    <style>
+        body {
+            /* Aplica a imagem de fundo usando a tag static do Django */
+            background-image: url("{% static 'meu_app/imagens/acervo_visual/Acervo.JPG' %}");
+            background-size: cover; /* Faz a imagem cobrir toda a área */
+            background-repeat: no-repeat; /* Evita que a imagem se repita */
+            background-attachment: fixed; /* Mantém a imagem fixa ao rolar a página */
+            background-position: center center; /* Centraliza a imagem */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -23,8 +34,8 @@
             {% for tema in temas %}
             
             <a href="{% url 'bingo_app:jogar_caca_palavras' tema_slug=tema.slug %}" 
-               class="game-card" 
-               data-description="{{ tema.descricao }}">
+                class="game-card" 
+                data-description="{{ tema.descricao }}">
                 
                 <h3 class="game-title">{{ tema.nome }}</h3>
                 
